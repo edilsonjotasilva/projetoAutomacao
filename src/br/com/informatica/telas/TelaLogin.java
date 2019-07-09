@@ -174,6 +174,7 @@ public void logar() {
 
                     principal.setVisible(true);
                     principal.menuRelatorio.setEnabled(true);
+                    principal.menuUsuarios.setEnabled(true);
 
                     //a linha abaixo obtem o conteudo do campo nome da tabela usuario
                     //o numero 2 corresponde a 2° coluna da tabela usuario

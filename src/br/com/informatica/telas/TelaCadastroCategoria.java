@@ -51,7 +51,7 @@ public class TelaCadastroCategoria extends javax.swing.JFrame {
         btnRemoveCategoria1 = new javax.swing.JButton();
         btnSairCategoria = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Categoria");
 
         jLabel1.setText("Cogigo Categoria");

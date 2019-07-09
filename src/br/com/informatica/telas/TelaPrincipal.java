@@ -43,6 +43,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuCaixaEntrada = new javax.swing.JMenuItem();
         menuCaixaSaida = new javax.swing.JMenuItem();
         menuCaixaCategoria = new javax.swing.JMenuItem();
+        menuUsuarios = new javax.swing.JMenuItem();
         menuRelatorio = new javax.swing.JMenu();
         menuSobre = new javax.swing.JMenu();
         menuLogout = new javax.swing.JMenu();
@@ -96,9 +97,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menuInicio.add(menuCaixa);
 
+        menuUsuarios.setText("Usuarios");
+        menuUsuarios.setEnabled(false);
+        menuUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuUsuariosActionPerformed(evt);
+            }
+        });
+        menuInicio.add(menuUsuarios);
+
         jMenuBar1.add(menuInicio);
 
         menuRelatorio.setText("Relatorio");
+        menuRelatorio.setEnabled(false);
         jMenuBar1.add(menuRelatorio);
 
         menuSobre.setText("Sobre");
@@ -148,6 +159,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
      //  this.setVisible(false);
     }//GEN-LAST:event_menuCaixaCategoriaActionPerformed
 
+    private void menuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUsuariosActionPerformed
+      adicionarUsuario();
+    }//GEN-LAST:event_menuUsuariosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -195,6 +210,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu menuLogout;
     public javax.swing.JMenu menuRelatorio;
     private javax.swing.JMenu menuSobre;
+    public javax.swing.JMenuItem menuUsuarios;
     // End of variables declaration//GEN-END:variables
 
     private void cadastrarEntrada() {
@@ -207,6 +223,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaSaida telaSaida = new TelaSaida();
         telaSaida.setVisible(true);
         DesktopPrincipal.add(telaSaida);
+    }
+
+    private void adicionarUsuario() {
+      TelaUsuarios telaUsuario = new TelaUsuarios();
+      telaUsuario.setVisible(true);
+      DesktopPrincipal.add(telaUsuario);
     }
 
 }

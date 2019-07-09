@@ -72,7 +72,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Cadastrar Saidas");
-        setPreferredSize(new java.awt.Dimension(851, 626));
+        setPreferredSize(new java.awt.Dimension(851, 610));
 
         tblSaida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -157,6 +157,11 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         txtPesqDescSaida.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtPesqDescSaidaFocusGained(evt);
+            }
+        });
+        txtPesqDescSaida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPesqDescSaidaKeyReleased(evt);
             }
         });
 
@@ -246,7 +251,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(txtPesqDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -276,7 +281,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        setBounds(0, 0, 851, 635);
+        setBounds(0, 0, 851, 610);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtPesqDescSaidaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPesqDescSaidaFocusGained
@@ -290,6 +295,10 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     private void btnAdicionarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarSaidaActionPerformed
         adicionarSaida();
     }//GEN-LAST:event_btnAdicionarSaidaActionPerformed
+
+    private void txtPesqDescSaidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesqDescSaidaKeyReleased
+       
+    }//GEN-LAST:event_txtPesqDescSaidaKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -414,4 +423,6 @@ public class TelaSaida extends javax.swing.JInternalFrame {
             Logger.getLogger(TelaSaida.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+ 
 }
