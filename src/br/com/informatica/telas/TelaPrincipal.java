@@ -47,6 +47,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuRelatorio = new javax.swing.JMenu();
         menuSobre = new javax.swing.JMenu();
         menuLogout = new javax.swing.JMenu();
+        menuLogoutFechar = new javax.swing.JMenuItem();
+        menuLogoutSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 700));
@@ -116,6 +118,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(menuSobre);
 
         menuLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/sair.png"))); // NOI18N
+
+        menuLogoutFechar.setText("Fechar");
+        menuLogoutFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLogoutFecharActionPerformed(evt);
+            }
+        });
+        menuLogout.add(menuLogoutFechar);
+
+        menuLogoutSair.setText("Sair");
+        menuLogoutSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLogoutSairActionPerformed(evt);
+            }
+        });
+        menuLogout.add(menuLogoutSair);
+
         jMenuBar1.add(menuLogout);
 
         setJMenuBar(jMenuBar1);
@@ -163,6 +182,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
       adicionarUsuario();
     }//GEN-LAST:event_menuUsuariosActionPerformed
 
+    private void menuLogoutFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLogoutFecharActionPerformed
+         int fechar = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja Encerrar o Programa?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (fechar == JOptionPane.YES_OPTION) {
+            //encerra o sistema
+            System.exit(0);
+        }
+    }//GEN-LAST:event_menuLogoutFecharActionPerformed
+
+    private void menuLogoutSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLogoutSairActionPerformed
+         int sair = JOptionPane.showConfirmDialog(null,"Tem certeza que deseja sair?",
+                "Atenção",JOptionPane.YES_NO_OPTION);
+        
+        if (sair == JOptionPane.YES_OPTION) {
+           this.dispose();
+            TelaLogin login = new TelaLogin();
+
+            login.setVisible(true);
+        }
+    }//GEN-LAST:event_menuLogoutSairActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -208,6 +247,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuCaixaSaida;
     private javax.swing.JMenu menuInicio;
     private javax.swing.JMenu menuLogout;
+    private javax.swing.JMenuItem menuLogoutFechar;
+    private javax.swing.JMenuItem menuLogoutSair;
     public javax.swing.JMenu menuRelatorio;
     private javax.swing.JMenu menuSobre;
     public javax.swing.JMenuItem menuUsuarios;
