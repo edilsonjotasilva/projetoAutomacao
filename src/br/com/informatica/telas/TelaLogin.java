@@ -48,7 +48,7 @@ public class TelaLogin extends javax.swing.JFrame {
         txtLoginUsuario = new javax.swing.JTextField();
         txtLoginSenha = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Usuario");
 
@@ -188,7 +188,7 @@ public void logar() {
                     principal.setVisible(true);
                     principal.lblUsuario.setText(rs.getString(2));
                     this.dispose();
-                    Conexao.fechaConexao();
+                 
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario ou Senha inválido");

@@ -144,10 +144,20 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
 
         btnAlterarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/update.png"))); // NOI18N
         btnAlterarUsuario.setToolTipText("Altera Usuario");
+        btnAlterarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarUsuarioActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnAlterarUsuario);
 
         btnLimparUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/clear.png"))); // NOI18N
         btnLimparUsuario.setToolTipText("Liimpa Usuario");
+        btnLimparUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparUsuarioActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnLimparUsuario);
 
         btnApagarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/delete.png"))); // NOI18N
@@ -264,6 +274,14 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
        setarCampos();
     }//GEN-LAST:event_tblUsuarioMouseClicked
 
+    private void btnAlterarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarUsuarioActionPerformed
+        alterarUsuario();
+    }//GEN-LAST:event_btnAlterarUsuarioActionPerformed
+
+    private void btnLimparUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparUsuarioActionPerformed
+         limparUsuario();
+    }//GEN-LAST:event_btnLimparUsuarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarUsuario;
@@ -357,5 +375,55 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         btnAdicionarUsuario.setEnabled(false);
         txtPesquisaUsuario.requestFocus();
         //  txtLucro.setText(String.valueOf(lucro));
+    }
+
+    private void alterarUsuario() {
+       String sql = "update usuarios set nomeUsu=?,telefone=?,login=?,senha=?,perfil=? where idUsuario=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtNomeUsuario.getText());
+            pst.setString(2, txtTelefone.getText());
+            pst.setString(3, txtLogin.getText());
+            pst.setString(4, txtPassword.getText());
+            pst.setString(5, cboPerfil.getSelectedItem().toString());
+            pst.setString(6, txtIdUsuario.getText());
+            if (txtIdUsuario.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Campo ID é Obrigatório!");
+            } else if (txtNomeUsuario.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Campo Nome é Obrigatório!");
+            } else if (txtLogin.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Campo Login é Obrigatório!");
+            } else if (txtPassword.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Campo Senha é Obrigatório!");
+            } else {
+
+                //a linha abaixa atualiza os dados da tabela com os dados do formulario
+                //OBS.: o comando exceuteUpdate(), é utilizado tanto para atualizar 
+                //como também para adcionar
+                int rowsAfected = pst.executeUpdate();
+                if (rowsAfected > 0) {
+                    JOptionPane.showMessageDialog(null, "Dados Alterado com Sucesso!");
+                    txtIdUsuario.setText(null);
+                    txtNomeUsuario.setText(null);
+                    txtTelefone.setText(null);
+                    txtLogin.setText(null);
+                    txtPassword.setText(null);
+                    btnAdicionarUsuario.setEnabled(true);
+
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void limparUsuario() {
+        txtIdUsuario.setText(null);
+        txtNomeUsuario.setText(null);
+        txtTelefone.setText(null);
+        txtLogin.setText(null);
+        txtPassword.setText(null);
+        btnAdicionarUsuario.setEnabled(true);
+        txtPesquisaUsuario.requestFocus();
     }
 }

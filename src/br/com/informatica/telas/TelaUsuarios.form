@@ -307,6 +307,9 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Altera Usuario"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlterarUsuarioActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnLimparUsuario">
           <Properties>
@@ -315,6 +318,9 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Liimpa Usuario"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimparUsuarioActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnApagarUsuario">
           <Properties>
