@@ -162,6 +162,11 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
 
         btnApagarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/delete.png"))); // NOI18N
         btnApagarUsuario.setToolTipText("Deleta Usuario");
+        btnApagarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApagarUsuarioActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnApagarUsuario);
 
         btnUsuarioImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora.png"))); // NOI18N
@@ -281,6 +286,10 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     private void btnLimparUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparUsuarioActionPerformed
          limparUsuario();
     }//GEN-LAST:event_btnLimparUsuarioActionPerformed
+
+    private void btnApagarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApagarUsuarioActionPerformed
+        deletarUsuario();
+    }//GEN-LAST:event_btnApagarUsuarioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -425,5 +434,32 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         txtPassword.setText(null);
         btnAdicionarUsuario.setEnabled(true);
         txtPesquisaUsuario.requestFocus();
+    }
+
+    private void deletarUsuario() {
+       int confirma = JOptionPane.showConfirmDialog(null, "Confirma a remoção do usuário? " + txtNomeUsuario.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
+
+            String sql = "DELETE FROM usuarios WHERE idUsuario = ?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtIdUsuario.getText());
+                int rowsAffected = pst.executeUpdate();
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Usuario Removido com Sucesso!");
+                    txtIdUsuario.setText(null);
+                    txtNomeUsuario.setText(null);
+                    txtTelefone.setText(null);
+                    txtLogin.setText(null);
+                    txtPassword.setText(null);
+                    btnAdicionarUsuario.setEnabled(true);
+                    txtPesquisaUsuario.requestFocus();
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
     }
 }

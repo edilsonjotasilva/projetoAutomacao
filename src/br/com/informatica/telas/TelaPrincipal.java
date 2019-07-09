@@ -170,6 +170,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuCaixaEntradaActionPerformed
 
     private void menuCaixaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCaixaSaidaActionPerformed
+        new TelaSaida().lblFormatoData.setVisible(false);
         cadastrarSaida();
     }//GEN-LAST:event_menuCaixaSaidaActionPerformed
 

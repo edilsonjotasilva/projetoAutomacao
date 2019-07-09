@@ -329,6 +329,9 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Deleta Usuario"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnApagarUsuarioActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnUsuarioImprimir">
           <Properties>

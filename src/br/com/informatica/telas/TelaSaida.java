@@ -44,7 +44,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         txtDataSaida = new javax.swing.JTextField();
         txtDescSaida = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblSaida = new javax.swing.JTable();
+        tblCategoria = new javax.swing.JTable();
         txtValorSaida = new javax.swing.JTextField();
         txtCodCategoriaSaida = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
@@ -61,12 +61,11 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         txtPesqDescSaida = new javax.swing.JTextField();
         txtIdSaida = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblSaida = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        txtReusultSaida = new javax.swing.JTextField();
-        txtReusultEntrada = new javax.swing.JTextField();
-        txtReusultSaldo = new javax.swing.JTextField();
+        txtPesquisaSaida = new javax.swing.JTextField();
+        lblFormatoData = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -74,7 +73,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         setTitle("Cadastrar Saidas");
         setPreferredSize(new java.awt.Dimension(851, 610));
 
-        tblSaida.setModel(new javax.swing.table.DefaultTableModel(
+        tblCategoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -90,20 +89,39 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblSaida.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblCategoria.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        tblCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblSaidaMouseClicked(evt);
+                tblCategoriaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblSaida);
+        jScrollPane1.setViewportView(tblCategoria);
+        if (tblCategoria.getColumnModel().getColumnCount() > 0) {
+            tblCategoria.getColumnModel().getColumn(0).setResizable(false);
+            tblCategoria.getColumnModel().getColumn(0).setPreferredWidth(5);
+            tblCategoria.getColumnModel().getColumn(1).setResizable(false);
+            tblCategoria.getColumnModel().getColumn(1).setPreferredWidth(70);
+            tblCategoria.getColumnModel().getColumn(2).setResizable(false);
+            tblCategoria.getColumnModel().getColumn(2).setPreferredWidth(15);
+        }
 
         txtCodCategoriaSaida.setEditable(false);
 
         btnAlterarSaida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/update.png"))); // NOI18N
         btnAlterarSaida.setToolTipText("Alterar Saida");
+        btnAlterarSaida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarSaidaActionPerformed(evt);
+            }
+        });
 
         btnExcluirSaida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/delete.png"))); // NOI18N
         btnExcluirSaida.setToolTipText("Deletar Saida");
+        btnExcluirSaida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirSaidaActionPerformed(evt);
+            }
+        });
 
         btnImprimirEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora.png"))); // NOI18N
 
@@ -142,7 +160,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 .addGap(24, 24, 24))
         );
 
-        jLabel1.setText("Pesquisar Desc");
+        jLabel1.setText("Pesquisar Categoria");
 
         jLabel2.setText("Data Saida");
 
@@ -159,56 +177,73 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 txtPesqDescSaidaFocusGained(evt);
             }
         });
-        txtPesqDescSaida.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtPesqDescSaidaKeyReleased(evt);
+        txtPesqDescSaida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPesqDescSaidaActionPerformed(evt);
             }
         });
 
         txtIdSaida.setEditable(false);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tblSaida.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        jLabel7.setText("Entrada");
+            },
+            new String [] {
+                "id Categ", "Data", "Desc", "Valor", "Cod_catego"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, true
+            };
 
-        jLabel8.setText("Saida");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblSaida.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSaidaMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblSaida);
 
-        jLabel9.setText("Saldo");
+        jLabel7.setText("Pesquisar Saidas");
+
+        txtPesquisaSaida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPesquisaSaidaKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel9))
-                .addGap(45, 45, 45)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtReusultSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtReusultEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtReusultSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(71, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPesquisaSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(txtReusultEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPesquisaSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtReusultSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel9)
-                    .addComponent(txtReusultSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        lblFormatoData.setText("Foramato da Data: Ano-Mes-Dia");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -219,56 +254,62 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(51, 51, 51)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtValorSaida, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtDescSaida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtCodCategoriaSaida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6))
+                                .addGap(51, 51, 51)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtIdSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDataSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(txtDataSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(txtValorSaida, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtDescSaida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtCodCategoriaSaida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblFormatoData)))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(69, 69, 69)
-                        .addComponent(txtPesqDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(75, 75, 75))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txtPesqDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(txtPesqDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtPesqDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(txtIdSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtDataSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                        .addGap(31, 31, 31))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtIdSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtDataSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFormatoData)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtValorSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -285,20 +326,43 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtPesqDescSaidaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPesqDescSaidaFocusGained
+         btnAdicionarSaida.setEnabled(true);
+        btnAlterarSaida.setEnabled(false);
+        txtIdSaida.setText(null);
         pesquisarCategoria();
     }//GEN-LAST:event_txtPesqDescSaidaFocusGained
 
-    private void tblSaidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSaidaMouseClicked
+    private void tblCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategoriaMouseClicked
         setarCampos();
-    }//GEN-LAST:event_tblSaidaMouseClicked
+    }//GEN-LAST:event_tblCategoriaMouseClicked
 
     private void btnAdicionarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarSaidaActionPerformed
         adicionarSaida();
     }//GEN-LAST:event_btnAdicionarSaidaActionPerformed
 
-    private void txtPesqDescSaidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesqDescSaidaKeyReleased
-       
-    }//GEN-LAST:event_txtPesqDescSaidaKeyReleased
+    private void btnExcluirSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirSaidaActionPerformed
+
+    }//GEN-LAST:event_btnExcluirSaidaActionPerformed
+
+    private void btnAlterarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarSaidaActionPerformed
+        alterarSaida();
+    }//GEN-LAST:event_btnAlterarSaidaActionPerformed
+
+    private void tblSaidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSaidaMouseClicked
+        btnAdicionarSaida.setEnabled(false);
+        btnAlterarSaida.setEnabled(true);
+        setarCamposSaida();
+    }//GEN-LAST:event_tblSaidaMouseClicked
+
+    private void txtPesqDescSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesqDescSaidaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPesqDescSaidaActionPerformed
+
+    private void txtPesquisaSaidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaSaidaKeyReleased
+      btnAdicionarSaida.setEnabled(false);
+      btnAlterarSaida.setEnabled(true);
+        pesquisarSaida();
+    }//GEN-LAST:event_txtPesquisaSaidaKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -313,20 +377,19 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JLabel lblFormatoData;
+    private javax.swing.JTable tblCategoria;
     private javax.swing.JTable tblSaida;
     private javax.swing.JTextField txtCodCategoriaSaida;
     private javax.swing.JTextField txtDataSaida;
     private javax.swing.JTextField txtDescSaida;
     private javax.swing.JTextField txtIdSaida;
     private javax.swing.JTextField txtPesqDescSaida;
-    private javax.swing.JTextField txtReusultEntrada;
-    private javax.swing.JTextField txtReusultSaida;
-    private javax.swing.JTextField txtReusultSaldo;
+    private javax.swing.JTextField txtPesquisaSaida;
     private javax.swing.JTextField txtValorSaida;
     // End of variables declaration//GEN-END:variables
 
@@ -336,16 +399,16 @@ public class TelaSaida extends javax.swing.JInternalFrame {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtPesqDescSaida.getText() + "%");
             rs = pst.executeQuery();
-            tblSaida.setModel(DbUtils.resultSetToTableModel(rs));
+            tblCategoria.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
 
     private void setarCampos() {
-        int setar = tblSaida.getSelectedRow();
-        txtDescSaida.setText(tblSaida.getModel().getValueAt(setar, 1).toString());
-        txtCodCategoriaSaida.setText(tblSaida.getModel().getValueAt(setar, 0).toString());
+        int setar = tblCategoria.getSelectedRow();
+        txtDescSaida.setText(tblCategoria.getModel().getValueAt(setar, 1).toString());
+        txtCodCategoriaSaida.setText(tblCategoria.getModel().getValueAt(setar, 0).toString());
     }
 
     private void adicionarSaida() {
@@ -391,32 +454,32 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                         }
                     }
                 }
-            }else{
-                    String dataMysql = ano + "-" + mes + "-" + dia;
-                    pst.setString(1, dataMysql);
-                    pst.setString(2, txtDescSaida.getText());
-                    pst.setString(3, txtValorSaida.getText());
-                    pst.setString(4, txtCodCategoriaSaida.getText());
-                    // validaçao dos campos obrigatórios
-                    if (txtDescSaida.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
-                    } else if (txtValorSaida.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Campo Valor Compra é Obrigatório!");
-                    } else if (txtCodCategoriaSaida.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
-                    } else {
-                        int rowsAfected = pst.executeUpdate();
+            } else {
+                String dataMysql = ano + "-" + mes + "-" + dia;
+                pst.setString(1, dataMysql);
+                pst.setString(2, txtDescSaida.getText());
+                pst.setString(3, txtValorSaida.getText());
+                pst.setString(4, txtCodCategoriaSaida.getText());
+                // validaçao dos campos obrigatórios
+                if (txtDescSaida.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
+                } else if (txtValorSaida.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Valor Compra é Obrigatório!");
+                } else if (txtCodCategoriaSaida.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
+                } else {
+                    int rowsAfected = pst.executeUpdate();
 
-                        if (rowsAfected > 0) {
-                            JOptionPane.showMessageDialog(null, "Saida cadastrada com sucesso!", "Produto", 1);
-                            txtIdSaida.setText(null);
-                            txtDataSaida.setText(null);
-                            txtDescSaida.setText(null);
-                            txtValorSaida.setText(null);
-                            txtCodCategoriaSaida.setText(null);
+                    if (rowsAfected > 0) {
+                        JOptionPane.showMessageDialog(null, "Saida cadastrada com sucesso!", "Produto", 1);
+                        txtIdSaida.setText(null);
+                        txtDataSaida.setText(null);
+                        txtDescSaida.setText(null);
+                        txtValorSaida.setText(null);
+                        txtCodCategoriaSaida.setText(null);
 
-                        }
-                    } 
+                    }
+                }
             }
 
         } catch (SQLException ex) {
@@ -424,5 +487,109 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         }
     }
 
- 
+    private void alterarSaida() {
+
+        Date anoCorrente = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+        String dataFormatada = sdf.format(anoCorrente);
+        String sql = "update saida set dataSaida=?,descSaida=?,valorSaida=?,categoria_codCategoria=? where idSaida=?";
+        try {
+            pst = conexao.prepareStatement(sql);//---- 13091968
+//            String dia = txtDataSaida.getText().substring(0, 2);
+//            String diaAtual = dataFormatada.substring(0, 2);
+//            String mes = txtDataSaida.getText().substring(2, 4);
+//            String mesAtual = dataFormatada.substring(2, 4);
+//            String ano = txtDataSaida.getText().substring(4);
+//            String anoAtual = dataFormatada.substring(4);
+//            if (Integer.parseInt(ano) != Integer.parseInt(anoAtual) || Integer.parseInt(mes) != Integer.parseInt(mesAtual)) {
+//                int confirma = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION);
+//                if (confirma == JOptionPane.YES_OPTION) {
+                  //  String dataMysql = ano + "-" + mes + "-" + dia;
+                    pst.setString(1, txtDataSaida.getText());
+                    pst.setString(2, txtDescSaida.getText());
+                    pst.setString(3, txtValorSaida.getText());
+                    pst.setString(4, txtCodCategoriaSaida.getText());
+                    pst.setString(5, txtIdSaida.getText());
+                   
+                    
+                    // validaçao dos campos obrigatórios
+                    if (txtDescSaida.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
+                    } else if (txtValorSaida.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo Valor Saida é Obrigatório!");
+                    } else if (txtCodCategoriaSaida.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
+                    } else {
+                        int rowsAfected = pst.executeUpdate();
+
+                        if (rowsAfected > 0) {
+                            JOptionPane.showMessageDialog(null, "Saida Alterado com sucesso!", "Saida", 1);
+                            txtIdSaida.setText(null);
+                            txtDataSaida.setText(null);
+                            txtDescSaida.setText(null);
+                            txtValorSaida.setText(null);
+                            txtCodCategoriaSaida.setText(null);
+
+                        }
+//                    }
+//                }
+//            } else {
+//                String dataMysql = ano + "-" + mes + "-" + dia;
+//                pst.setString(1, dataMysql);
+//                pst.setString(2, txtDescSaida.getText());
+//                pst.setString(3, txtValorSaida.getText());
+//                pst.setString(4, txtCodCategoriaSaida.getText());
+//                // validaçao dos campos obrigatórios
+//                if (txtDescSaida.getText().isEmpty()) {
+//                    JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
+//                } else if (txtValorSaida.getText().isEmpty()) {
+//                    JOptionPane.showMessageDialog(null, "Campo Valor Compra é Obrigatório!");
+//                } else if (txtCodCategoriaSaida.getText().isEmpty()) {
+//                    JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
+//                } else {
+//                    int rowsAfected = pst.executeUpdate();
+//
+//                    if (rowsAfected > 0) {
+//                        JOptionPane.showMessageDialog(null, "Saida cadastrada com sucesso!", "Produto", 1);
+//                        txtIdSaida.setText(null);
+//                        txtDataSaida.setText(null);
+//                        txtDescSaida.setText(null);
+//                        txtValorSaida.setText(null);
+//                        txtCodCategoriaSaida.setText(null);
+//
+           //         }
+             //   }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void pesquisarSaida() {
+        String sql = "select * from saida where descSaida LIKE ? order by descSaida";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1,  "%" +  txtPesquisaSaida.getText() + "%");
+            rs = pst.executeQuery();
+            tblSaida.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) { 
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void setarCamposSaida() {
+        int setar = tblSaida.getSelectedRow();
+        txtIdSaida.setText(tblSaida.getModel().getValueAt(setar, 0).toString());
+        txtDataSaida.setText(tblSaida.getModel().getValueAt(setar, 1).toString());
+        txtDescSaida.setText(tblSaida.getModel().getValueAt(setar, 2).toString());
+        txtValorSaida.setText(tblSaida.getModel().getValueAt(setar, 3).toString());
+        txtCodCategoriaSaida.setText(tblSaida.getModel().getValueAt(setar, 4).toString());
+       
+//        cboInserirTipoProd.setSelectedIndex((int) tblProdutos.getModel().getValueAt(setar, 2));
+
+       // jBtnAddUser1.setEnabled(false);
+        txtPesquisaSaida.requestFocus();
+    }
+
 }
