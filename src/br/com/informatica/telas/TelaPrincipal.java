@@ -35,6 +35,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
         DesktopPrincipal = new javax.swing.JDesktopPane();
         lblUsuario = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -50,21 +51,32 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuLogoutFechar = new javax.swing.JMenuItem();
         menuLogoutSair = new javax.swing.JMenuItem();
 
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 700));
         setResizable(false);
 
-        DesktopPrincipal.setPreferredSize(new java.awt.Dimension(851, 626));
+        DesktopPrincipal.setPreferredSize(new java.awt.Dimension(1008, 610));
 
         javax.swing.GroupLayout DesktopPrincipalLayout = new javax.swing.GroupLayout(DesktopPrincipal);
         DesktopPrincipal.setLayout(DesktopPrincipalLayout);
         DesktopPrincipalLayout.setHorizontalGroup(
             DesktopPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 851, Short.MAX_VALUE)
+            .addGap(0, 1008, Short.MAX_VALUE)
         );
         DesktopPrincipalLayout.setVerticalGroup(
             DesktopPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 610, Short.MAX_VALUE)
         );
 
         lblUsuario.setText("Usuario");
@@ -146,22 +158,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DesktopPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
+                .addGap(102, 102, 102)
                 .addComponent(lblUsuario)
                 .addGap(111, 111, 111))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(DesktopPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
+                .addComponent(DesktopPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(75, 75, 75)
                 .addComponent(lblUsuario)
-                .addContainerGap(547, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1168, 699));
+        setSize(new java.awt.Dimension(1283, 699));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -170,7 +182,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuCaixaEntradaActionPerformed
 
     private void menuCaixaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCaixaSaidaActionPerformed
-        new TelaSaida().lblFormatoData.setVisible(false);
+        new TelaSaida().lblFormatoData.setText("Foramato da Data: Ano-Mes-Dia");
+        new TelaSaida().lblFormatoData.setVisible(true);
+        
         cadastrarSaida();
     }//GEN-LAST:event_menuCaixaSaidaActionPerformed
 
@@ -240,6 +254,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane DesktopPrincipal;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JMenuBar jMenuBar1;
     protected javax.swing.JLabel lblUsuario;
     private javax.swing.JMenu menuCaixa;
