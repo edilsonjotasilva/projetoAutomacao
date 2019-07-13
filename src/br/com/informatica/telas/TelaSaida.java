@@ -32,7 +32,6 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         conexao = Conexao.conexao;
     }
 
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -385,15 +384,18 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategoriaMouseClicked
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         txtIdSaida.setText(null);
         txtDataSaida.setText(null);
         txtValorSaida.setText(null);
         btnAdicionarSaida.setEnabled(true);
         btnAlterarSaida.setEnabled(false);
-       
-      lblFormatoData.setText("Data: DDMMAAAA - Ex. 01012019");
-     
-      
+        Date data = new Date();
+        String dataAtual = sdf.format(data);
+        txtDataSaida.setText(dataAtual);
+
+        lblFormatoData.setText("Data: DDMMAAAA - Ex. 01012019");
+
         setarCampos();
     }//GEN-LAST:event_tblCategoriaMouseClicked
 
@@ -402,7 +404,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAdicionarSaidaActionPerformed
 
     private void btnExcluirSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirSaidaActionPerformed
-
+        deletarSaida();
     }//GEN-LAST:event_btnExcluirSaidaActionPerformed
 
     private void btnAlterarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarSaidaActionPerformed
@@ -413,7 +415,6 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         lblFormatoData.setText("Formato Data: Ano-Mes-Dia: Ex. 2019-01-01");
         btnAdicionarSaida.setEnabled(false);
         btnAlterarSaida.setEnabled(true);
-       
         setarCamposSaida();
     }//GEN-LAST:event_tblSaidaMouseClicked
 
@@ -424,15 +425,20 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     private void txtPesquisaSaidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaSaidaKeyReleased
         btnAdicionarSaida.setEnabled(false);
         btnAlterarSaida.setEnabled(true);
+        btnExcluirSaida.setEnabled(true);
         limparTabelaCategoria();
         pesquisarSaida();
     }//GEN-LAST:event_txtPesquisaSaidaKeyReleased
 
     private void txtPesqDescSaidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesqDescSaidaKeyReleased
+
         btnAdicionarSaida.setEnabled(true);
         btnAlterarSaida.setEnabled(false);
+        btnExcluirSaida.setEnabled(false);
         txtIdSaida.setText(null);
+        limparCampos();
         limparTabelaSaida();
+
         pesquisarCategoria();
     }//GEN-LAST:event_txtPesqDescSaidaKeyReleased
 
@@ -477,8 +483,9 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void pesquisarCategoria() {
-        
-        String sql = "select * from categoria where descricao LIKE ? order by descricao";
+
+        //  String sql = "select * from categoria where descricao LIKE ? order by descricao";
+        String sql = "select * from categoria  where descricao LIKE ? AND codCategoria <> 10";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, "%" + txtPesqDescSaida.getText() + "%");
@@ -496,22 +503,53 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     }
 
     private void adicionarSaida() {
-        try {
-            Date anoCorrente = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-            String dataFormatada = sdf.format(anoCorrente);
-            String sql = "INSERT INTO saida (dataSaida,descSaida,valorSaida,categoria_codCategoria) VALUES (?, ?, ?, ?)";
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Adição da Saida? " + txtValorSaida.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
+            try {
+                Date anoCorrente = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+                String dataFormatada = sdf.format(anoCorrente);
+                String sql = "INSERT INTO saida (dataSaida,descSaida,valorSaida,categoria_codCategoria) VALUES (?, ?, ?, ?)";
 
-            pst = conexao.prepareStatement(sql);//---- 13091968
-            String dia = txtDataSaida.getText().substring(0, 2);
-            String diaAtual = dataFormatada.substring(0, 2);
-            String mes = txtDataSaida.getText().substring(2, 4);
-            String mesAtual = dataFormatada.substring(2, 4);
-            String ano = txtDataSaida.getText().substring(4);
-            String anoAtual = dataFormatada.substring(4);
-            if (Integer.parseInt(ano) != Integer.parseInt(anoAtual) || Integer.parseInt(mes) != Integer.parseInt(mesAtual)) {
-                int confirma = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION);
-                if (confirma == JOptionPane.YES_OPTION) {
+                pst = conexao.prepareStatement(sql);//---- 13091968
+                String dia = txtDataSaida.getText().substring(0, 2);
+                String diaAtual = dataFormatada.substring(0, 2);
+                String mes = txtDataSaida.getText().substring(2, 4);
+                String mesAtual = dataFormatada.substring(2, 4);
+                String ano = txtDataSaida.getText().substring(4);
+                String anoAtual = dataFormatada.substring(4);
+                if (Integer.parseInt(ano) != Integer.parseInt(anoAtual) || Integer.parseInt(mes) != Integer.parseInt(mesAtual)) {
+                    int confirmaData = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION);
+                    if (confirmaData == JOptionPane.YES_OPTION) {
+                        String dataMysql = ano + "-" + mes + "-" + dia;
+                        pst.setString(1, dataMysql);
+                        pst.setString(2, txtDescSaida.getText());
+                        pst.setString(3, txtValorSaida.getText());
+                        pst.setString(4, txtCodCategoriaSaida.getText());
+                        // validaçao dos campos obrigatórios
+                        if (txtDescSaida.getText().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
+                        } else if (txtValorSaida.getText().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Campo Valor Saida é Obrigatório!");
+                        } else if (txtCodCategoriaSaida.getText().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
+                        } else {
+                            int rowsAfected = pst.executeUpdate();
+
+                            if (rowsAfected > 0) {
+                                JOptionPane.showMessageDialog(null, "Saida cadastrada com sucesso!", "Produto", 1);
+                                txtIdSaida.setText(null);
+                                txtDataSaida.setText(null);
+                                txtDescSaida.setText(null);
+                                txtValorSaida.setText(null);
+                                txtCodCategoriaSaida.setText(null);
+
+                            }
+                        }
+                    }
+                } else {
                     String dataMysql = ano + "-" + mes + "-" + dia;
                     pst.setString(1, dataMysql);
                     pst.setString(2, txtDescSaida.getText());
@@ -521,7 +559,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                     if (txtDescSaida.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
                     } else if (txtValorSaida.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Campo Valor Saida é Obrigatório!");
+                        JOptionPane.showMessageDialog(null, "Campo Valor Compra é Obrigatório!");
                     } else if (txtCodCategoriaSaida.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
                     } else {
@@ -538,47 +576,24 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                         }
                     }
                 }
-            } else {
-                String dataMysql = ano + "-" + mes + "-" + dia;
-                pst.setString(1, dataMysql);
-                pst.setString(2, txtDescSaida.getText());
-                pst.setString(3, txtValorSaida.getText());
-                pst.setString(4, txtCodCategoriaSaida.getText());
-                // validaçao dos campos obrigatórios
-                if (txtDescSaida.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
-                } else if (txtValorSaida.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo Valor Compra é Obrigatório!");
-                } else if (txtCodCategoriaSaida.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
-                } else {
-                    int rowsAfected = pst.executeUpdate();
 
-                    if (rowsAfected > 0) {
-                        JOptionPane.showMessageDialog(null, "Saida cadastrada com sucesso!", "Produto", 1);
-                        txtIdSaida.setText(null);
-                        txtDataSaida.setText(null);
-                        txtDescSaida.setText(null);
-                        txtValorSaida.setText(null);
-                        txtCodCategoriaSaida.setText(null);
-
-                    }
-                }
+            } catch (SQLException ex) {
+                Logger.getLogger(TelaSaida.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(TelaSaida.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private void alterarSaida() {
-
-        Date anoCorrente = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-        String dataFormatada = sdf.format(anoCorrente);
-        String sql = "update saida set dataSaida=?,descSaida=?,valorSaida=?,categoria_codCategoria=? where idSaida=?";
-        try {
-            pst = conexao.prepareStatement(sql);//---- 13091968
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Alteracao da Saida? " + txtValorSaida.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
+            Date anoCorrente = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+            String dataFormatada = sdf.format(anoCorrente);
+            String sql = "update saida set dataSaida=?,descSaida=?,valorSaida=?,categoria_codCategoria=? where idSaida=?";
+            try {
+                pst = conexao.prepareStatement(sql);//---- 13091968
 //            String dia = txtDataSaida.getText().substring(0, 2);
 //            String diaAtual = dataFormatada.substring(0, 2);
 //            String mes = txtDataSaida.getText().substring(2, 4);
@@ -588,69 +603,42 @@ public class TelaSaida extends javax.swing.JInternalFrame {
 //            if (Integer.parseInt(ano) != Integer.parseInt(anoAtual) || Integer.parseInt(mes) != Integer.parseInt(mesAtual)) {
 //                int confirma = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION);
 //                if (confirma == JOptionPane.YES_OPTION) {
-            //  String dataMysql = ano + "-" + mes + "-" + dia;
-            pst.setString(1, txtDataSaida.getText());
-            pst.setString(2, txtDescSaida.getText());
-            pst.setString(3, txtValorSaida.getText());
-            pst.setString(4, txtCodCategoriaSaida.getText());
-            pst.setString(5, txtIdSaida.getText());
+                //  String dataMysql = ano + "-" + mes + "-" + dia;
+                pst.setString(1, txtDataSaida.getText());
+                pst.setString(2, txtDescSaida.getText());
+                pst.setString(3, txtValorSaida.getText());
+                pst.setString(4, txtCodCategoriaSaida.getText());
+                pst.setString(5, txtIdSaida.getText());
 
-            // validaçao dos campos obrigatórios
-            if (txtDescSaida.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
-            } else if (txtValorSaida.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Campo Valor Saida é Obrigatório!");
-            } else if (txtCodCategoriaSaida.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
-            } else {
-                int rowsAfected = pst.executeUpdate();
+                // validaçao dos campos obrigatórios
+                if (txtDescSaida.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
+                } else if (txtValorSaida.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Valor Saida é Obrigatório!");
+                } else if (txtCodCategoriaSaida.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
+                } else {
+                    int rowsAfected = pst.executeUpdate();
 
-                if (rowsAfected > 0) {
-                    JOptionPane.showMessageDialog(null, "Saida Alterado com sucesso!", "Saida", 1);
-                    txtIdSaida.setText(null);
-                    txtDataSaida.setText(null);
-                    txtDescSaida.setText(null);
-                    txtValorSaida.setText(null);
-                    txtCodCategoriaSaida.setText(null);
+                    if (rowsAfected > 0) {
+                        JOptionPane.showMessageDialog(null, "Saida Alterado com sucesso!", "Saida", 1);
+                        txtIdSaida.setText(null);
+                        txtDataSaida.setText(null);
+                        txtDescSaida.setText(null);
+                        txtValorSaida.setText(null);
+                        txtCodCategoriaSaida.setText(null);
 
+                    }
                 }
-//                    }
-//                }
-//            } else {
-//                String dataMysql = ano + "-" + mes + "-" + dia;
-//                pst.setString(1, dataMysql);
-//                pst.setString(2, txtDescSaida.getText());
-//                pst.setString(3, txtValorSaida.getText());
-//                pst.setString(4, txtCodCategoriaSaida.getText());
-//                // validaçao dos campos obrigatórios
-//                if (txtDescSaida.getText().isEmpty()) {
-//                    JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
-//                } else if (txtValorSaida.getText().isEmpty()) {
-//                    JOptionPane.showMessageDialog(null, "Campo Valor Compra é Obrigatório!");
-//                } else if (txtCodCategoriaSaida.getText().isEmpty()) {
-//                    JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
-//                } else {
-//                    int rowsAfected = pst.executeUpdate();
-//
-//                    if (rowsAfected > 0) {
-//                        JOptionPane.showMessageDialog(null, "Saida cadastrada com sucesso!", "Produto", 1);
-//                        txtIdSaida.setText(null);
-//                        txtDataSaida.setText(null);
-//                        txtDescSaida.setText(null);
-//                        txtValorSaida.setText(null);
-//                        txtCodCategoriaSaida.setText(null);
-//
-                //         }
-                //   }
-            }
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }
 
     private void pesquisarSaida() {
-        String sql = "select * from saida where descSaida LIKE ? order by descSaida";
+        String sql = "select * from saida where descSaida LIKE ? order by dataSaida";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, "%" + txtPesquisaSaida.getText() + "%");
@@ -660,6 +648,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+
     }
 
     private void setarCamposSaida() {
@@ -669,32 +658,66 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         txtDescSaida.setText(tblSaida.getModel().getValueAt(setar, 2).toString());
         txtValorSaida.setText(tblSaida.getModel().getValueAt(setar, 3).toString());
         txtCodCategoriaSaida.setText(tblSaida.getModel().getValueAt(setar, 4).toString());
-
-//        cboInserirTipoProd.setSelectedIndex((int) tblProdutos.getModel().getValueAt(setar, 2));
-        // jBtnAddUser1.setEnabled(false);
         txtPesquisaSaida.requestFocus();
     }
-    private void limparTabelaCategoria(){
-         String sql = "select * from saida where descSaida = 'xx'";
+
+    private void limparTabelaCategoria() {
+        String sql = "select * from saida where descSaida = 'xx'";
         try {
             pst = conexao.prepareStatement(sql);
-        //    pst.setString(1, "%" + txtPesquisaSaida.getText() + "%");
+            //    pst.setString(1, "%" + txtPesquisaSaida.getText() + "%");
             rs = pst.executeQuery();
             tblCategoria.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    private void limparTabelaSaida(){
-         String sql = "select * from saida where descSaida = 'xx'";
+
+    private void limparTabelaSaida() {
+        String sql = "select * from saida where descSaida = 'xx'";
         try {
             pst = conexao.prepareStatement(sql);
-        //    pst.setString(1, "%" + txtPesquisaSaida.getText() + "%");
+            //    pst.setString(1, "%" + txtPesquisaSaida.getText() + "%");
             rs = pst.executeQuery();
             tblSaida.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+    }
+
+    private void deletarSaida() {
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a remoção da Saida? " + txtValorSaida.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
+
+            String sql = "DELETE FROM saida WHERE idSaida = ?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtIdSaida.getText());
+                int rowsAffected = pst.executeUpdate();
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Saida Removido com Sucesso!");
+                    txtIdSaida.setText(null);
+                    txtDataSaida.setText(null);
+                    txtDescSaida.setText(null);
+                    txtValorSaida.setText(null);
+                    txtCodCategoriaSaida.setText(null);
+                    btnAdicionarSaida.setEnabled(true);
+                    txtPesquisaSaida.requestFocus();
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }
+
+    private void limparCampos() {
+        txtIdSaida.setText(null);
+        txtDataSaida.setText(null);
+        txtDescSaida.setText(null);
+        txtValorSaida.setText(null);
+        txtCodCategoriaSaida.setText(null);
     }
 
 }

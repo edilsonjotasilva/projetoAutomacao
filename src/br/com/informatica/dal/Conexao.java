@@ -13,13 +13,30 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class Conexao {
+    int cont =0;
 
     public static void main(String[] args) {
-
+        
         leArquivoConfiguracao();
-     
-      
+       
+        
+
     }
+    public Conexao(){
+        if (cont == 0) {
+           TelaLogin login = new TelaLogin();
+         if (conexao != null) {
+            
+               login.lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/jsinformatica/telas/dbconnect.png")));
+            } else {
+                login.lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/jsinformatica/telas/dberror.png")));
+            } 
+        }
+       
+        
+         
+    }
+    
 
     static String host, porta, user, senha;
     static private String driver = "com.mysql.jdbc.Driver";
@@ -80,14 +97,13 @@ public class Conexao {
     }
 
     static protected boolean conexaoServidor(String Servidor, String Porta, String usuario, String Senha) {
-   
+
         // int cont = 0;
-       boolean conectar = false;
+        boolean conectar = false;
         String SERVIDOR = Servidor;
         String PORTA_CONEXAO = Porta;
         String USUARIO = usuario;
         String SENHA = Senha;
-
 
         //  compara as variaveis acima com as variaveis que estão dentro do mysql descrito no caminho abaixo
         try {
@@ -101,11 +117,13 @@ public class Conexao {
             // JOptionPane.showMessageDialog(null, e);
         }
         if (conectar) {
+        //  verificaStatus();
             System.out.println("conexao bem sucedida");
+          
+
             CriarTabelas criarTabelas = new CriarTabelas();
             criarTabelas.criarBanco();
-            
-            
+
             //  conectarDataBase();
         } else {
             System.out.println("conexao MAL suceddida");
@@ -116,8 +134,10 @@ public class Conexao {
         return conectar;
 
     }
-
-    
+     private void verificaStatus(){
+       
+        
+    }
 
 //    static public boolean conectarDataBase(String Servidor, String Porta, String usuario, String Senha) {
 //        boolean conectado = false;
@@ -150,7 +170,6 @@ public class Conexao {
 //        }
 //        return conectado;
 //    }
-
     static public void fechaConexao() {
         try {
             conexao.close();

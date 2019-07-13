@@ -26,10 +26,13 @@ public class TelaLogin extends javax.swing.JFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-
+      
     public TelaLogin() {
+      
+         
         initComponents();
         conexao = Conexao.conexao;
+     
     }
 
     /**
@@ -43,7 +46,7 @@ public class TelaLogin extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        bllStatus = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
         btnLoginLogar = new javax.swing.JButton();
         txtLoginUsuario = new javax.swing.JTextField();
         txtLoginSenha = new javax.swing.JPasswordField();
@@ -54,7 +57,7 @@ public class TelaLogin extends javax.swing.JFrame {
 
         jLabel2.setText("Senha");
 
-        bllStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/dbConnect.png"))); // NOI18N
+        lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/dbConnect.png"))); // NOI18N
 
         btnLoginLogar.setText("Logar");
         btnLoginLogar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -80,9 +83,9 @@ public class TelaLogin extends javax.swing.JFrame {
                             .addComponent(btnLoginLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtLoginSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bllStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblStatus))
                     .addComponent(txtLoginUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,7 +102,7 @@ public class TelaLogin extends javax.swing.JFrame {
                             .addComponent(txtLoginSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLoginLogar))
-                    .addComponent(bllStatus))
+                    .addComponent(lblStatus))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -147,10 +150,10 @@ public class TelaLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel bllStatus;
     private javax.swing.JButton btnLoginLogar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    public javax.swing.JLabel lblStatus;
     private javax.swing.JPasswordField txtLoginSenha;
     private javax.swing.JTextField txtLoginUsuario;
     // End of variables declaration//GEN-END:variables
@@ -171,10 +174,15 @@ public void logar() {
                 // a estrutura (if,else) abaixo faz o tratamento do perfil do usuario, se o perfil for 'Admin' será exibido a tela principal e o menu relatorio será habilitado; e a label lblUsario mostrará o nome do usuario em vermelho. senão for admin, será exibido a tela principal e a label lblUsario mostrará o nome do usuario na cor preta, o menu relatorio não será habilitado
                 if (perfil.equals("Admin")) {
                     TelaPrincipal principal = new TelaPrincipal();
-
                     principal.setVisible(true);
                     principal.menuRelatorio.setEnabled(true);
                     principal.menuUsuarios.setEnabled(true);
+                    
+                    TelaEntrada telaEntrada = new TelaEntrada(); 
+                    telaEntrada.txtPesquisaEntrada.setEditable(true);
+                   
+//                    telaEntrada.tblEntrada.setEnabled(true);
+//                    telaEntrada.panelAlteraEntrada.setEnabled(true);
 
                     //a linha abaixo obtem o conteudo do campo nome da tabela usuario
                     //o numero 2 corresponde a 2° coluna da tabela usuario
@@ -184,6 +192,7 @@ public void logar() {
                     this.dispose();
                   //  conexao.close();
                 } else {
+                      
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);
                     principal.lblUsuario.setText(rs.getString(2));

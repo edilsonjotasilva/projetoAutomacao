@@ -5,18 +5,21 @@
  */
 package br.com.informatica.telas;
 
-
 import br.com.informatica.dal.Conexao;
 import static br.com.informatica.dal.Conexao.conexao;
+import static br.com.informatica.telas.TelaEntrada.pst;
+import static br.com.informatica.telas.TelaEntrada.pst;
+import static br.com.informatica.telas.TelaEntrada.pst;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.ParseException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -24,15 +27,13 @@ import javax.swing.JOptionPane;
  */
 public class TelaEntrada extends javax.swing.JInternalFrame {
 
-       PreparedStatement pst = null;
-   static ResultSet rs = null; // resultados das conexões sql
+    static PreparedStatement pst = null;
+    static ResultSet rs = null;
+    Connection conexao = null;
+
     public TelaEntrada() {
         initComponents();
-           try {
-               calcularData();
-           } catch (ParseException ex) {
-               Logger.getLogger(TelaEntrada.class.getName()).log(Level.SEVERE, null, ex);
-           }
+        conexao = Conexao.conexao;
     }
 
     /**
@@ -44,89 +45,170 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelAlteraEntrada = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        txtPesquisaEntrada = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblEntrada = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         txtIdEntrada = new javax.swing.JTextField();
+        txtValorEntrada = new javax.swing.JTextField();
         txtDataEntrada = new javax.swing.JTextField();
         txtDescEntrada = new javax.swing.JTextField();
-        txtValorEntrada = new javax.swing.JTextField();
+        txtCodigoEntrada = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         btnAlterarEntrada = new javax.swing.JButton();
-        btnExcluirEntrada = new javax.swing.JButton();
-        btnImprimirEntrada = new javax.swing.JButton();
-        btnAdicionarEntrada = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        txtIdEntrada1 = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        btnAdicionaEntrada = new javax.swing.JButton();
+        btnImprimeEntrada = new javax.swing.JButton();
+        btnDeletaEntrada = new javax.swing.JButton();
+        lblFormatoData = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblCategoria_Entrada = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        txtReusultSaida = new javax.swing.JTextField();
-        txtReusultEntrada = new javax.swing.JTextField();
-        txtReusultSaldo = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        txtPesqDescEntrada = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
-        setTitle("Cadastro de Entrada");
+        setTitle("Cadastro de Entradas");
         setPreferredSize(new java.awt.Dimension(851, 610));
 
-        jLabel1.setText("Pesquisar Categoria");
+        panelAlteraEntrada.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        panelAlteraEntrada.setPreferredSize(new java.awt.Dimension(639, 250));
 
-        jLabel2.setText("Data Entrada");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
+        jLabel1.setText("Alteração de Cadastros de Entradas");
 
-        jLabel3.setText("Descrição de Entrada");
+        jLabel2.setText("Pesquisar Entradas");
 
-        jLabel4.setText("Valor da Entrada");
+        txtPesquisaEntrada.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPesquisaEntradaKeyReleased(evt);
+            }
+        });
 
-        jLabel5.setText("Cod Categoria");
+        tblEntrada.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tblEntrada.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblEntradaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblEntrada);
+
+        javax.swing.GroupLayout panelAlteraEntradaLayout = new javax.swing.GroupLayout(panelAlteraEntrada);
+        panelAlteraEntrada.setLayout(panelAlteraEntradaLayout);
+        panelAlteraEntradaLayout.setHorizontalGroup(
+            panelAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAlteraEntradaLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(panelAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelAlteraEntradaLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(22, 22, 22)
+                        .addGroup(panelAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPesquisaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+        panelAlteraEntradaLayout.setVerticalGroup(
+            panelAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAlteraEntradaLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(panelAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtPesquisaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel3.setText("Id Entrada");
+
+        jLabel4.setText("Data Entrada");
+
+        jLabel5.setText("Descrição Entrada");
+
+        jLabel6.setText("Valor  Entrada");
+
+        jLabel7.setText("Codigo Entrada");
 
         btnAlterarEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/update.png"))); // NOI18N
+        btnAlterarEntrada.setToolTipText("Alterar");
+        btnAlterarEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarEntradaActionPerformed(evt);
+            }
+        });
 
-        btnExcluirEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/delete.png"))); // NOI18N
+        btnAdicionaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/create.png"))); // NOI18N
+        btnAdicionaEntrada.setToolTipText("Adicionar");
+        btnAdicionaEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionaEntradaActionPerformed(evt);
+            }
+        });
 
-        btnImprimirEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora.png"))); // NOI18N
+        btnImprimeEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora.png"))); // NOI18N
+        btnImprimeEntrada.setToolTipText("Imprimir");
 
-        btnAdicionarEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/create.png"))); // NOI18N
+        btnDeletaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/delete.png"))); // NOI18N
+        btnDeletaEntrada.setToolTipText("Deletar");
+        btnDeletaEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletaEntradaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(btnAdicionarEntrada)
+                .addGap(42, 42, 42)
+                .addComponent(btnAdicionaEntrada)
                 .addGap(18, 18, 18)
                 .addComponent(btnAlterarEntrada)
-                .addGap(18, 18, 18)
-                .addComponent(btnExcluirEntrada)
-                .addGap(27, 27, 27)
-                .addComponent(btnImprimirEntrada)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addComponent(btnDeletaEntrada)
+                .addGap(31, 31, 31)
+                .addComponent(btnImprimeEntrada)
+                .addContainerGap(168, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAlterarEntrada)
-                    .addComponent(btnExcluirEntrada)
-                    .addComponent(btnImprimirEntrada)
-                    .addComponent(btnAdicionarEntrada))
-                .addGap(24, 24, 24))
+                    .addComponent(btnImprimeEntrada)
+                    .addComponent(btnDeletaEntrada)
+                    .addComponent(btnAdicionaEntrada))
+                .addGap(32, 32, 32))
         );
 
-        jLabel6.setText("Id Entrada: ");
+        lblFormatoData.setForeground(new java.awt.Color(255, 0, 51));
+        lblFormatoData.setText("Data Exemplo: 00012019");
 
-        txtIdEntrada1.setEditable(false);
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCategoria_Entrada.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -142,154 +224,229 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(10);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
-            jTable1.getColumnModel().getColumn(1).setMinWidth(150);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(2).setMinWidth(30);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(30);
-        }
+        tblCategoria_Entrada.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        tblCategoria_Entrada.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCategoria_EntradaMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblCategoria_Entrada);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabel8.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
+        jLabel8.setText("Cadastro de Entradas");
 
-        jLabel7.setText("Entrada");
+        jLabel9.setText("Pesquisa Entrada");
 
-        jLabel8.setText("Saida");
-
-        jLabel9.setText("Saldo");
+        txtPesqDescEntrada.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPesqDescEntradaKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(55, 55, 55)
+                .addComponent(jLabel8)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel9))
-                .addGap(45, 45, 45)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtReusultSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtReusultEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtReusultSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(71, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtPesqDescEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabel8)
+                .addGap(8, 8, 8)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtReusultEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtReusultSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel9)
-                    .addComponent(txtReusultSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtPesqDescEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtIdEntrada)
+                        .addGap(509, 509, 509))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(51, 51, 51)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCodigoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDescEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtIdEntrada1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtIdEntrada)
-                                        .addComponent(txtDataEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 331, Short.MAX_VALUE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtValorEntrada, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtDescEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(76, 76, 76))
+                                .addComponent(txtDataEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblFormatoData, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(83, 83, 83)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 231, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelAlteraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(txtIdEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(txtIdEntrada1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtDataEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(21, 21, 21))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                    .addComponent(panelAlteraEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtDescEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                    .addComponent(txtIdEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                    .addComponent(txtDataEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFormatoData))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(txtDescEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtCodigoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+                .addContainerGap())
         );
 
         setBounds(0, 0, 1008, 610);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void txtPesquisaEntradaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaEntradaKeyReleased
+        btnAdicionaEntrada.setEnabled(false);
+        btnAlterarEntrada.setEnabled(true);
+        btnDeletaEntrada.setEnabled(true);
+        limparTabelaCategoria();
+        pesquisarEntrada();
+    }//GEN-LAST:event_txtPesquisaEntradaKeyReleased
+
+    private void tblEntradaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEntradaMouseClicked
+        lblFormatoData.setText("Formato Data: Ano-Mes-Dia: Ex. 2019-01-01");
+        btnAdicionaEntrada.setEnabled(false);
+        btnAlterarEntrada.setEnabled(true);
+        setarCamposEntrada();
+    }//GEN-LAST:event_tblEntradaMouseClicked
+
+    private void btnAlterarEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarEntradaActionPerformed
+        alterarEntrada();
+//        Date anoCorrente = new Date();
+//        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+//        String dataFormatada = sdf.format(anoCorrente);
+//        String sql = "update Entrada set dataEntrada=?,descEntrada=?,valorEntrada=?,categoria_codCategoria=? where idEntrada=?";
+//        try {
+//            pst = conexao.prepareStatement(sql);//---- 13091968
+//            pst.setString(1, txtDataEntrada.getText());
+//            pst.setString(2, txtDescEntrada.getText());
+//            pst.setString(3, txtValorEntrada.getText());
+//            pst.setString(4, txtCodigoEntrada.getText());
+//            pst.setString(5, txtIdEntrada.getText());
+//
+//            // validaçao dos campos obrigatórios
+//            if (txtDescEntrada.getText().isEmpty()) {
+//                JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
+//            } else if (txtValorEntrada.getText().isEmpty()) {
+//                JOptionPane.showMessageDialog(null, "Campo Valor Entrada é Obrigatório!");
+//            } else if (txtCodigoEntrada.getText().isEmpty()) {
+//                JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
+//            } else {
+//                int rowsAfected = pst.executeUpdate();
+//
+//                if (rowsAfected > 0) {
+//                    JOptionPane.showMessageDialog(null, "Entrada Alterado com sucesso!", "Entrada", 1);
+//                    txtIdEntrada.setText(null);
+//                    txtDataEntrada.setText(null);
+//                    txtDescEntrada.setText(null);
+//                    txtValorEntrada.setText(null);
+//                    txtCodigoEntrada.setText(null);
+//
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, e);
+//        }
+    }//GEN-LAST:event_btnAlterarEntradaActionPerformed
+
+    private void tblCategoria_EntradaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategoria_EntradaMouseClicked
+        txtIdEntrada.setText(null);
+        txtDataEntrada.setText(null);
+        txtValorEntrada.setText(null);
+        btnAdicionaEntrada.setEnabled(true);
+        btnAlterarEntrada.setEnabled(false);
+
+        lblFormatoData.setText("Data: DDMMAAAA - Ex. 01012019");
+
+        setarCamposCategoria();
+    }//GEN-LAST:event_tblCategoria_EntradaMouseClicked
+
+    private void txtPesqDescEntradaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesqDescEntradaKeyReleased
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+        btnAdicionaEntrada.setEnabled(true);
+        btnAlterarEntrada.setEnabled(false);
+        txtIdEntrada.setText(null);
+        limparTabelaEntrada();
+        Date data = new Date();
+        String dataAtual = sdf.format(data);
+        txtDataEntrada.setText(dataAtual);
+        lblFormatoData.setText("Formato Data: Ex.: 01042019");
+        txtDescEntrada.setText("Entrada");
+        txtCodigoEntrada.setText("10");
+        pesquisarCategoria();
+    }//GEN-LAST:event_txtPesqDescEntradaKeyReleased
+
+    private void btnAdicionaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionaEntradaActionPerformed
+        adicionarEntrada();
+    }//GEN-LAST:event_btnAdicionaEntradaActionPerformed
+
+    private void btnDeletaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletaEntradaActionPerformed
+        deletarEntrada();
+    }//GEN-LAST:event_btnDeletaEntradaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdicionarEntrada;
-    private javax.swing.JButton btnAlterarEntrada;
-    private javax.swing.JButton btnExcluirEntrada;
-    private javax.swing.JButton btnImprimirEntrada;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnAdicionaEntrada;
+    protected javax.swing.JButton btnAlterarEntrada;
+    protected javax.swing.JButton btnDeletaEntrada;
+    private javax.swing.JButton btnImprimeEntrada;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -302,25 +459,232 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JLabel lblFormatoData;
+    protected javax.swing.JPanel panelAlteraEntrada;
+    private javax.swing.JTable tblCategoria_Entrada;
+    protected javax.swing.JTable tblEntrada;
+    private javax.swing.JTextField txtCodigoEntrada;
     private javax.swing.JTextField txtDataEntrada;
     private javax.swing.JTextField txtDescEntrada;
     private javax.swing.JTextField txtIdEntrada;
-    private javax.swing.JTextField txtIdEntrada1;
-    private javax.swing.JTextField txtReusultEntrada;
-    private javax.swing.JTextField txtReusultSaida;
-    private javax.swing.JTextField txtReusultSaldo;
+    private javax.swing.JTextField txtPesqDescEntrada;
+    public javax.swing.JTextField txtPesquisaEntrada;
     private javax.swing.JTextField txtValorEntrada;
     // End of variables declaration//GEN-END:variables
-     private void calcularData() throws ParseException {
-         
-          SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-          
-          Date diaVencimento = sdf.parse("01/07/2019");
-          Date diaPagamento = sdf.parse("07/07/2019");
-          long difEmMs = Math.abs(diaPagamento.getTime()- diaVencimento.getTime());
-          long dif = TimeUnit.DAYS.convert(difEmMs, TimeUnit.MILLISECONDS);
-          
-          JOptionPane.showMessageDialog(null, "Dias de atraso "+dif,"Mensagem",1);
+
+    private void pesquisarEntrada() {
+        String sql = "select * from entrada where descEntrada LIKE ? order by dataEntrada";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, "%" + txtPesquisaEntrada.getText() + "%");
+            rs = pst.executeQuery();
+            tblEntrada.setModel(DbUtils.resultSetToTableModel(rs));
+            tblEntrada.isValid();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }
+
+    private void setarCamposEntrada() {
+        int setar = tblEntrada.getSelectedRow();
+        txtIdEntrada.setText(tblEntrada.getModel().getValueAt(setar, 0).toString());
+        txtDataEntrada.setText(tblEntrada.getModel().getValueAt(setar, 1).toString());
+        txtDescEntrada.setText(tblEntrada.getModel().getValueAt(setar, 2).toString());
+        txtValorEntrada.setText(tblEntrada.getModel().getValueAt(setar, 3).toString());
+        txtCodigoEntrada.setText(tblEntrada.getModel().getValueAt(setar, 4).toString());
+        txtPesquisaEntrada.requestFocus();
+    }
+
+    private void alterarEntrada() {
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Alteracao da Entrada? " + txtValorEntrada.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
+            Date anoCorrente = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+            String dataFormatada = sdf.format(anoCorrente);
+            String sql = "update Entrada set dataEntrada=?,descEntrada=?,valorEntrada=?,categoria_codCategoria=? where idEntrada=?";
+            try {
+                pst = conexao.prepareStatement(sql);//---- 13091968
+                pst.setString(1, txtDataEntrada.getText());
+                pst.setString(2, txtDescEntrada.getText());
+                pst.setString(3, txtValorEntrada.getText());
+                pst.setString(4, txtCodigoEntrada.getText());
+                pst.setString(5, txtIdEntrada.getText());
+
+                // validaçao dos campos obrigatórios
+                if (txtDescEntrada.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
+                } else if (txtValorEntrada.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Valor Entrada é Obrigatório!");
+                } else if (txtCodigoEntrada.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
+                } else {
+                    int rowsAfected = pst.executeUpdate();
+
+                    if (rowsAfected > 0) {
+                        JOptionPane.showMessageDialog(null, "Entrada Alterado com sucesso!", "Entrada", 1);
+                        txtIdEntrada.setText(null);
+                        txtDataEntrada.setText(null);
+                        txtDescEntrada.setText(null);
+                        txtValorEntrada.setText(null);
+                        txtCodigoEntrada.setText(null);
+
+                    }
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }
+
+    private void setarCamposCategoria() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void limparTabelaEntrada() {
+        String sql = "select * from entrada where descEntrada = 'xx'";
+        try {
+            pst = conexao.prepareStatement(sql);
+            //    pst.setString(1, "%" + txtPesquisaentrada.getText() + "%");
+            rs = pst.executeQuery();
+            tblEntrada.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void pesquisarCategoria() {
+        // String sql = "select * from categoria where descricao LIKE ? order by descricao";
+        String sql = "select * from categoria where descricao = 'Entrada'";
+        try {
+            pst = conexao.prepareStatement(sql);
+            //    pst.setString(1, "%" + txtPesqDescEntrada.getText() + "%");
+            rs = pst.executeQuery();
+            tblCategoria_Entrada.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void limparTabelaCategoria() {
+        String sql = "select * from entrada where descEntrada = 'xx'";
+        try {
+            pst = conexao.prepareStatement(sql);
+            //    pst.setString(1, "%" + txtPesquisaEntrada.getText() + "%");
+            rs = pst.executeQuery();
+            tblCategoria_Entrada.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void adicionarEntrada() {
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Adição da Entrada? " + txtValorEntrada.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
+        try {
+            Date anoCorrente = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+            String dataFormatada = sdf.format(anoCorrente);
+            String sql = "INSERT INTO Entrada (dataEntrada,descEntrada,valorEntrada,categoria_codCategoria) VALUES (?, ?, ?, ?)";
+
+            pst = conexao.prepareStatement(sql);//---- 13091968
+            String dia = txtDataEntrada.getText().substring(0, 2);
+            String diaAtual = dataFormatada.substring(0, 2);
+            String mes = txtDataEntrada.getText().substring(2, 4);
+            String mesAtual = dataFormatada.substring(2, 4);
+            String ano = txtDataEntrada.getText().substring(4);
+            String anoAtual = dataFormatada.substring(4);
+            if (Integer.parseInt(ano) != Integer.parseInt(anoAtual) || Integer.parseInt(mes) != Integer.parseInt(mesAtual)) {
+                int confirmaData = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION);
+                if (confirmaData == JOptionPane.YES_OPTION) {
+                    String dataMysql = ano + "-" + mes + "-" + dia;
+                    pst.setString(1, dataMysql);
+                    pst.setString(2, txtDescEntrada.getText());
+                    pst.setString(3, txtValorEntrada.getText());
+                    pst.setString(4, txtCodigoEntrada.getText());
+                    // validaçao dos campos obrigatórios
+                    if (txtDescEntrada.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
+                    } else if (txtValorEntrada.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo Valor Entrada é Obrigatório!");
+                    } else if (txtCodigoEntrada.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
+                    } else {
+                        int rowsAfected = pst.executeUpdate();
+
+                        if (rowsAfected > 0) {
+                            JOptionPane.showMessageDialog(null, "Entrada cadastrada com sucesso!", "Produto", 1);
+                            txtIdEntrada.setText(null);
+                            txtDataEntrada.setText(null);
+                            txtDescEntrada.setText(null);
+                            txtValorEntrada.setText(null);
+                            txtCodigoEntrada.setText(null);
+
+                        }
+                    }
+                }
+            } else {
+                String dataMysql = ano + "-" + mes + "-" + dia;
+                pst.setString(1, dataMysql);
+                pst.setString(2, txtDescEntrada.getText());
+                pst.setString(3, txtValorEntrada.getText());
+                pst.setString(4, txtCodigoEntrada.getText());
+                // validaçao dos campos obrigatórios
+                if (txtDescEntrada.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
+                } else if (txtValorEntrada.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Valor Compra é Obrigatório!");
+                } else if (txtCodigoEntrada.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
+                } else {
+                    int rowsAfected = pst.executeUpdate();
+
+                    if (rowsAfected > 0) {
+                        JOptionPane.showMessageDialog(null, "Entrada cadastrada com sucesso!", "Produto", 1);
+                        txtIdEntrada.setText(null);
+                        txtDataEntrada.setText(null);
+                        txtDescEntrada.setText(null);
+                        txtValorEntrada.setText(null);
+                        txtCodigoEntrada.setText(null);
+
+                    }
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaEntrada.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    }
+    private void deletarEntrada() {
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a remoção da Entrada? " + txtValorEntrada.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
+            String sql = "delete from entrada where idEntrada = ?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtIdEntrada.getText());
+                int rowsAffected = pst.executeUpdate();
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Entrada Excluida com Sucesso!");
+                    txtIdEntrada.setText(null);
+                    txtDataEntrada.setText(null);
+                    txtDescEntrada.setText(null);
+                    txtValorEntrada.setText(null);
+                    txtCodigoEntrada.setText(null);
+                    btnAdicionaEntrada.setEnabled(true);
+                    txtPesquisaEntrada.requestFocus();
+                }
+            } catch (Exception e) {
+            }
+        }
+
     }
 }

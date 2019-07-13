@@ -17,13 +17,13 @@ import javax.swing.JOptionPane;
  * @author edilson
  */
 public class TelaPrincipal extends javax.swing.JFrame {
- Connection conexao = null;
+
+    Connection conexao = null;
 
     // Classe de apoio para o banco de dados
- 
     public TelaPrincipal() {
         initComponents();
-       
+
     }
 
     /**
@@ -84,6 +84,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuInicio.setText("Inicio");
 
         menuCaixa.setText("Caixa");
+        menuCaixa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuCaixaActionPerformed(evt);
+            }
+        });
 
         menuCaixaEntrada.setText("Entrada");
         menuCaixaEntrada.addActionListener(new java.awt.event.ActionListener() {
@@ -165,11 +170,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(DesktopPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(lblUsuario)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(DesktopPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(lblUsuario)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -178,27 +183,33 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuCaixaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCaixaEntradaActionPerformed
+        new TelaEntrada().lblFormatoData.setText("Foramato da Data: Ano-Mes-Dia");
+        new TelaEntrada().lblFormatoData.setVisible(true);
+
         cadastrarEntrada();
+
+        
+
     }//GEN-LAST:event_menuCaixaEntradaActionPerformed
 
     private void menuCaixaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCaixaSaidaActionPerformed
         new TelaSaida().lblFormatoData.setText("Foramato da Data: Ano-Mes-Dia");
         new TelaSaida().lblFormatoData.setVisible(true);
-        
+
         cadastrarSaida();
     }//GEN-LAST:event_menuCaixaSaidaActionPerformed
 
     private void menuCaixaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCaixaCategoriaActionPerformed
-       new TelaCadastroCategoria().setVisible(true);
-     //  this.setVisible(false);
+        new TelaCadastroCategoria().setVisible(true);
+        //  this.setVisible(false);
     }//GEN-LAST:event_menuCaixaCategoriaActionPerformed
 
     private void menuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUsuariosActionPerformed
-      adicionarUsuario();
+        adicionarUsuario();
     }//GEN-LAST:event_menuUsuariosActionPerformed
 
     private void menuLogoutFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLogoutFecharActionPerformed
-         int fechar = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja Encerrar o Programa?", "Atenção", JOptionPane.YES_NO_OPTION);
+        int fechar = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja Encerrar o Programa?", "Atenção", JOptionPane.YES_NO_OPTION);
         if (fechar == JOptionPane.YES_OPTION) {
             //encerra o sistema
             System.exit(0);
@@ -206,16 +217,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuLogoutFecharActionPerformed
 
     private void menuLogoutSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLogoutSairActionPerformed
-         int sair = JOptionPane.showConfirmDialog(null,"Tem certeza que deseja sair?",
-                "Atenção",JOptionPane.YES_NO_OPTION);
-        
+        int sair = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?",
+                "Atenção", JOptionPane.YES_NO_OPTION);
+
         if (sair == JOptionPane.YES_OPTION) {
-           this.dispose();
+            this.dispose();
             TelaLogin login = new TelaLogin();
 
             login.setVisible(true);
         }
     }//GEN-LAST:event_menuLogoutSairActionPerformed
+
+    private void menuCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCaixaActionPerformed
+       TelaPrincipal principal = new TelaPrincipal();
+       principal.setVisible(true);
+       
+    }//GEN-LAST:event_menuCaixaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -271,7 +288,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void cadastrarEntrada() {
+        
         TelaEntrada telaEntrada = new TelaEntrada();
+        telaEntrada.btnAlterarEntrada.setEnabled(false);
+        telaEntrada.btnDeletaEntrada.setEnabled(false);
         telaEntrada.setVisible(true);
         DesktopPrincipal.add(telaEntrada);
     }
@@ -283,9 +303,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     private void adicionarUsuario() {
-      TelaUsuarios telaUsuario = new TelaUsuarios();
-      telaUsuario.setVisible(true);
-      DesktopPrincipal.add(telaUsuario);
+        TelaUsuarios telaUsuario = new TelaUsuarios();
+        telaUsuario.setVisible(true);
+        DesktopPrincipal.add(telaUsuario);
     }
 
 }
