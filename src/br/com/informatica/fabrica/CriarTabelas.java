@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 public class CriarTabelas {
 
     static String driver = "com.mysql.jdbc.Driver";
-   static String host, porta, user, senha;
+    static String host, porta, user, senha;
 
     static public boolean criarBanco() {
         boolean foiCriado = false;
@@ -72,7 +72,7 @@ public class CriarTabelas {
                     System.out.println(linha + "\n");
                     cont++;
                 }
-               //   conexaoServidor(host, porta, user, senha);
+                //   conexaoServidor(host, porta, user, senha);
             } else {
                 JOptionPane.showMessageDialog(null, "Arquivos de configuraçao nao encontrado", "Atencao", 0);
             }
@@ -88,39 +88,6 @@ public class CriarTabelas {
         }
         return foiCriado;
     }
-
-//    static protected boolean conexaoServidor(String Servidor, String Porta, String usuario, String Senha) {
-//        // int cont = 0;
-//        boolean conectar = false;
-//        String SERVIDOR = Servidor;
-//        String PORTA_CONEXAO = Porta;
-//        String USUARIO = usuario;
-//        String SENHA = Senha;
-//
-//        //  compara as variaveis acima com as variaveis que estão dentro do mysql descrito no caminho abaixo
-//        try {
-//            Class.forName(driver);
-//            conexao = DriverManager.getConnection("jdbc:mysql://" + SERVIDOR + ":" + PORTA_CONEXAO + "",
-//                    USUARIO, SENHA);
-//            conectar = true;
-//        } catch (ClassNotFoundException Fonte) {
-//            JOptionPane.showMessageDialog(null, "Driver nao localizado");
-//        } catch (SQLException e) {
-//            // JOptionPane.showMessageDialog(null, e);
-//        }
-//        if (conectar) {
-//            System.out.println("conexao bem sucedida");
-//            criarBanco();
-//            //  conectarDataBase();
-//        } else {
-//            System.out.println("conexao MAL suceddida");
-//            JOptionPane.showMessageDialog(null, "Não Houve Conexao com o Banco", "Erro", 0);
-//            JOptionPane.showMessageDialog(null, "1-Verifique usuario e senha, \n2-Verifique se o Servidor Mysql está ligado \n3-Verifique a Conexao de rede", "Mensagem", 1);
-//            new TelaLogin().setVisible(true);
-//        }
-//        return conectar;
-//
-//    }
 
     static public boolean conectarDataBase(String Servidor, String Porta, String usuario, String Senha) {
         boolean conectado = false;
@@ -145,6 +112,9 @@ public class CriarTabelas {
             criarTabelas.tabelaEntrada();
             criarTabelas.tabelaSaida();
             criarTabelas.tabelaUsuario();
+            criarTabelas.tabelaCaixa();
+            criarTabelas.tabelaCategoria();
+
             //se a tabela Usuarios não existir, ela será criada, se existir , passa pra linha de baixo e exibe a tela de login
             TelaLogin login = new TelaLogin();
             login.setVisible(true);
@@ -172,8 +142,46 @@ public class CriarTabelas {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
         }
+         if (foiCriado) {
+            verificaCategoria();
+        }
         return foiCriado;
-
+       
+    }
+    public void verificaCategoria(){
+        boolean verificado = false;
+        PreparedStatement pst = null;
+        ResultSet result = null;
+        String sql = "SELECT * FROM categoria";
+        try {
+            pst = conexao.prepareStatement(sql);
+            result = pst.executeQuery();
+            if (!result.next()) {
+                inserirCategoria();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Conferi", 1);
+        } 
+    }
+    public void inserirCategoria(){
+         PreparedStatement stm = null;
+        String sql = "insert into categoria(codCategoria, descricao, operacao)"
+                + " VALUES('10', 'Entrada', 'ENTRADA')" 
+                + ",('100', 'Pagto Agua', 'SAIDA') " 
+                + ",('200', 'Pagto Energia', 'SAIDA') " 
+                + ",('300', 'Pagto Internet/Telefone', 'SAIDA') "
+                +", ('400', 'Pagto Aluguel', 'SAIDA')" 
+                +", ('500', 'Supermercado', 'SAIDA')"
+                +", ('600', 'Gastos Extras', 'SAIDA')"
+                +", ('700', 'Sangria', 'SAIDA')";
+        try {
+            stm = conexao.prepareStatement(sql);
+                stm.execute();
+            //  atualizarAdmin();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+        }
+        
     }
 
     static public boolean tabelaEntrada() {
@@ -280,4 +288,50 @@ public class CriarTabelas {
         }
     }
 
+    private void tabelaCaixa() {
+        PreparedStatement stm = null;
+        boolean foiCriado = false;
+        String sql = " CREATE TABLE IF NOT EXISTS caixa ("
+                + "  idCaixa int(11) NOT NULL AUTO_INCREMENT, "
+                + "  totalEntrada decimal(10,2) DEFAULT NULL, "
+                + "  totalSaida decimal(10,2) DEFAULT NULL, "
+                + "  saldo decimal(10,2) DEFAULT NULL, "
+                + "  PRIMARY KEY (idCaixa) "
+                + ") ENGINE=InnoDB";
+         try {
+            stm = conexao.prepareStatement(sql);
+            stm.execute();
+           foiCriado = true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
+        }
+         if (foiCriado) {
+            verificaCaixa();
+        }
+    }
+    public void verificaCaixa(){
+        PreparedStatement pst = null;
+        ResultSet result = null;
+        String sql = "select * from caixa";
+        try {
+            pst = conexao.prepareStatement(sql);
+            result = pst.executeQuery();
+            if (!result.next()) {
+                inserirCaixa();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Conferi", 1);
+        }
+    }
+    public void inserirCaixa(){
+        PreparedStatement stm = null;
+        String sql = "insert into caixa(totalEntrada,totalSaida,saldo)VALUES('0','0','0')";
+        try {
+            stm = conexao.prepareStatement(sql);
+            stm.execute();
+            //  atualizarAdmin();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+        }
+    }
 }
