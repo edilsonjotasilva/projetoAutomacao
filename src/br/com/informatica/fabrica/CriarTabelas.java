@@ -114,6 +114,7 @@ public class CriarTabelas {
             criarTabelas.tabelaUsuario();
             criarTabelas.tabelaCaixa();
             criarTabelas.tabelaCategoria();
+            criarTabelas.verificarTriggers();
 
             //se a tabela Usuarios não existir, ela será criada, se existir , passa pra linha de baixo e exibe a tela de login
             TelaLogin login = new TelaLogin();
@@ -142,13 +143,14 @@ public class CriarTabelas {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
         }
-         if (foiCriado) {
+        if (foiCriado) {
             verificaCategoria();
         }
         return foiCriado;
-       
+
     }
-    public void verificaCategoria(){
+
+    public void verificaCategoria() {
         boolean verificado = false;
         PreparedStatement pst = null;
         ResultSet result = null;
@@ -161,27 +163,28 @@ public class CriarTabelas {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Conferi", 1);
-        } 
+        }
     }
-    public void inserirCategoria(){
-         PreparedStatement stm = null;
+
+    public void inserirCategoria() {
+        PreparedStatement stm = null;
         String sql = "insert into categoria(codCategoria, descricao, operacao)"
-                + " VALUES('10', 'Entrada', 'ENTRADA')" 
-                + ",('100', 'Pagto Agua', 'SAIDA') " 
-                + ",('200', 'Pagto Energia', 'SAIDA') " 
+                + " VALUES('10', 'Entrada', 'ENTRADA')"
+                + ",('100', 'Pagto Agua', 'SAIDA') "
+                + ",('200', 'Pagto Energia', 'SAIDA') "
                 + ",('300', 'Pagto Internet/Telefone', 'SAIDA') "
-                +", ('400', 'Pagto Aluguel', 'SAIDA')" 
-                +", ('500', 'Supermercado', 'SAIDA')"
-                +", ('600', 'Gastos Extras', 'SAIDA')"
-                +", ('700', 'Sangria', 'SAIDA')";
+                + ", ('400', 'Pagto Aluguel', 'SAIDA')"
+                + ", ('500', 'Supermercado', 'SAIDA')"
+                + ", ('600', 'Gastos Extras', 'SAIDA')"
+                + ", ('700', 'Sangria', 'SAIDA')";
         try {
             stm = conexao.prepareStatement(sql);
-                stm.execute();
+            stm.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
         }
-        
+
     }
 
     static public boolean tabelaEntrada() {
@@ -189,7 +192,7 @@ public class CriarTabelas {
         PreparedStatement stm = null;
         String sql = "CREATE TABLE IF NOT EXISTS entrada ("
                 + " idEntrada int(11) NOT NULL AUTO_INCREMENT , "
-                + " ataEntrada date NOT NULL , "
+                + " dataEntrada date NOT NULL , "
                 + " descEntrada varchar(45) NOT NULL , "
                 + " valorEntrada int(11) NOT NULL ,"
                 + " categoria_codCategoria int(11) NOT NULL , "
@@ -298,18 +301,19 @@ public class CriarTabelas {
                 + "  saldo decimal(10,2) DEFAULT NULL, "
                 + "  PRIMARY KEY (idCaixa) "
                 + ") ENGINE=InnoDB";
-         try {
+        try {
             stm = conexao.prepareStatement(sql);
             stm.execute();
-           foiCriado = true;
+            foiCriado = true;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
         }
-         if (foiCriado) {
+        if (foiCriado) {
             verificaCaixa();
         }
     }
-    public void verificaCaixa(){
+
+    public void verificaCaixa() {
         PreparedStatement pst = null;
         ResultSet result = null;
         String sql = "select * from caixa";
@@ -323,7 +327,8 @@ public class CriarTabelas {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Conferi", 1);
         }
     }
-    public void inserirCaixa(){
+
+    public void inserirCaixa() {
         PreparedStatement stm = null;
         String sql = "insert into caixa(totalEntrada,totalSaida,saldo)VALUES('0','0','0')";
         try {
@@ -334,4 +339,104 @@ public class CriarTabelas {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
         }
     }
+
+    public void verificarTriggers() {
+
+        PreparedStatement pst = null;
+        ResultSet result = null;
+        String sql = "SHOW triggers";
+        try {
+            pst = conexao.prepareStatement(sql);
+            result = pst.executeQuery();
+            if (!result.next()) {
+                criarTriggersEntradaInsert();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+        }
+    }
+
+    public void criarTriggersEntradaInsert() {
+        boolean foiCriado = false;
+        PreparedStatement stm = null;
+        String sql = "CREATE TRIGGER `atualizaCxEntradaInsert` BEFORE INSERT ON `entrada` FOR EACH ROW BEGIN\n"
+                + "update caixa set totalEntrada = totalEntrada + new.valorEntrada;\n"
+                + "update caixa set saldo = totalEntrada - totalSaida;\n"
+                + "END";
+        try {
+            stm = conexao.prepareStatement(sql);
+            stm.execute();
+            //  atualizarAdmin();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+        }
+        foiCriado = true;
+        if (foiCriado) {
+            criarTriggersEntradaUpdate();
+        }
+
+    }
+
+    private void criarTriggersEntradaUpdate() {
+        boolean foiCriado = false;
+        PreparedStatement stm = null;
+        String sql = "CREATE TRIGGER `atualizaCxEntradaUpdate` AFTER UPDATE ON `entrada` FOR EACH ROW BEGIN\n"
+                + "if new.valorEntrada <> old.valorEntrada then \n"
+                + "update caixa set totalEntrada = totalEntrada + (new.valorEntrada - old.valorEntrada);\n"
+                + "update caixa set saldo = totalEntrada - totalSaida;\n"
+                + "end if;\n"
+                + "END";
+        try {
+            stm = conexao.prepareStatement(sql);
+            stm.execute();
+            //  atualizarAdmin();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+        }
+        foiCriado = true;
+        if (foiCriado) {
+            criarTriggersSaidaInsert();
+        }
+
+    }
+
+    public void criarTriggersSaidaInsert() {
+        boolean foiCriado = false;
+        PreparedStatement stm = null;
+        String sql = "CREATE TRIGGER `atualizaCxSaidaInsert` BEFORE INSERT ON `saida` FOR EACH ROW BEGIN\n"
+                + "update caixa set totalSaida = totalSaida + new.valorSaida;\n"
+                + "update caixa set saldo = totalEntrada - totalSaida;\n"
+                + "END";
+        try {
+            stm = conexao.prepareStatement(sql);
+            stm.execute();
+            //  atualizarAdmin();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+        }
+        foiCriado = true;
+        if (foiCriado) {
+            criarTriggersSaidaUpdate();
+        }
+    }
+
+    public void criarTriggersSaidaUpdate() {
+
+        PreparedStatement stm = null;
+        String sql = "CREATE TRIGGER `atualizaCxSaidaUpdate` BEFORE UPDATE ON `saida` FOR EACH ROW BEGIN\n"
+                + "if new.valorSaida <> old.valorSaida then \n"
+                + "update caixa set totalSaida = totalSaida + (new.valorSaida - old.valorSaida);\n"
+                + "update caixa set saldo = totalEntrada - totalSaida;\n"
+                + "end if;\n"
+                + "END";
+        try {
+            stm = conexao.prepareStatement(sql);
+            stm.execute();
+            //  atualizarAdmin();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+        }
+
+    }
+
 }
