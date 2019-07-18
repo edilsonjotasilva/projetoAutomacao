@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
@@ -26,6 +27,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     static PreparedStatement pst = null;
     static ResultSet rs = null;
     Connection conexao = null;
+    private JFormattedTextField.AbstractFormatterFactory aff;
 
     public TelaSaida() {
         initComponents();
@@ -36,14 +38,13 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtDataSaida = new javax.swing.JTextField();
         txtDescSaida = new javax.swing.JTextField();
         txtValorSaida = new javax.swing.JTextField();
         txtCodCategoriaSaida = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         btnAlterarSaida = new javax.swing.JButton();
         btnExcluirSaida = new javax.swing.JButton();
-        btnImprimirEntrada = new javax.swing.JButton();
+        btnImprimirSaida = new javax.swing.JButton();
         btnAdicionarSaida = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -64,6 +65,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         txtPesqDescSaida = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        txtDataSaida = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -95,7 +97,12 @@ public class TelaSaida extends javax.swing.JInternalFrame {
             }
         });
 
-        btnImprimirEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora.png"))); // NOI18N
+        btnImprimirSaida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora.png"))); // NOI18N
+        btnImprimirSaida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirSaidaActionPerformed(evt);
+            }
+        });
 
         btnAdicionarSaida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/create.png"))); // NOI18N
         btnAdicionarSaida.setToolTipText("Adicionar Saida");
@@ -117,7 +124,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnExcluirSaida)
                 .addGap(27, 27, 27)
-                .addComponent(btnImprimirEntrada)
+                .addComponent(btnImprimirSaida)
                 .addContainerGap(85, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -127,7 +134,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAlterarSaida)
                     .addComponent(btnExcluirSaida)
-                    .addComponent(btnImprimirEntrada)
+                    .addComponent(btnImprimirSaida)
                     .addComponent(btnAdicionarSaida))
                 .addGap(24, 24, 24))
         );
@@ -223,7 +230,6 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         );
 
         lblFormatoData.setForeground(new java.awt.Color(255, 0, 0));
-        lblFormatoData.setText("texto para correcao");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -327,15 +333,16 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel3))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtIdSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtDataSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lblFormatoData))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(txtValorSaida, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(txtCodCategoriaSaida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE))
-                                    .addComponent(txtDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtIdSaida, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                                            .addComponent(txtDataSaida))
+                                        .addGap(10, 10, 10)
+                                        .addComponent(lblFormatoData))))
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -356,9 +363,9 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                         .addGap(26, 26, 26)
                         .addComponent(txtIdSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtDataSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblFormatoData))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblFormatoData)
+                            .addComponent(txtDataSaida, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -415,6 +422,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         lblFormatoData.setText("Formato Data: Ano-Mes-Dia: Ex. 2019-01-01");
         btnAdicionarSaida.setEnabled(false);
         btnAlterarSaida.setEnabled(true);
+        
         setarCamposSaida();
     }//GEN-LAST:event_tblSaidaMouseClicked
 
@@ -450,12 +458,20 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdSaidaActionPerformed
 
+    private void btnImprimirSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirSaidaActionPerformed
+        new TelaRelatorioSaida().txtRelatorioDataInicial.setText("01072019");
+     
+       new TelaRelatorioSaida().txtRelatorioDataFinal.setText("15072019");
+        new TelaRelatorioSaida().setVisible(true);
+      
+    }//GEN-LAST:event_btnImprimirSaidaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarSaida;
     private javax.swing.JButton btnAlterarSaida;
     private javax.swing.JButton btnExcluirSaida;
-    private javax.swing.JButton btnImprimirEntrada;
+    protected javax.swing.JButton btnImprimirSaida;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -511,6 +527,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 Date anoCorrente = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
                 String dataFormatada = sdf.format(anoCorrente);
+                JOptionPane.showMessageDialog(null, "Data Formatada tela saida: "+ dataFormatada);
                 String sql = "INSERT INTO saida (dataSaida,descSaida,valorSaida,categoria_codCategoria) VALUES (?, ?, ?, ?)";
 
                 pst = conexao.prepareStatement(sql);//---- 13091968

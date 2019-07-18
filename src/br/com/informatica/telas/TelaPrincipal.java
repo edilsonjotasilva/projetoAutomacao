@@ -10,6 +10,8 @@ import static br.com.informatica.fabrica.CriarTabelas.inserirAdmin;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,7 +25,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // Classe de apoio para o banco de dados
     public TelaPrincipal() {
         initComponents();
-
+        // o codigo abaixo verifica pagamentos em atraso
+  
     }
 
     /**
@@ -46,6 +49,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuCaixaCategoria = new javax.swing.JMenuItem();
         menuUsuarios = new javax.swing.JMenuItem();
         menuRelatorio = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         menuSobre = new javax.swing.JMenu();
         menuLogout = new javax.swing.JMenu();
         menuLogoutFechar = new javax.swing.JMenuItem();
@@ -129,6 +134,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menuRelatorio.setText("Relatorio");
         menuRelatorio.setEnabled(false);
+
+        jMenuItem1.setText("Ralatorio de Saida");
+        menuRelatorio.add(jMenuItem1);
+
+        jMenuItem2.setText("Relatorio de Entrada");
+        menuRelatorio.add(jMenuItem2);
+
         jMenuBar1.add(menuRelatorio);
 
         menuSobre.setText("Sobre");
@@ -188,7 +200,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         cadastrarEntrada();
 
-        
 
     }//GEN-LAST:event_menuCaixaEntradaActionPerformed
 
@@ -229,9 +240,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuLogoutSairActionPerformed
 
     private void menuCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCaixaActionPerformed
-       TelaPrincipal principal = new TelaPrincipal();
-       principal.setVisible(true);
-       
+        TelaPrincipal principal = new TelaPrincipal();
+        principal.setVisible(true);
+
     }//GEN-LAST:event_menuCaixaActionPerformed
 
     /**
@@ -273,6 +284,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JDesktopPane DesktopPrincipal;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     protected javax.swing.JLabel lblUsuario;
     private javax.swing.JMenu menuCaixa;
     private javax.swing.JMenuItem menuCaixaCategoria;
@@ -288,7 +301,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void cadastrarEntrada() {
-        
+
         TelaEntrada telaEntrada = new TelaEntrada();
         telaEntrada.btnAlterarEntrada.setEnabled(false);
         telaEntrada.btnDeletaEntrada.setEnabled(false);

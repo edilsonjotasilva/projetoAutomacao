@@ -139,37 +139,6 @@ public class Conexao {
         
     }
 
-//    static public boolean conectarDataBase(String Servidor, String Porta, String usuario, String Senha) {
-//        boolean conectado = false;
-//        String SERVIDOR = Servidor;
-//        String PORTA_CONEXAO = Porta;
-//        String USUARIO = usuario;
-//        String SENHA = Senha;
-//        PreparedStatement stm = null;
-//        try {
-//            Class.forName(driver);
-//            conexao = DriverManager.getConnection("jdbc:mysql://" + SERVIDOR + ":" + PORTA_CONEXAO
-//                    + "/imobiliaria", USUARIO, SENHA);
-//            conectado = true;
-//        } catch (ClassNotFoundException Fonte) {
-//            JOptionPane.showMessageDialog(null, "Driver nao localizado");
-//        } catch (Exception e) {
-//        }
-//        if (conectado) {
-//            //se a tabela Produtos não existir, ela será criada, se existir pula pra tabela Usuarios
-//            CriarTabelas criarTabelas = new CriarTabelas();
-//            criarTabelas.tabelaCategoria();                               
-//            criarTabelas.tabelaEntrada();
-//            criarTabelas.tabelaSaida();
-//            criarTabelas.tabelaUsuario();
-//            //se a tabela Usuarios não existir, ela será criada, se existir , passa pra linha de baixo e exibe a tela de login
-//            TelaLogin login = new TelaLogin();
-//            login.setVisible(true);
-//            //  new TelaPrincipalProdutos().setVisible(true);
-//            //  fechaConexao();
-//        }
-//        return conectado;
-//    }
     static public void fechaConexao() {
         try {
             conexao.close();

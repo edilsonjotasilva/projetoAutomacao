@@ -47,17 +47,19 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtIdSaida" alignment="0" min="-2" pref="154" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="txtDataSaida" min="-2" pref="154" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="lblFormatoData" min="-2" max="-2" attributes="0"/>
-                                  </Group>
                                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                       <Component id="txtValorSaida" alignment="0" max="32767" attributes="0"/>
                                       <Component id="txtCodCategoriaSaida" alignment="0" pref="154" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="txtDescSaida" alignment="0" min="-2" pref="399" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="txtIdSaida" pref="154" max="32767" attributes="0"/>
+                                          <Component id="txtDataSaida" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                      <Component id="lblFormatoData" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                           <Component id="jPanel1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -87,9 +89,9 @@
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="txtIdSaida" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtDataSaida" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblFormatoData" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblFormatoData" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtDataSaida" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtDescSaida" min="-2" max="-2" attributes="0"/>
@@ -119,8 +121,6 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="txtDataSaida">
-    </Component>
     <Component class="javax.swing.JTextField" name="txtDescSaida">
     </Component>
     <Component class="javax.swing.JTextField" name="txtValorSaida">
@@ -146,7 +146,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnExcluirSaida" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                  <Component id="btnImprimirEntrada" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnImprimirSaida" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="85" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -158,7 +158,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnAlterarSaida" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnExcluirSaida" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnImprimirEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnImprimirSaida" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnAdicionarSaida" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
@@ -189,12 +189,18 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirSaidaActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnImprimirEntrada">
+        <Component class="javax.swing.JButton" name="btnImprimirSaida">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/br/com/informatica/icones/impressora.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnImprimirSaidaActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="btnAdicionarSaida">
           <Properties>
@@ -372,7 +378,6 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="ff" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="texto para correcao"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -501,5 +506,7 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JTextField" name="txtDataSaida">
+    </Component>
   </SubComponents>
 </Form>
