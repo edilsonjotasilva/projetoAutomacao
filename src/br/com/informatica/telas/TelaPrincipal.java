@@ -48,6 +48,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuCaixaSaida = new javax.swing.JMenuItem();
         menuCaixaCategoria = new javax.swing.JMenuItem();
         menuUsuarios = new javax.swing.JMenuItem();
+        menuAgendamento = new javax.swing.JMenuItem();
         menuRelatorio = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -129,6 +130,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         menuInicio.add(menuUsuarios);
+
+        menuAgendamento.setText("Agendamento");
+        menuAgendamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAgendamentoActionPerformed(evt);
+            }
+        });
+        menuInicio.add(menuAgendamento);
 
         jMenuBar1.add(menuInicio);
 
@@ -245,6 +254,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_menuCaixaActionPerformed
 
+    private void menuAgendamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAgendamentoActionPerformed
+       new TelaAgendamento().setVisible(true);
+    }//GEN-LAST:event_menuAgendamentoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -287,6 +300,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     protected javax.swing.JLabel lblUsuario;
+    private javax.swing.JMenuItem menuAgendamento;
     private javax.swing.JMenu menuCaixa;
     private javax.swing.JMenuItem menuCaixaCategoria;
     private javax.swing.JMenuItem menuCaixaEntrada;

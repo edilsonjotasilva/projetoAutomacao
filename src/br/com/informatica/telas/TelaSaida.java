@@ -163,11 +163,11 @@ public class TelaSaida extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "id Categ", "Data", "Desc", "Valor", "Cod_catego"
+                "Id Saida", "Data", "Descricao", "Valor", "Codigo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -183,8 +183,21 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         jScrollPane2.setViewportView(tblSaida);
         tblSaida.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tblSaida.getColumnModel().getColumnCount() > 0) {
-            tblSaida.getColumnModel().getColumn(3).setResizable(false);
-            tblSaida.getColumnModel().getColumn(4).setResizable(false);
+            tblSaida.getColumnModel().getColumn(0).setMinWidth(40);
+            tblSaida.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tblSaida.getColumnModel().getColumn(0).setMaxWidth(60);
+            tblSaida.getColumnModel().getColumn(1).setMinWidth(60);
+            tblSaida.getColumnModel().getColumn(1).setPreferredWidth(80);
+            tblSaida.getColumnModel().getColumn(1).setMaxWidth(100);
+            tblSaida.getColumnModel().getColumn(2).setMinWidth(250);
+            tblSaida.getColumnModel().getColumn(2).setPreferredWidth(300);
+            tblSaida.getColumnModel().getColumn(2).setMaxWidth(320);
+            tblSaida.getColumnModel().getColumn(3).setMinWidth(50);
+            tblSaida.getColumnModel().getColumn(3).setPreferredWidth(70);
+            tblSaida.getColumnModel().getColumn(3).setMaxWidth(90);
+            tblSaida.getColumnModel().getColumn(4).setMinWidth(40);
+            tblSaida.getColumnModel().getColumn(4).setPreferredWidth(50);
+            tblSaida.getColumnModel().getColumn(4).setMaxWidth(80);
         }
 
         jLabel7.setText("Pesquisar Saidas");

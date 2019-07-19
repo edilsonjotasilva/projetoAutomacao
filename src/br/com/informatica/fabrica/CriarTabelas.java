@@ -114,6 +114,7 @@ public class CriarTabelas {
             criarTabelas.tabelaUsuario();
             criarTabelas.tabelaCaixa();
             criarTabelas.tabelaCategoria();
+            criarTabelas.tabelaAgendaCompromisso();
             criarTabelas.verificarTriggers();
 
             //se a tabela Usuarios não existir, ela será criada, se existir , passa pra linha de baixo e exibe a tela de login
@@ -149,6 +150,30 @@ public class CriarTabelas {
         return foiCriado;
 
     }
+     private boolean tabelaAgendaCompromisso() {
+         boolean foiCriado = false;
+        PreparedStatement stm = null;
+       String sql = "CREATE TABLE IF NOT EXISTS agendaCompromisso ("
+               +" codAgenda INT NOT NULL AUTO_INCREMENT,"
+               +"descAgenda VARCHAR(50) NOT NULL ,"
+               +" valorAgenda DECIMAL(10,2) NULL ,"
+               +" dataAgenda DATE NOT NULL,"
+               +" situacaoAgenda VARCHAR(50) NOT NULL,"
+               +" PRIMARY KEY (codAgenda)"
+               + ")COLLATE='utf8mb4_0900_ai_ci'";
+         try {
+            stm = conexao.prepareStatement(sql);
+            stm.execute();
+            foiCriado = true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
+        }
+        if (foiCriado) {
+            verificaCategoria();
+        }
+        return foiCriado;
+        }
+
 
     public void verificaCategoria() {
         boolean verificado = false;
@@ -439,4 +464,5 @@ public class CriarTabelas {
 
     }
 
+   
 }
