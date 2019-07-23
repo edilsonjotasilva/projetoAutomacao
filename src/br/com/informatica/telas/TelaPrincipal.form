@@ -77,7 +77,7 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="menuAgendaAgendamento">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Agendamento"/>
+                    <Property name="text" type="java.lang.String" value="Verificar Agendamento"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuAgendaAgendamentoActionPerformed"/>

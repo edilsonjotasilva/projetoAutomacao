@@ -29,11 +29,11 @@ public class CriarTabelas {
 
     static public boolean criarBanco() {
         boolean foiCriado = false;
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         String sql = "create DATABASE IF NOT EXISTS imobiliaria";
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             foiCriado = true;
             String linha;
             //guarda o caminho nessa variavel(ArquivoConfiguracao)
@@ -95,7 +95,7 @@ public class CriarTabelas {
         String PORTA_CONEXAO = Porta;
         String USUARIO = usuario;
         String SENHA = Senha;
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         try {
             Class.forName(driver);
             conexao = DriverManager.getConnection("jdbc:mysql://" + SERVIDOR + ":" + PORTA_CONEXAO
@@ -115,6 +115,7 @@ public class CriarTabelas {
             criarTabelas.tabelaCaixa();
             criarTabelas.tabelaCategoria();
             criarTabelas.tabelaAgendaCompromisso();
+            criarTabelas.tabelaVerificaAgenda();
             criarTabelas.verificarTriggers();
 
             //se a tabela Usuarios não existir, ela será criada, se existir , passa pra linha de baixo e exibe a tela de login
@@ -128,7 +129,7 @@ public class CriarTabelas {
 
     public boolean tabelaCategoria() {
         boolean foiCriado = false;
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
 
         String sql = "CREATE TABLE IF NOT EXISTS categoria ("
                 + " codCategoria int(11) NOT NULL , "
@@ -138,8 +139,8 @@ public class CriarTabelas {
                 + " ) ENGINE=InnoDB";
 
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             foiCriado = true;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
@@ -152,7 +153,7 @@ public class CriarTabelas {
     }
      private boolean tabelaAgendaCompromisso() {
          boolean foiCriado = false;
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
        String sql = "CREATE TABLE IF NOT EXISTS agendaCompromisso ("
                +" codAgenda INT NOT NULL AUTO_INCREMENT,"
                +"descAgenda VARCHAR(50) NOT NULL ,"
@@ -162,8 +163,8 @@ public class CriarTabelas {
                +" PRIMARY KEY (codAgenda)"
                + ")COLLATE='utf8mb4_0900_ai_ci'";
          try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             foiCriado = true;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
@@ -172,6 +173,34 @@ public class CriarTabelas {
             verificaCategoria();
         }
         return foiCriado;
+        }
+     ////////////////////////////////////////////////////////////////////////
+        public void tabelaVerificaAgenda(){
+            PreparedStatement pst = null;
+            String sql = "CREATE TABLE IF NOT EXISTS verifica_agenda (" +
+"  codVerificaAgenda int(11) NOT NULL," +
+"  statusVerificaAgenda varchar(5) NOT NULL," +
+"  PRIMARY KEY (codVerificaAgenda)" +
+") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
+             try {
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
+           
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
+        }
+             inserirDadosTabelaVerificaAgenda();
+        }        
+        public void inserirDadosTabelaVerificaAgenda(){
+            PreparedStatement pst = null;
+            String sql = "INSERT IGNORE INTO `verifica_agenda` (`codVerificaAgenda`, `statusVerificaAgenda`) VALUES(1, 'SIM')";
+            try {
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
+           
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
+        }
         }
 
 
@@ -192,7 +221,7 @@ public class CriarTabelas {
     }
 
     public void inserirCategoria() {
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         String sql = "insert into categoria(codCategoria, descricao, operacao)"
                 + " VALUES('10', 'Entrada', 'ENTRADA')"
                 + ",('100', 'Pagto Agua', 'SAIDA') "
@@ -203,8 +232,8 @@ public class CriarTabelas {
                 + ", ('600', 'Gastos Extras', 'SAIDA')"
                 + ", ('700', 'Sangria', 'SAIDA')";
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
@@ -214,7 +243,7 @@ public class CriarTabelas {
 
     static public boolean tabelaEntrada() {
         boolean foiCriado = false;
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         String sql = "CREATE TABLE IF NOT EXISTS entrada ("
                 + " idEntrada int(11) NOT NULL AUTO_INCREMENT , "
                 + " dataEntrada date NOT NULL , "
@@ -227,8 +256,8 @@ public class CriarTabelas {
                 + " ) ENGINE=InnoDB";
 
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             foiCriado = true;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
@@ -239,7 +268,7 @@ public class CriarTabelas {
 
     static public boolean tabelaSaida() {
         boolean foiCriado = false;
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         String sql = "  CREATE TABLE IF NOT EXISTS saida ("
                 + " idSaida int(11) NOT NULL AUTO_INCREMENT, "
                 + " dataSaida date DEFAULT NULL, "
@@ -251,8 +280,8 @@ public class CriarTabelas {
                 + " CONSTRAINT fk_saida_categoria1 FOREIGN KEY (categoria_codCategoria) REFERENCES categoria (codCategoria) "
                 + " ) ENGINE=InnoDB";
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             foiCriado = true;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
@@ -262,7 +291,7 @@ public class CriarTabelas {
 
     static public boolean tabelaUsuario() {
         boolean foiCriado = false;
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         String sql = "CREATE TABLE  IF NOT EXISTS usuarios ("
                 + " idUsuario INT( 11 ) NOT NULL AUTO_INCREMENT , "
                 + " nomeUsu VARCHAR( 50 ) NOT NULL , "
@@ -273,8 +302,8 @@ public class CriarTabelas {
                 + " PRIMARY KEY ( idUsuario ) "
                 + " )ENGINE=InnoDB";
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             foiCriado = true;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
@@ -305,11 +334,11 @@ public class CriarTabelas {
 
     ////////////////////////////////////////////////////////////
     static public void inserirAdmin() {
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         String sql = "insert into usuarios(nomeUsu,telefone,login,senha,perfil)VALUES('Administrador','99999999','admin','admin','Admin')";
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
@@ -317,7 +346,7 @@ public class CriarTabelas {
     }
 
     private void tabelaCaixa() {
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         boolean foiCriado = false;
         String sql = " CREATE TABLE IF NOT EXISTS caixa ("
                 + "  idCaixa int(11) NOT NULL AUTO_INCREMENT, "
@@ -327,8 +356,8 @@ public class CriarTabelas {
                 + "  PRIMARY KEY (idCaixa) "
                 + ") ENGINE=InnoDB";
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             foiCriado = true;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
@@ -354,11 +383,11 @@ public class CriarTabelas {
     }
 
     public void inserirCaixa() {
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         String sql = "insert into caixa(totalEntrada,totalSaida,saldo)VALUES('0','0','0')";
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
@@ -383,14 +412,14 @@ public class CriarTabelas {
 
     public void criarTriggersEntradaInsert() {
         boolean foiCriado = false;
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         String sql = "CREATE TRIGGER `atualizaCxEntradaInsert` BEFORE INSERT ON `entrada` FOR EACH ROW BEGIN\n"
                 + "update caixa set totalEntrada = totalEntrada + new.valorEntrada;\n"
                 + "update caixa set saldo = totalEntrada - totalSaida;\n"
                 + "END";
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
@@ -404,7 +433,7 @@ public class CriarTabelas {
 
     private void criarTriggersEntradaUpdate() {
         boolean foiCriado = false;
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         String sql = "CREATE TRIGGER `atualizaCxEntradaUpdate` AFTER UPDATE ON `entrada` FOR EACH ROW BEGIN\n"
                 + "if new.valorEntrada <> old.valorEntrada then \n"
                 + "update caixa set totalEntrada = totalEntrada + (new.valorEntrada - old.valorEntrada);\n"
@@ -412,8 +441,8 @@ public class CriarTabelas {
                 + "end if;\n"
                 + "END";
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
@@ -427,14 +456,14 @@ public class CriarTabelas {
 
     public void criarTriggersSaidaInsert() {
         boolean foiCriado = false;
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         String sql = "CREATE TRIGGER `atualizaCxSaidaInsert` BEFORE INSERT ON `saida` FOR EACH ROW BEGIN\n"
                 + "update caixa set totalSaida = totalSaida + new.valorSaida;\n"
                 + "update caixa set saldo = totalEntrada - totalSaida;\n"
                 + "END";
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
@@ -447,7 +476,7 @@ public class CriarTabelas {
 
     public void criarTriggersSaidaUpdate() {
 
-        PreparedStatement stm = null;
+        PreparedStatement pst = null;
         String sql = "CREATE TRIGGER `atualizaCxSaidaUpdate` BEFORE UPDATE ON `saida` FOR EACH ROW BEGIN\n"
                 + "if new.valorSaida <> old.valorSaida then \n"
                 + "update caixa set totalSaida = totalSaida + (new.valorSaida - old.valorSaida);\n"
@@ -455,8 +484,8 @@ public class CriarTabelas {
                 + "end if;\n"
                 + "END";
         try {
-            stm = conexao.prepareStatement(sql);
-            stm.execute();
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);

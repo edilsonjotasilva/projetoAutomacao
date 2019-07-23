@@ -131,7 +131,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menuAgenda.setText("Agenda");
 
-        menuAgendaAgendamento.setText("Agendamento");
+        menuAgendaAgendamento.setText("Verificar Agendamento");
         menuAgendaAgendamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuAgendaAgendamentoActionPerformed(evt);
