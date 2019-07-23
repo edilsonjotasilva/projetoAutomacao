@@ -5,13 +5,9 @@
  */
 package br.com.informatica.telas;
 
-import static br.com.informatica.dal.Conexao.conexao;
-import static br.com.informatica.fabrica.CriarTabelas.inserirAdmin;
+import static br.com.informatica.telas.TelaSaida.pst;
+import static br.com.informatica.telas.TelaSaida.rs;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -48,7 +44,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuCaixaSaida = new javax.swing.JMenuItem();
         menuCaixaCategoria = new javax.swing.JMenuItem();
         menuUsuarios = new javax.swing.JMenuItem();
-        menuAgendamento = new javax.swing.JMenuItem();
+        menuAgenda = new javax.swing.JMenu();
+        menuAgendaAgendamento = new javax.swing.JMenuItem();
+        menuAgendaRotinas = new javax.swing.JMenuItem();
         menuRelatorio = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -131,13 +129,25 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menuInicio.add(menuUsuarios);
 
-        menuAgendamento.setText("Agendamento");
-        menuAgendamento.addActionListener(new java.awt.event.ActionListener() {
+        menuAgenda.setText("Agenda");
+
+        menuAgendaAgendamento.setText("Agendamento");
+        menuAgendaAgendamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuAgendamentoActionPerformed(evt);
+                menuAgendaAgendamentoActionPerformed(evt);
             }
         });
-        menuInicio.add(menuAgendamento);
+        menuAgenda.add(menuAgendaAgendamento);
+
+        menuAgendaRotinas.setText("Rotinas de Agendamento");
+        menuAgendaRotinas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAgendaRotinasActionPerformed(evt);
+            }
+        });
+        menuAgenda.add(menuAgendaRotinas);
+
+        menuInicio.add(menuAgenda);
 
         jMenuBar1.add(menuInicio);
 
@@ -254,9 +264,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_menuCaixaActionPerformed
 
-    private void menuAgendamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAgendamentoActionPerformed
-       new TelaAgendamento().setVisible(true);
-    }//GEN-LAST:event_menuAgendamentoActionPerformed
+    private void menuAgendaRotinasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAgendaRotinasActionPerformed
+      
+        new TelaVerificarRotinasDeAgendamento().setVisible(true);
+      
+      
+    }//GEN-LAST:event_menuAgendaRotinasActionPerformed
+
+    private void menuAgendaAgendamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAgendaAgendamentoActionPerformed
+      new TelaNewAgenda().setVisible(true);
+    }//GEN-LAST:event_menuAgendaAgendamentoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -300,7 +317,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     protected javax.swing.JLabel lblUsuario;
-    private javax.swing.JMenuItem menuAgendamento;
+    private javax.swing.JMenu menuAgenda;
+    private javax.swing.JMenuItem menuAgendaAgendamento;
+    private javax.swing.JMenuItem menuAgendaRotinas;
     private javax.swing.JMenu menuCaixa;
     private javax.swing.JMenuItem menuCaixaCategoria;
     private javax.swing.JMenuItem menuCaixaEntrada;
@@ -334,5 +353,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         telaUsuario.setVisible(true);
         DesktopPrincipal.add(telaUsuario);
     }
+
+   
 
 }

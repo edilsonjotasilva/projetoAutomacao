@@ -9,13 +9,19 @@ import br.com.informatica.dal.Conexao;
 import static br.com.informatica.dal.Conexao.conexao;
 import static br.com.informatica.fabrica.CriarTabelas.inserirAdmin;
 import br.com.informatica.telas.TelaPrincipal;
+import static br.com.informatica.telas.TelaSaida.pst;
 
 import java.awt.Color;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -23,16 +29,15 @@ import javax.swing.JOptionPane;
  */
 public class TelaLogin extends javax.swing.JFrame {
 
-    Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-      
+    Connection conexao = null;
+
     public TelaLogin() {
-      
-         
+
         initComponents();
         conexao = Conexao.conexao;
-     
+
     }
 
     /**
@@ -109,8 +114,10 @@ public class TelaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginLogarActionPerformed
-       
+        verificaRotinasDeAgendamento();
         logar();
+
+
     }//GEN-LAST:event_btnLoginLogarActionPerformed
 
     /**
@@ -176,27 +183,26 @@ public void logar() {
                     principal.setVisible(true);
                     principal.menuRelatorio.setEnabled(true);
                     principal.menuUsuarios.setEnabled(true);
-                    
-                    TelaEntrada telaEntrada = new TelaEntrada(); 
+
+                    TelaEntrada telaEntrada = new TelaEntrada();
                     telaEntrada.txtPesquisaEntrada.setEditable(true);
-                   
+
 //                    telaEntrada.tblEntrada.setEnabled(true);
 //                    telaEntrada.panelAlteraEntrada.setEnabled(true);
-
                     //a linha abaixo obtem o conteudo do campo nome da tabela usuario
                     //o numero 2 corresponde a 2° coluna da tabela usuario
                     principal.lblUsuario.setText(rs.getString(2));
                     principal.lblUsuario.setForeground(Color.red);
                     //linha abaixo fecha a tela de login
                     this.dispose();
-                  //  conexao.close();
+                    //  conexao.close();
                 } else {
-                      
+
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);
                     principal.lblUsuario.setText(rs.getString(2));
                     this.dispose();
-                 
+
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario ou Senha inválido");
@@ -208,6 +214,50 @@ public void logar() {
         }
         System.out.println("Conexao status5: " + conexao);
     }
+// public void verificaRotinas(String veri){
+//     Scanner scanner = new Scanner(System.in);
+//     if (veri.equals("sim")) {
+//     String resp = "SIM";
+//     String resposta = scanner.next(resp);
+//         if (resposta.equals("SIM")) {
+//             new TelaNewAgenda().verificaAgenda();
+//         }
+//     }else{
+//        
+//          String resp = "NAO";
+//     String resposta = scanner.next(resp);
+//     }
+//   
+//     
+//     //https://www.devmedia.com.br/como-funciona-a-classe-scanner-do-java/28448
+//    
+// }
 
-   
+    private void verificaRotinasDeAgendamento() {
+
+        try {
+            String sql = "select * from verifica_agenda where codVerificaAgenda=?";
+            pst = conexao.prepareStatement(sql);
+            pst.setInt(1, 1);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+           
+                String status = rs.getString(2);
+                 
+                System.out.println("Resultado do RS: " + rs.getString(2));
+            }
+           
+            if (rs.getString(2).equals("SIM")) {
+                new TelaNewAgenda().verificaAgenda();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void verificaRotinasNoLogin(String status) {
+        String STATUS = status;
+        new TelaVerificarRotinasDeAgendamento().cboMudarStatus.setSelectedItem(STATUS);
+    }
+
 }

@@ -540,11 +540,12 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 Date anoCorrente = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
                 String dataFormatada = sdf.format(anoCorrente);
-                JOptionPane.showMessageDialog(null, "Data Formatada tela saida: "+ dataFormatada);
                 String sql = "INSERT INTO saida (dataSaida,descSaida,valorSaida,categoria_codCategoria) VALUES (?, ?, ?, ?)";
 
                 pst = conexao.prepareStatement(sql);//---- 13091968
+                //pega o dia que está no campo txtDAtaSaida
                 String dia = txtDataSaida.getText().substring(0, 2);
+                 //pega o dia atual
                 String diaAtual = dataFormatada.substring(0, 2);
                 String mes = txtDataSaida.getText().substring(2, 4);
                 String mesAtual = dataFormatada.substring(2, 4);
@@ -553,7 +554,8 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 if (Integer.parseInt(ano) != Integer.parseInt(anoAtual) || Integer.parseInt(mes) != Integer.parseInt(mesAtual)) {
                     int confirmaData = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION);
                     if (confirmaData == JOptionPane.YES_OPTION) {
-                        String dataMysql = ano + "-" + mes + "-" + dia;
+                        //inseri a data no formato do
+                        String dataMysql = ano + mes + dia;
                         pst.setString(1, dataMysql);
                         pst.setString(2, txtDescSaida.getText());
                         pst.setString(3, txtValorSaida.getText());
@@ -624,16 +626,6 @@ public class TelaSaida extends javax.swing.JInternalFrame {
             String sql = "update saida set dataSaida=?,descSaida=?,valorSaida=?,categoria_codCategoria=? where idSaida=?";
             try {
                 pst = conexao.prepareStatement(sql);//---- 13091968
-//            String dia = txtDataSaida.getText().substring(0, 2);
-//            String diaAtual = dataFormatada.substring(0, 2);
-//            String mes = txtDataSaida.getText().substring(2, 4);
-//            String mesAtual = dataFormatada.substring(2, 4);
-//            String ano = txtDataSaida.getText().substring(4);
-//            String anoAtual = dataFormatada.substring(4);
-//            if (Integer.parseInt(ano) != Integer.parseInt(anoAtual) || Integer.parseInt(mes) != Integer.parseInt(mesAtual)) {
-//                int confirma = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION);
-//                if (confirma == JOptionPane.YES_OPTION) {
-                //  String dataMysql = ano + "-" + mes + "-" + dia;
                 pst.setString(1, txtDataSaida.getText());
                 pst.setString(2, txtDescSaida.getText());
                 pst.setString(3, txtValorSaida.getText());
@@ -726,6 +718,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 pst = conexao.prepareStatement(sql);
                 pst.setString(1, txtIdSaida.getText());
                 int rowsAffected = pst.executeUpdate();
+                 System.out.println("Quantidade de linhas : "+ rowsAffected);
                 if (rowsAffected > 0) {
                     JOptionPane.showMessageDialog(null, "Saida Removido com Sucesso!");
                     txtIdSaida.setText(null);
