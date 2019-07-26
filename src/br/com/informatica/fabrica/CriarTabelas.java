@@ -27,6 +27,8 @@ public class CriarTabelas {
     static String driver = "com.mysql.jdbc.Driver";
     static String host, porta, user, senha;
 
+    // esse metodo é chamado dentro do metodo conexaoServidor da classe Conexao
+    //esse metodo cria o banco de dados imobiliaria
     static public boolean criarBanco() {
         boolean foiCriado = false;
         PreparedStatement pst = null;
@@ -36,10 +38,10 @@ public class CriarTabelas {
             pst.execute();
             foiCriado = true;
             String linha;
-            //guarda o caminho nessa variavel(ArquivoConfiguracao)
+            //busca o arquivo conexao.ini no caminho especifico e guarda na variavel ArquivoConfiguracao
             String ArquivoConfiguracao = "C:/controle/conexao.ini";
             int cont = 0;
-            //cria o arquivo conexao.ini no caminiho apontado pela variavel (ArquivoConfiguracao)
+            //cria o arquivo arq e atribui a ele o arquivo conexao.ini que está armazenado em ArquivoConfiguracao
             File arq = new File(ArquivoConfiguracao);
             // se o arquivo exite é porque o arquivo foi criado no cominho determindo
             if (arq.exists()) {
@@ -50,7 +52,7 @@ public class CriarTabelas {
                 BufferedReader leitor = new BufferedReader(reader);
 
                 while (true) {
-                    // o metodo readLine(), busca sempre a proxima linha
+                    // o metodo readLine(), busca sempre a proxima linha a cada volta do laço while
                     linha = leitor.readLine();
                     if (cont == 0) {
                         host = (linha);
@@ -72,7 +74,7 @@ public class CriarTabelas {
                     System.out.println(linha + "\n");
                     cont++;
                 }
-                //   conexaoServidor(host, porta, user, senha);
+              
             } else {
                 JOptionPane.showMessageDialog(null, "Arquivos de configuraçao nao encontrado", "Atencao", 0);
             }
@@ -83,12 +85,13 @@ public class CriarTabelas {
 
         }
         if (foiCriado) {
-            //    JOptionPane.showMessageDialog(null, "Banco: controle Criado com Sucesso!", "Parabéns", 1);
+            //    chama o metodo conectarDataBase passndo os parametros que foram extraidos do arquivo conexao.ini atraves do laço de repetição while
             conectarDataBase(host, porta, user, senha);
         }
         return foiCriado;
     }
-
+//metodo conectarDabaBase recebe os parametros que foram passados pelo metodo acima, se esses parametros estiverem de acordo
+    // com os parametrod de criação do servidor, então a conexão será feita
     static public boolean conectarDataBase(String Servidor, String Porta, String usuario, String Senha) {
         boolean conectado = false;
         String SERVIDOR = Servidor;
@@ -96,8 +99,10 @@ public class CriarTabelas {
         String USUARIO = usuario;
         String SENHA = Senha;
         PreparedStatement pst = null;
-        try {
+        try {// o driver contem o driver de conexão proprio para MYSQL
             Class.forName(driver);
+            // a conexao preparada será guradada na variavel conexao, e podera ser chamado de qualquer classe que queira fazer 
+            //conexao com o servidor de banco
             conexao = DriverManager.getConnection("jdbc:mysql://" + SERVIDOR + ":" + PORTA_CONEXAO
                     + "/imobiliaria", USUARIO, SENHA);
             conectado = true;
@@ -105,32 +110,31 @@ public class CriarTabelas {
             JOptionPane.showMessageDialog(null, "Driver nao localizado");
         } catch (Exception e) {
         }
+        //o if abaixo chama os metdos de criaçao das tabelas e trigges, alguns metodos são chamados dentro dos metodos que estão sendo chamados abaixo
         if (conectado) {
-            //se a tabela Produtos não existir, ela será criada, se existir pula pra tabela Usuarios
+            
             CriarTabelas criarTabelas = new CriarTabelas();
             criarTabelas.tabelaCategoria();
             criarTabelas.tabelaEntrada();
             criarTabelas.tabelaSaida();
             criarTabelas.tabelaUsuario();
             criarTabelas.tabelaCaixa();
-            criarTabelas.tabelaCategoria();
             criarTabelas.tabelaAgendaCompromisso();
             criarTabelas.tabelaVerificaAgenda();
             criarTabelas.verificarTriggers();
 
-            //se a tabela Usuarios não existir, ela será criada, se existir , passa pra linha de baixo e exibe a tela de login
+            //if tiver conectado chama a TelaLogin
             TelaLogin login = new TelaLogin();
             login.setVisible(true);
-            //  new TelaPrincipalProdutos().setVisible(true);
-            //  fechaConexao();
+            
         }
         return conectado;
     }
-
+//esse método foi chamado pelo metodo conectarDataBase() e depois de executado ele chamará o metdo verificaCategoria
     public boolean tabelaCategoria() {
         boolean foiCriado = false;
         PreparedStatement pst = null;
-
+        //criar a table categoria caso ela não exista
         String sql = "CREATE TABLE IF NOT EXISTS categoria ("
                 + " codCategoria int(11) NOT NULL , "
                 + " descricao varchar(60) NOT NULL , "
@@ -146,64 +150,14 @@ public class CriarTabelas {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
         }
         if (foiCriado) {
+            //chama a tabela verificaCategoria()
             verificaCategoria();
         }
         return foiCriado;
 
     }
-     private boolean tabelaAgendaCompromisso() {
-         boolean foiCriado = false;
-        PreparedStatement pst = null;
-       String sql = "CREATE TABLE IF NOT EXISTS agendaCompromisso ("
-               +" codAgenda INT NOT NULL AUTO_INCREMENT,"
-               +"descAgenda VARCHAR(50) NOT NULL ,"
-               +" valorAgenda DECIMAL(10,2) NULL ,"
-               +" dataAgenda DATE NOT NULL,"
-               +" situacaoAgenda VARCHAR(50) NOT NULL,"
-               +" PRIMARY KEY (codAgenda)"
-               + ")COLLATE='utf8mb4_0900_ai_ci'";
-         try {
-            pst = conexao.prepareStatement(sql);
-            pst.execute();
-            foiCriado = true;
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
-        }
-        if (foiCriado) {
-            verificaCategoria();
-        }
-        return foiCriado;
-        }
-     ////////////////////////////////////////////////////////////////////////
-        public void tabelaVerificaAgenda(){
-            PreparedStatement pst = null;
-            String sql = "CREATE TABLE IF NOT EXISTS verifica_agenda (" +
-"  codVerificaAgenda int(11) NOT NULL," +
-"  statusVerificaAgenda varchar(5) NOT NULL," +
-"  PRIMARY KEY (codVerificaAgenda)" +
-") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
-             try {
-            pst = conexao.prepareStatement(sql);
-            pst.execute();
-           
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
-        }
-             inserirDadosTabelaVerificaAgenda();
-        }        
-        public void inserirDadosTabelaVerificaAgenda(){
-            PreparedStatement pst = null;
-            String sql = "INSERT IGNORE INTO `verifica_agenda` (`codVerificaAgenda`, `statusVerificaAgenda`) VALUES(1, 'SIM')";
-            try {
-            pst = conexao.prepareStatement(sql);
-            pst.execute();
-           
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
-        }
-        }
-
-
+         //verifica a tabela verificaCategoria para ver se tem alguma linha inserida, se não tiver irá chamar o metodo inserirCategoria
+     // para inserir dados na tabela
     public void verificaCategoria() {
         boolean verificado = false;
         PreparedStatement pst = null;
@@ -212,6 +166,7 @@ public class CriarTabelas {
         try {
             pst = conexao.prepareStatement(sql);
             result = pst.executeQuery();
+            //se não encontrou registros chama o metodo inserirCategoria()
             if (!result.next()) {
                 inserirCategoria();
             }
@@ -219,7 +174,7 @@ public class CriarTabelas {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Conferi", 1);
         }
     }
-
+//esse metdo inseri dados na tabela categoria
     public void inserirCategoria() {
         PreparedStatement pst = null;
         String sql = "insert into categoria(codCategoria, descricao, operacao)"
@@ -240,8 +195,34 @@ public class CriarTabelas {
         }
 
     }
+     private boolean tabelaAgendaCompromisso() {
+         boolean foiCriado = false;
+        PreparedStatement pst = null;
+       String sql = "CREATE TABLE IF NOT EXISTS agendaCompromisso ("
+               +" codAgenda INT NOT NULL AUTO_INCREMENT,"
+               +"descAgenda VARCHAR(50) NOT NULL ,"
+               +" valorAgenda DECIMAL(10,2) NULL ,"
+               +" dataAgenda DATE NOT NULL,"
+               +" situacaoAgenda VARCHAR(50) NOT NULL,"
+               +" PRIMARY KEY (codAgenda)"
+               + ")COLLATE='utf8mb4_0900_ai_ci'";
+         try {
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
+            foiCriado = true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
+        }
+//        if (foiCriado) {
+//            verificaCategoria();
+//        }
+        return foiCriado;
+        }
+     ////////////////////////////////////////////////////////////////////////
 
-    static public boolean tabelaEntrada() {
+    //criar a tabelaEntrada caso ela não exista
+    //esse metdo foi chamado pelo conectarDataBase()
+        static public boolean tabelaEntrada() {
         boolean foiCriado = false;
         PreparedStatement pst = null;
         String sql = "CREATE TABLE IF NOT EXISTS entrada ("
@@ -265,8 +246,9 @@ public class CriarTabelas {
 
         return foiCriado;
     }
-
-    static public boolean tabelaSaida() {
+         //criar a tabelaSaida caso ela não exista
+    //esse metdo foi chamado pelo conectarDataBase()
+           static public boolean tabelaSaida() {
         boolean foiCriado = false;
         PreparedStatement pst = null;
         String sql = "  CREATE TABLE IF NOT EXISTS saida ("
@@ -288,8 +270,10 @@ public class CriarTabelas {
         }
         return foiCriado;
     }
-
-    static public boolean tabelaUsuario() {
+             //criar a tabelaUsuario caso ela não exista
+    //esse metdo foi chamado pelo conectarDataBase()
+           //esse metodo chama o metodo verificaUsuario para ver se tem registro na table usuario
+              static public boolean tabelaUsuario() {
         boolean foiCriado = false;
         PreparedStatement pst = null;
         String sql = "CREATE TABLE  IF NOT EXISTS usuarios ("
@@ -309,12 +293,15 @@ public class CriarTabelas {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
         }
         if (foiCriado) {
-            verificaUsuario();
+            //chama o metodo verificaUsuario 
+           verificaUsuario();
+         
         }
         return foiCriado;
     }
 
-    //verifica a tabela usuario para ver se existe algum usuario inserido, se não tiver, chama o metodo inserirAdmin, apos inserir volta para a linha 156 para exibir a telaLogin
+    //verifica a tabela usuario para ver se existe algum usuario inserido, se não tiver, chama o metodo inserirAdmin, 
+              //apos inserir volta para o metodo conectarDataBase() para chamar outros metodos
     static public void verificaUsuario() {
         boolean verificado = false;
         PreparedStatement pst = null;
@@ -335,7 +322,7 @@ public class CriarTabelas {
     ////////////////////////////////////////////////////////////
     static public void inserirAdmin() {
         PreparedStatement pst = null;
-        String sql = "insert into usuarios(nomeUsu,telefone,login,senha,perfil)VALUES('Administrador','99999999','admin','admin','Admin')";
+        String sql = "insert into `usuarios`(`nomeUsu`,`telefone`,`login`,`senha`,`perfil`)VALUES('Administrador',99999999,'admin','admin','Admin')";
         try {
             pst = conexao.prepareStatement(sql);
             pst.execute();
@@ -344,8 +331,7 @@ public class CriarTabelas {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
         }
     }
-
-    private void tabelaCaixa() {
+      private void tabelaCaixa() {
         PreparedStatement pst = null;
         boolean foiCriado = false;
         String sql = " CREATE TABLE IF NOT EXISTS caixa ("
@@ -393,6 +379,35 @@ public class CriarTabelas {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
         }
     }
+     ////////////////////////////////////////////////////////////////////////
+        public void tabelaVerificaAgenda(){
+            PreparedStatement pst = null;
+            String sql = "CREATE TABLE IF NOT EXISTS verifica_agenda (" +
+"  codVerificaAgenda int(11) NOT NULL," +
+"  statusVerificaAgenda varchar(5) NOT NULL," +
+"  PRIMARY KEY (codVerificaAgenda)" +
+") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
+             try {
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
+           
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
+        }
+             inserirDadosTabelaVerificaAgenda();
+        }        
+        public void inserirDadosTabelaVerificaAgenda(){
+            PreparedStatement pst = null;
+            //o IGNORE permite que os dados seja inseridos somente se não existirem
+            String sql = "INSERT IGNORE INTO `verifica_agenda` (`codVerificaAgenda`, `statusVerificaAgenda`) VALUES(1, 'SIM')";
+            try {
+            pst = conexao.prepareStatement(sql);
+            pst.execute();
+           
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
+        }
+        }
 
     public void verificarTriggers() {
 

@@ -10,6 +10,7 @@ import static br.com.informatica.dal.Conexao.conexao;
 import static br.com.informatica.telas.TelaEntrada.pst;
 import static br.com.informatica.telas.TelaEntrada.pst;
 import static br.com.informatica.telas.TelaEntrada.pst;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,6 +33,22 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
     Connection conexao = null;
 
     public TelaEntrada() {
+         try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         initComponents();
         conexao = Conexao.conexao;
     }
@@ -45,7 +62,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelAlteraEntrada = new javax.swing.JPanel();
+        pnlAlteraEntrada = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtPesquisaEntrada = new javax.swing.JTextField();
@@ -62,12 +79,13 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         txtDescEntrada = new javax.swing.JTextField();
         txtCodigoEntrada = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        btnAlterarEntrada = new javax.swing.JButton();
-        btnAdicionaEntrada = new javax.swing.JButton();
         btnImprimeEntrada = new javax.swing.JButton();
         btnDeletaEntrada = new javax.swing.JButton();
+        btnLimparEntrada = new javax.swing.JButton();
+        btnAlterarEntrada = new javax.swing.JButton();
+        btnAdicionaEntrada = new javax.swing.JButton();
         lblFormatoData = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        pnlCadastroEntrada = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblCategoria_Entrada = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
@@ -80,8 +98,9 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         setTitle("Cadastro de Entradas");
         setPreferredSize(new java.awt.Dimension(851, 610));
 
-        panelAlteraEntrada.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        panelAlteraEntrada.setPreferredSize(new java.awt.Dimension(639, 250));
+        pnlAlteraEntrada.setBackground(new java.awt.Color(204, 240, 240));
+        pnlAlteraEntrada.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlAlteraEntrada.setPreferredSize(new java.awt.Dimension(639, 250));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
         jLabel1.setText("Alteração de Cadastros de Entradas");
@@ -109,34 +128,34 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblEntrada);
 
-        javax.swing.GroupLayout panelAlteraEntradaLayout = new javax.swing.GroupLayout(panelAlteraEntrada);
-        panelAlteraEntrada.setLayout(panelAlteraEntradaLayout);
-        panelAlteraEntradaLayout.setHorizontalGroup(
-            panelAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAlteraEntradaLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlAlteraEntradaLayout = new javax.swing.GroupLayout(pnlAlteraEntrada);
+        pnlAlteraEntrada.setLayout(pnlAlteraEntradaLayout);
+        pnlAlteraEntradaLayout.setHorizontalGroup(
+            pnlAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAlteraEntradaLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(panelAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelAlteraEntradaLayout.createSequentialGroup()
+                    .addGroup(pnlAlteraEntradaLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(22, 22, 22)
-                        .addGroup(panelAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPesquisaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
-        panelAlteraEntradaLayout.setVerticalGroup(
-            panelAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAlteraEntradaLayout.createSequentialGroup()
+        pnlAlteraEntradaLayout.setVerticalGroup(
+            pnlAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAlteraEntradaLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(panelAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlAlteraEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtPesquisaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jLabel3.setText("Id Entrada");
@@ -148,6 +167,26 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         jLabel6.setText("Valor  Entrada");
 
         jLabel7.setText("Codigo Entrada");
+
+        txtIdEntrada.setEnabled(false);
+
+        btnImprimeEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora.png"))); // NOI18N
+        btnImprimeEntrada.setToolTipText("Imprimir");
+
+        btnDeletaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/delete.png"))); // NOI18N
+        btnDeletaEntrada.setToolTipText("Deletar");
+        btnDeletaEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletaEntradaActionPerformed(evt);
+            }
+        });
+
+        btnLimparEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/clear.png"))); // NOI18N
+        btnLimparEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparEntradaActionPerformed(evt);
+            }
+        });
 
         btnAlterarEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/update.png"))); // NOI18N
         btnAlterarEntrada.setToolTipText("Alterar");
@@ -165,48 +204,37 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
             }
         });
 
-        btnImprimeEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora.png"))); // NOI18N
-        btnImprimeEntrada.setToolTipText("Imprimir");
-
-        btnDeletaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/delete.png"))); // NOI18N
-        btnDeletaEntrada.setToolTipText("Deletar");
-        btnDeletaEntrada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeletaEntradaActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(btnAdicionaEntrada)
-                .addGap(18, 18, 18)
-                .addComponent(btnAlterarEntrada)
-                .addGap(31, 31, 31)
-                .addComponent(btnDeletaEntrada)
-                .addGap(31, 31, 31)
                 .addComponent(btnImprimeEntrada)
-                .addContainerGap(168, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(btnDeletaEntrada)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnLimparEntrada)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAlterarEntrada)
+                .addGap(0, 0, 0)
+                .addComponent(btnAdicionaEntrada))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAlterarEntrada)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnImprimeEntrada)
                     .addComponent(btnDeletaEntrada)
+                    .addComponent(btnLimparEntrada)
+                    .addComponent(btnAlterarEntrada)
                     .addComponent(btnAdicionaEntrada))
-                .addGap(32, 32, 32))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         lblFormatoData.setForeground(new java.awt.Color(255, 0, 51));
-        lblFormatoData.setText("Data Exemplo: 00012019");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlCadastroEntrada.setBackground(new java.awt.Color(204, 240, 240));
+        pnlCadastroEntrada.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         tblCategoria_Entrada.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -225,17 +253,13 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
             }
         });
         tblCategoria_Entrada.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
-        tblCategoria_Entrada.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblCategoria_EntradaMouseClicked(evt);
-            }
-        });
+        tblCategoria_Entrada.setEnabled(false);
         jScrollPane2.setViewportView(tblCategoria_Entrada);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
         jLabel8.setText("Cadastro de Entradas");
 
-        jLabel9.setText("Pesquisa Entrada");
+        jLabel9.setText("Pesquisa Categia");
 
         txtPesqDescEntrada.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -243,95 +267,95 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(jLabel8)
+        javax.swing.GroupLayout pnlCadastroEntradaLayout = new javax.swing.GroupLayout(pnlCadastroEntrada);
+        pnlCadastroEntrada.setLayout(pnlCadastroEntradaLayout);
+        pnlCadastroEntradaLayout.setHorizontalGroup(
+            pnlCadastroEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCadastroEntradaLayout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtPesqDescEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
+            .addGroup(pnlCadastroEntradaLayout.createSequentialGroup()
+                .addGroup(pnlCadastroEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlCadastroEntradaLayout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel8))
+                    .addGroup(pnlCadastroEntradaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtPesqDescEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        pnlCadastroEntradaLayout.setVerticalGroup(
+            pnlCadastroEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCadastroEntradaLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jLabel8)
                 .addGap(8, 8, 8)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlCadastroEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtPesqDescEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtIdEntrada)
-                        .addGap(509, 509, 509))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCodigoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDescEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtDataEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblFormatoData, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 231, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlCadastroEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelAlteraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlAlteraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtIdEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDataEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblFormatoData, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDescEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCodigoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 382, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelAlteraEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(pnlAlteraEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                    .addComponent(pnlCadastroEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtIdEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtDataEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFormatoData))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblFormatoData, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(txtDataEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtDescEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -343,15 +367,19 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtCodigoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(15, 15, 15))
         );
 
         setBounds(0, 0, 1008, 610);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtPesquisaEntradaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaEntradaKeyReleased
+        Color selecionado = new Color(200, 90, 40);
+        pnlAlteraEntrada.setBackground(selecionado);
+        Color naoSelecionado = new Color(204, 240, 240);
+        pnlCadastroEntrada.setBackground (naoSelecionado);
         btnAdicionaEntrada.setEnabled(false);
         btnAlterarEntrada.setEnabled(true);
         btnDeletaEntrada.setEnabled(true);
@@ -360,68 +388,27 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtPesquisaEntradaKeyReleased
 
     private void tblEntradaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEntradaMouseClicked
-        lblFormatoData.setText("Formato Data: Ano-Mes-Dia: Ex. 2019-01-01");
+        lblFormatoData.setText("<html><font color=orange ><b>Formato Data: Ano-Mes-Dia: Ex. 2019-01-01");
         btnAdicionaEntrada.setEnabled(false);
         btnAlterarEntrada.setEnabled(true);
+      
         setarCamposEntrada();
     }//GEN-LAST:event_tblEntradaMouseClicked
 
     private void btnAlterarEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarEntradaActionPerformed
         alterarEntrada();
-//        Date anoCorrente = new Date();
-//        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-//        String dataFormatada = sdf.format(anoCorrente);
-//        String sql = "update Entrada set dataEntrada=?,descEntrada=?,valorEntrada=?,categoria_codCategoria=? where idEntrada=?";
-//        try {
-//            pst = conexao.prepareStatement(sql);//---- 13091968
-//            pst.setString(1, txtDataEntrada.getText());
-//            pst.setString(2, txtDescEntrada.getText());
-//            pst.setString(3, txtValorEntrada.getText());
-//            pst.setString(4, txtCodigoEntrada.getText());
-//            pst.setString(5, txtIdEntrada.getText());
-//
-//            // validaçao dos campos obrigatórios
-//            if (txtDescEntrada.getText().isEmpty()) {
-//                JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
-//            } else if (txtValorEntrada.getText().isEmpty()) {
-//                JOptionPane.showMessageDialog(null, "Campo Valor Entrada é Obrigatório!");
-//            } else if (txtCodigoEntrada.getText().isEmpty()) {
-//                JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
-//            } else {
-//                int rowsAfected = pst.executeUpdate();
-//
-//                if (rowsAfected > 0) {
-//                    JOptionPane.showMessageDialog(null, "Entrada Alterado com sucesso!", "Entrada", 1);
-//                    txtIdEntrada.setText(null);
-//                    txtDataEntrada.setText(null);
-//                    txtDescEntrada.setText(null);
-//                    txtValorEntrada.setText(null);
-//                    txtCodigoEntrada.setText(null);
-//
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, e);
-//        }
+
     }//GEN-LAST:event_btnAlterarEntradaActionPerformed
 
-    private void tblCategoria_EntradaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategoria_EntradaMouseClicked
-        txtIdEntrada.setText(null);
-        txtDataEntrada.setText(null);
-        txtValorEntrada.setText(null);
-        btnAdicionaEntrada.setEnabled(true);
-        btnAlterarEntrada.setEnabled(false);
-
-        lblFormatoData.setText("Data: DDMMAAAA - Ex. 01012019");
-
-        setarCamposCategoria();
-    }//GEN-LAST:event_tblCategoria_EntradaMouseClicked
-
     private void txtPesqDescEntradaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesqDescEntradaKeyReleased
+        Color selecionado = new Color(200, 90, 40);
+        pnlCadastroEntrada.setBackground(selecionado);
+        Color naoSelecionado = new Color(204, 240, 240);
+        pnlAlteraEntrada.setBackground (naoSelecionado);
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         btnAdicionaEntrada.setEnabled(true);
         btnAlterarEntrada.setEnabled(false);
+        btnDeletaEntrada.setEnabled(false);
         txtIdEntrada.setText(null);
         limparTabelaEntrada();
         Date data = new Date();
@@ -434,12 +421,38 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtPesqDescEntradaKeyReleased
 
     private void btnAdicionaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionaEntradaActionPerformed
-        adicionarEntrada();
+        Integer valor = Integer.parseInt(txtValorEntrada.getText());
+        if (txtValorEntrada.getText().isEmpty() ) {
+            JOptionPane.showMessageDialog(null, "O Valor da Entrada não pode ser  igual a ZERO");
+           
+        }else if(valor == 0){
+            JOptionPane.showMessageDialog(null, "O Valor da Entrada não pode ser Nulo ");
+        }else{
+            adicionarEntrada();
+        
+        }
     }//GEN-LAST:event_btnAdicionaEntradaActionPerformed
 
     private void btnDeletaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletaEntradaActionPerformed
         deletarEntrada();
     }//GEN-LAST:event_btnDeletaEntradaActionPerformed
+
+    private void btnLimparEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparEntradaActionPerformed
+        Color naoSelecionado = new Color(204, 240, 240);
+        pnlCadastroEntrada.setBackground (naoSelecionado);
+        pnlAlteraEntrada.setBackground (naoSelecionado);
+        Date data = new Date();
+       SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+       String dataAtual = sdf.format(data);
+        btnAdicionaEntrada.setEnabled(true);
+        btnAlterarEntrada.setEnabled(false);
+        btnDeletaEntrada.setEnabled(false);
+        txtValorEntrada.setText("0.00");
+        txtDataEntrada.setText(dataAtual);
+        txtCodigoEntrada.setText(null);
+        lblFormatoData.setText("Formato Data: Ex.:01042019");
+       
+    }//GEN-LAST:event_btnLimparEntradaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -447,6 +460,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
     protected javax.swing.JButton btnAlterarEntrada;
     protected javax.swing.JButton btnDeletaEntrada;
     private javax.swing.JButton btnImprimeEntrada;
+    private javax.swing.JButton btnLimparEntrada;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -457,12 +471,12 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JLabel lblFormatoData;
-    protected javax.swing.JPanel panelAlteraEntrada;
-    private javax.swing.JTable tblCategoria_Entrada;
+    protected javax.swing.JPanel pnlAlteraEntrada;
+    private javax.swing.JPanel pnlCadastroEntrada;
+    protected javax.swing.JTable tblCategoria_Entrada;
     protected javax.swing.JTable tblEntrada;
     private javax.swing.JTextField txtCodigoEntrada;
     private javax.swing.JTextField txtDataEntrada;
@@ -474,7 +488,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void pesquisarEntrada() {
-        String sql = "select * from entrada where descEntrada LIKE ? order by dataEntrada";
+        String sql = "select * from entrada where descEntrada LIKE ? order by idEntrada desc";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, "%" + txtPesquisaEntrada.getText() + "%");
@@ -541,9 +555,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         }
     }
 
-    private void setarCamposCategoria() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+ 
 
     private void limparTabelaEntrada() {
         String sql = "select * from entrada where descEntrada = 'xx'";
@@ -559,7 +571,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
 
     private void pesquisarCategoria() {
         // String sql = "select * from categoria where descricao LIKE ? order by descricao";
-        String sql = "select * from categoria where descricao = 'Entrada'";
+        String sql = "select * from categoria where codCategoria = 10";
         try {
             pst = conexao.prepareStatement(sql);
             //    pst.setString(1, "%" + txtPesqDescEntrada.getText() + "%");
@@ -568,6 +580,16 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+    }
+      private void setarCamposCategoria() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         int setar = tblCategoria_Entrada.getSelectedRow();
+      
+        txtCodigoEntrada.setText(tblCategoria_Entrada.getModel().getValueAt(setar, 0).toString());
+        txtDescEntrada.setText(tblCategoria_Entrada.getModel().getValueAt(setar, 1).toString());
+       
+      //  txtPesquisaEntrada.requestFocus();
+        
     }
 
     private void limparTabelaCategoria() {
@@ -614,7 +636,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
                     } else if (txtValorEntrada.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Campo Valor Entrada é Obrigatório!");
                     } else if (txtCodigoEntrada.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
+                        JOptionPane.showMessageDialog(null, "Campo Codigo Entrada Valor (10) é Obrigatório!");
                     } else {
                         int rowsAfected = pst.executeUpdate();
 
@@ -641,7 +663,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
                 } else if (txtValorEntrada.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo Valor Compra é Obrigatório!");
                 } else if (txtCodigoEntrada.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
+                    JOptionPane.showMessageDialog(null, "Campo Codigo Entrada Valor (10) é Obrigatório!");
                 } else {
                     int rowsAfected = pst.executeUpdate();
 

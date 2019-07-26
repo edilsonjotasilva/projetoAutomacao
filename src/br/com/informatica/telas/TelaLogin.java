@@ -36,6 +36,8 @@ public class TelaLogin extends javax.swing.JFrame {
     public TelaLogin() {
 
         initComponents();
+        //esse codigo deve ser colocado dentro do construtor depois do initComponentes para fazer o butão login funcionar com enter
+        getRootPane().setDefaultButton(btnLoginLogar);
         conexao = Conexao.conexao;
 
     }
@@ -111,10 +113,12 @@ public class TelaLogin extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginLogarActionPerformed
         verificaRotinasDeAgendamento();
+        
         logar();
 
 
@@ -191,16 +195,15 @@ public void logar() {
 //                    telaEntrada.panelAlteraEntrada.setEnabled(true);
                     //a linha abaixo obtem o conteudo do campo nome da tabela usuario
                     //o numero 2 corresponde a 2° coluna da tabela usuario
-                    principal.lblUsuario.setText(rs.getString(2));
-                    principal.lblUsuario.setForeground(Color.red);
+               
+                    principal.lblUsuario.setText("<html><font color=red><u>"+rs.getString(2));
                     //linha abaixo fecha a tela de login
                     this.dispose();
-                    //  conexao.close();
-                } else {
+                    } else {
 
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);
-                    principal.lblUsuario.setText(rs.getString(2));
+                    principal.lblUsuario.setText("<html><color=blue><u>"+rs.getString(2));
                     this.dispose();
 
                 }

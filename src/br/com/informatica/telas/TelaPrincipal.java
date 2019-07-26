@@ -5,10 +5,12 @@
  */
 package br.com.informatica.telas;
 
-import static br.com.informatica.telas.TelaSaida.pst;
-import static br.com.informatica.telas.TelaSaida.rs;
+import br.com.informatica.dal.SwingApplication;
+import com.sun.java.swing.plaf.windows.resources.windows;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -20,6 +22,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Classe de apoio para o banco de dados
     public TelaPrincipal() {
+         try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         initComponents();
         // o codigo abaixo verifica pagamentos em atraso
   
@@ -83,7 +101,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGap(0, 610, Short.MAX_VALUE)
         );
 
-        lblUsuario.setText("Usuario");
+        lblUsuario.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
+        lblUsuario.setText("<html><u>Usuario");
 
         menuInicio.setText("Inicio");
 
@@ -194,9 +213,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DesktopPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(102, 102, 102)
-                .addComponent(lblUsuario)
-                .addGap(111, 111, 111))
+                .addGap(50, 50, 50)
+                .addComponent(lblUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addGap(31, 31, 31))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,8 +224,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(DesktopPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(75, 75, 75)
-                        .addComponent(lblUsuario)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(1283, 699));
@@ -284,24 +303,30 @@ public class TelaPrincipal extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+       
         //</editor-fold>
-
+//   try {
+//       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//           if ("Windows".equals(info.getName())) {
+//               javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//               break;               
+//           }           
+//       }
+//    } 
+//    catch (ClassNotFoundException ex) {
+//       java.util.logging.Logger.getLogger(windows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//    }
+//    catch (InstantiationException ex) {
+//       java.util.logging.Logger.getLogger(windows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//    }
+//   catch (IllegalAccessException ex) {
+//       java.util.logging.Logger.getLogger(windows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//    }
+//       catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//       java.util.logging.Logger.getLogger(windows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//    }
+//    
+  //new SwingApplication(); //Create and show the GUI.
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

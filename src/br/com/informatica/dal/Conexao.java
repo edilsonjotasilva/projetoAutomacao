@@ -2,26 +2,29 @@ package br.com.informatica.dal;
 
 import br.com.informatica.fabrica.CriarTabelas;
 import br.com.informatica.telas.TelaLogin;
+import static com.lowagie.text.pdf.BidiOrder.L;
+import static com.lowagie.text.pdf.PdfName.F;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class Conexao {
     int cont =0;
 
     public static void main(String[] args) {
-        
+
         leArquivoConfiguracao();
        
         
 
-    }
+     }
     public Conexao(){
         if (cont == 0) {
            TelaLogin login = new TelaLogin();

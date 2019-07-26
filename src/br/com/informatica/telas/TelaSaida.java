@@ -6,6 +6,8 @@
 package br.com.informatica.telas;
 
 import br.com.informatica.dal.Conexao;
+import com.lowagie.text.pdf.CMYKColor;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import sun.awt.image.PixelConverter;
 
 /**
  *
@@ -52,16 +55,16 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtIdSaida = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
+        pnlAlteraSaida = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblSaida = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         txtPesquisaSaida = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         lblFormatoData = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        pnlCadastroSaida = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblCategoria = new javax.swing.JTable();
+        tblCategoriaSaida = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         txtPesqDescSaida = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -156,7 +159,8 @@ public class TelaSaida extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlAlteraSaida.setBackground(new java.awt.Color(204, 240, 240));
+        pnlAlteraSaida.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         tblSaida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -211,30 +215,30 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
         jLabel8.setText("Alteração de Cadastros de Saidas");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlAlteraSaidaLayout = new javax.swing.GroupLayout(pnlAlteraSaida);
+        pnlAlteraSaida.setLayout(pnlAlteraSaidaLayout);
+        pnlAlteraSaidaLayout.setHorizontalGroup(
+            pnlAlteraSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAlteraSaidaLayout.createSequentialGroup()
                 .addContainerGap(39, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(pnlAlteraSaidaLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlAlteraSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(txtPesquisaSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        pnlAlteraSaidaLayout.setVerticalGroup(
+            pnlAlteraSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAlteraSaidaLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlAlteraSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtPesquisaSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -244,9 +248,10 @@ public class TelaSaida extends javax.swing.JInternalFrame {
 
         lblFormatoData.setForeground(new java.awt.Color(255, 0, 0));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlCadastroSaida.setBackground(new java.awt.Color(204, 240, 240));
+        pnlCadastroSaida.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tblCategoria.setModel(new javax.swing.table.DefaultTableModel(
+        tblCategoriaSaida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -262,20 +267,20 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblCategoria.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
-        tblCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblCategoriaSaida.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        tblCategoriaSaida.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblCategoriaMouseClicked(evt);
+                tblCategoriaSaidaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblCategoria);
-        if (tblCategoria.getColumnModel().getColumnCount() > 0) {
-            tblCategoria.getColumnModel().getColumn(0).setResizable(false);
-            tblCategoria.getColumnModel().getColumn(0).setPreferredWidth(5);
-            tblCategoria.getColumnModel().getColumn(1).setResizable(false);
-            tblCategoria.getColumnModel().getColumn(1).setPreferredWidth(70);
-            tblCategoria.getColumnModel().getColumn(2).setResizable(false);
-            tblCategoria.getColumnModel().getColumn(2).setPreferredWidth(15);
+        jScrollPane1.setViewportView(tblCategoriaSaida);
+        if (tblCategoriaSaida.getColumnModel().getColumnCount() > 0) {
+            tblCategoriaSaida.getColumnModel().getColumn(0).setResizable(false);
+            tblCategoriaSaida.getColumnModel().getColumn(0).setPreferredWidth(5);
+            tblCategoriaSaida.getColumnModel().getColumn(1).setResizable(false);
+            tblCategoriaSaida.getColumnModel().getColumn(1).setPreferredWidth(70);
+            tblCategoriaSaida.getColumnModel().getColumn(2).setResizable(false);
+            tblCategoriaSaida.getColumnModel().getColumn(2).setPreferredWidth(15);
         }
 
         jLabel1.setText("Pesquisar Categoria");
@@ -294,33 +299,33 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
         jLabel9.setText("Cadastros de Saidas");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlCadastroSaidaLayout = new javax.swing.GroupLayout(pnlCadastroSaida);
+        pnlCadastroSaida.setLayout(pnlCadastroSaidaLayout);
+        pnlCadastroSaidaLayout.setHorizontalGroup(
+            pnlCadastroSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCadastroSaidaLayout.createSequentialGroup()
+                .addGroup(pnlCadastroSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlCadastroSaidaLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlCadastroSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGroup(pnlCadastroSaidaLayout.createSequentialGroup()
                                 .addGap(2, 2, 2)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtPesqDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(pnlCadastroSaidaLayout.createSequentialGroup()
                         .addGap(43, 43, 43)
                         .addComponent(jLabel9)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+        pnlCadastroSaidaLayout.setVerticalGroup(
+            pnlCadastroSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCadastroSaidaLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlCadastroSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtPesqDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -359,9 +364,9 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pnlCadastroSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pnlAlteraSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18))))
         );
         layout.setVerticalGroup(
@@ -369,8 +374,8 @@ public class TelaSaida extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlAlteraSaida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlCadastroSaida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
@@ -403,21 +408,21 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         setBounds(0, 0, 1008, 610);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategoriaMouseClicked
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+    private void tblCategoriaSaidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategoriaSaidaMouseClicked
+   //     SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         txtIdSaida.setText(null);
         txtDataSaida.setText(null);
         txtValorSaida.setText(null);
         btnAdicionarSaida.setEnabled(true);
         btnAlterarSaida.setEnabled(false);
-        Date data = new Date();
-        String dataAtual = sdf.format(data);
-        txtDataSaida.setText(dataAtual);
+      //  Date data = new Date();
+   //     String dataAtual = sdf.format(data);
+    //    txtDataSaida.setText(dataAtual);
 
         lblFormatoData.setText("Data: DDMMAAAA - Ex. 01012019");
 
         setarCampos();
-    }//GEN-LAST:event_tblCategoriaMouseClicked
+    }//GEN-LAST:event_tblCategoriaSaidaMouseClicked
 
     private void btnAdicionarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarSaidaActionPerformed
         adicionarSaida();
@@ -432,7 +437,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAlterarSaidaActionPerformed
 
     private void tblSaidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSaidaMouseClicked
-        lblFormatoData.setText("Formato Data: Ano-Mes-Dia: Ex. 2019-01-01");
+          
         btnAdicionarSaida.setEnabled(false);
         btnAlterarSaida.setEnabled(true);
         
@@ -444,6 +449,10 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtPesqDescSaidaActionPerformed
 
     private void txtPesquisaSaidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaSaidaKeyReleased
+        Color selecionado = new Color(200, 90, 40);
+        pnlAlteraSaida.setBackground(selecionado);
+        Color naoSelecionado = new Color(204, 240, 240);
+        pnlCadastroSaida.setBackground (naoSelecionado);
         btnAdicionarSaida.setEnabled(false);
         btnAlterarSaida.setEnabled(true);
         btnExcluirSaida.setEnabled(true);
@@ -452,7 +461,11 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtPesquisaSaidaKeyReleased
 
     private void txtPesqDescSaidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesqDescSaidaKeyReleased
-
+        Color selecionado = new Color(200, 90, 40);
+        pnlCadastroSaida.setBackground (selecionado);       
+        Color naoSelecionado = new Color(204, 240, 240);
+         pnlAlteraSaida.setBackground(naoSelecionado);
+        
         btnAdicionarSaida.setEnabled(true);
         btnAlterarSaida.setEnabled(false);
         btnExcluirSaida.setEnabled(false);
@@ -495,12 +508,12 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JLabel lblFormatoData;
-    private javax.swing.JTable tblCategoria;
+    private javax.swing.JPanel pnlAlteraSaida;
+    private javax.swing.JPanel pnlCadastroSaida;
+    private javax.swing.JTable tblCategoriaSaida;
     private javax.swing.JTable tblSaida;
     private javax.swing.JTextField txtCodCategoriaSaida;
     private javax.swing.JTextField txtDataSaida;
@@ -519,16 +532,16 @@ public class TelaSaida extends javax.swing.JInternalFrame {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, "%" + txtPesqDescSaida.getText() + "%");
             rs = pst.executeQuery();
-            tblCategoria.setModel(DbUtils.resultSetToTableModel(rs));
+            tblCategoriaSaida.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
 
     private void setarCampos() {
-        int setar = tblCategoria.getSelectedRow();
-        txtDescSaida.setText(tblCategoria.getModel().getValueAt(setar, 1).toString());
-        txtCodCategoriaSaida.setText(tblCategoria.getModel().getValueAt(setar, 0).toString());
+        int setar = tblCategoriaSaida.getSelectedRow();
+        txtDescSaida.setText(tblCategoriaSaida.getModel().getValueAt(setar, 1).toString());
+        txtCodCategoriaSaida.setText(tblCategoriaSaida.getModel().getValueAt(setar, 0).toString());
     }
 
     private void adicionarSaida() {
@@ -563,13 +576,15 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                         // validaçao dos campos obrigatórios
                         if (txtDescSaida.getText().isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
+                        } if (txtDataSaida.getText().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
                         } else if (txtValorSaida.getText().isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Campo Valor Saida é Obrigatório!");
                         } else if (txtCodCategoriaSaida.getText().isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
                         } else {
                             int rowsAfected = pst.executeUpdate();
-
+                               //  palestra de informatica
                             if (rowsAfected > 0) {
                                 JOptionPane.showMessageDialog(null, "Saida cadastrada com sucesso!", "Produto", 1);
                                 txtIdSaida.setText(null);
@@ -660,7 +675,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     }
 
     private void pesquisarSaida() {
-        String sql = "select * from saida where descSaida LIKE ? order by dataSaida";
+        String sql = "select * from saida where descSaida LIKE ? order by dataSaida desc";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, "%" + txtPesquisaSaida.getText() + "%");
@@ -681,6 +696,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         txtValorSaida.setText(tblSaida.getModel().getValueAt(setar, 3).toString());
         txtCodCategoriaSaida.setText(tblSaida.getModel().getValueAt(setar, 4).toString());
         txtPesquisaSaida.requestFocus();
+        lblFormatoData.setText("Formato Data: Ano-Mes-Dia: Ex."+tblSaida.getModel().getValueAt(setar, 1));
     }
 
     private void limparTabelaCategoria() {
@@ -689,7 +705,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
             pst = conexao.prepareStatement(sql);
             //    pst.setString(1, "%" + txtPesquisaSaida.getText() + "%");
             rs = pst.executeQuery();
-            tblCategoria.setModel(DbUtils.resultSetToTableModel(rs));
+            tblCategoriaSaida.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }

@@ -1,6 +1,7 @@
 /*
 essa classe armazena na lista :listaAgenda, todos os resultado do select na tabela agendacompromisso
-do banco de dados
+do banco de dados.
+essa classe faz inserção , alteração cancelamento e pesquisa na tabela agendacompromisso
  */
 package br.com.informatica.telas;
 
@@ -21,6 +22,7 @@ import java.util.logging.Logger;
 import javafx.scene.paint.Color;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import org.codehaus.groovy.tools.shell.util.SimpleCompletor;
 
 /**
  *
@@ -33,7 +35,28 @@ public class TelaNewAgenda extends javax.swing.JFrame {
     Connection conexao = null;
 
     public TelaNewAgenda() {
+          try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(TelaNewAgenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(TelaNewAgenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(TelaNewAgenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(TelaNewAgenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        Date data = new Date();
+        SimpleDateFormat sdf  = new SimpleDateFormat("ddMMyyyy");
+        String dataAtual = sdf.format(data);
         initComponents();
+        txtDataAgenda.setText(dataAtual);
+        lblEstiloData.setText("Formato Data: Ex.: "+dataAtual);
         conexao = Conexao.conexao;
     }
 
@@ -64,12 +87,16 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         txtDescricaoAgenda = new javax.swing.JTextField();
         cboSituacaoAgenda = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
-        btnAgendar = new javax.swing.JButton();
-        btnAlterarAgenda = new javax.swing.JButton();
         btnCancelarAgenda = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnVerificar = new javax.swing.JButton();
+        btnAlterarAgenda = new javax.swing.JButton();
+        btnAgendar = new javax.swing.JButton();
+        btnLimparAgenda = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        lblEstiloData = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -108,6 +135,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblAgendaCompromisso);
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
         jLabel2.setText("Agenda de Compromissos");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -125,7 +153,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                                 .addGap(45, 45, 45)
                                 .addComponent(txtPesquisaAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(312, 312, 312)
+                        .addGap(300, 300, 300)
                         .addComponent(jLabel2)))
                 .addContainerGap(121, Short.MAX_VALUE))
         );
@@ -151,6 +179,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
 
         jLabel8.setText("Agendar");
 
+        txtCodigoAgenda.setToolTipText("Esse Código Geral Automaticamente");
         txtCodigoAgenda.setEnabled(false);
 
         jLabel9.setText("Alterar");
@@ -164,23 +193,6 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(204, 240, 240));
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
-        btnAgendar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/agendar.png"))); // NOI18N
-        btnAgendar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgendarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnAgendar);
-
-        btnAlterarAgenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/adiar.png"))); // NOI18N
-        btnAlterarAgenda.setEnabled(false);
-        btnAlterarAgenda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAlterarAgendaActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnAlterarAgenda);
-
         btnCancelarAgenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/cancelar.png"))); // NOI18N
         btnCancelarAgenda.setEnabled(false);
         jPanel2.add(btnCancelarAgenda);
@@ -189,54 +201,100 @@ public class TelaNewAgenda extends javax.swing.JFrame {
 
         jLabel4.setText("Descricao");
 
-        btnVerificar.setText("Verficar");
+        btnVerificar.setBackground(new java.awt.Color(204, 204, 240));
+        btnVerificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/verificar.png"))); // NOI18N
         btnVerificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVerificarActionPerformed(evt);
             }
         });
 
+        btnAlterarAgenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/adiar.png"))); // NOI18N
+        btnAlterarAgenda.setEnabled(false);
+        btnAlterarAgenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarAgendaActionPerformed(evt);
+            }
+        });
+
+        btnAgendar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/agendar.png"))); // NOI18N
+        btnAgendar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgendarActionPerformed(evt);
+            }
+        });
+
+        btnLimparAgenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/clear.png"))); // NOI18N
+        btnLimparAgenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparAgendaActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Limpar");
+
+        jLabel12.setText("Verificar");
+
+        lblEstiloData.setForeground(new java.awt.Color(255, 0, 102));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(202, 202, 202)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(29, 29, 29)
-                                    .addComponent(jLabel8)
-                                    .addGap(65, 65, 65)
-                                    .addComponent(jLabel9)
-                                    .addGap(66, 66, 66)
-                                    .addComponent(jLabel10))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnVerificar))))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel6))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtCodigoAgenda)
-                                .addComponent(txtValorAgenda)
-                                .addComponent(txtDataAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(69, 69, 69)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(26, 26, 26)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtDescricaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cboSituacaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(27, 27, 27)
+                                        .addComponent(txtDataAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(34, 34, 34)
+                                        .addComponent(lblEstiloData))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addGap(50, 50, 50)
+                                            .addComponent(btnAgendar)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(btnAlterarAgenda)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(btnLimparAgenda)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(76, 76, 76)
+                                            .addComponent(btnVerificar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel3)
+                                                .addComponent(jLabel5))
+                                            .addGap(18, 18, 18)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(txtCodigoAgenda)
+                                                .addComponent(txtValorAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(69, 69, 69)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel4)
+                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(26, 26, 26)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txtDescricaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(cboSituacaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(jLabel8)
+                        .addGap(62, 62, 62)
+                        .addComponent(jLabel9)
+                        .addGap(75, 75, 75)
+                        .addComponent(jLabel11)
+                        .addGap(70, 70, 70)
+                        .addComponent(jLabel10)
+                        .addGap(117, 117, 117)
+                        .addComponent(jLabel12)))
                 .addContainerGap(213, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -244,7 +302,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
@@ -259,20 +317,24 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtDataAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDataAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEstiloData))
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAlterarAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAgendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLimparAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnVerificar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnVerificar)
-                        .addGap(42, 42, 42)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
                     .addComponent(jLabel9)
-                    .addComponent(jLabel10))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel11)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(jLabel12)))
                 .addGap(31, 31, 31))
         );
 
@@ -297,12 +359,26 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         btnAgendar.setEnabled(false);
         btnAlterarAgenda.setEnabled(true);
         btnCancelarAgenda.setEnabled(true);
+        btnLimparAgenda.setEnabled(true);
         setarCamposAgenda();
     }//GEN-LAST:event_tblAgendaCompromissoMouseClicked
 
     private void btnVerificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerificarActionPerformed
         verificaAgenda();
     }//GEN-LAST:event_btnVerificarActionPerformed
+
+    private void btnLimparAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparAgendaActionPerformed
+        Date data = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+        String dataAtual = sdf.format(data);
+        txtDataAgenda.setText(dataAtual);
+        txtDescricaoAgenda.setText(null);
+        txtCodigoAgenda.setText(null);
+        btnAgendar.setEnabled(true);
+        btnAlterarAgenda.setEnabled(false);
+         lblEstiloData.setText("Formato Data: Ex.: "+dataAtual);
+        
+    }//GEN-LAST:event_btnLimparAgendaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -313,24 +389,9 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaNewAgenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaNewAgenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaNewAgenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaNewAgenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+      
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -343,10 +404,13 @@ public class TelaNewAgenda extends javax.swing.JFrame {
     private javax.swing.JButton btnAgendar;
     private javax.swing.JButton btnAlterarAgenda;
     private javax.swing.JButton btnCancelarAgenda;
+    private javax.swing.JButton btnLimparAgenda;
     private javax.swing.JButton btnVerificar;
     private javax.swing.JComboBox<String> cboSituacaoAgenda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -358,6 +422,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblEstiloData;
     private javax.swing.JTable tblAgendaCompromisso;
     private javax.swing.JTextField txtCodigoAgenda;
     private javax.swing.JTextField txtDataAgenda;
@@ -365,9 +430,9 @@ public class TelaNewAgenda extends javax.swing.JFrame {
     private javax.swing.JTextField txtPesquisaAgenda;
     private javax.swing.JTextField txtValorAgenda;
     // End of variables declaration//GEN-END:variables
-
+//preenche o Jtable tblAgendaCompromisso com os os valores retornados do comando SQL na tabela agendacompromisso
     private void pesquisaAgenda() {
-        String sql = "SELECT * FROM agendacompromisso WHERE situacaoAgenda LIKE ? ORDER BY situacaoAgenda";
+        String sql = "SELECT * FROM agendacompromisso WHERE situacaoAgenda LIKE ? ORDER BY dataAgenda";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, "%" + txtPesquisaAgenda.getText() + "%");
@@ -403,7 +468,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                 if (Integer.parseInt(ano) != Integer.parseInt(anoAtual) || Integer.parseInt(mes) != Integer.parseInt(mesAtual)) {
                     int confirmaData = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION);
                     if (confirmaData == JOptionPane.YES_OPTION) {
-                        //inseri a data no formato do
+                        //inseri a data no formato do MYSQL
                         String dataMysql = ano + mes + dia;
                         pst.setString(1, txtDescricaoAgenda.getText());
                         pst.setString(2, txtValorAgenda.getText());
@@ -467,6 +532,8 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         txtValorAgenda.setText(tblAgendaCompromisso.getModel().getValueAt(setar, 2).toString());
         txtDataAgenda.setText(tblAgendaCompromisso.getModel().getValueAt(setar, 3).toString());
         cboSituacaoAgenda.setSelectedItem(tblAgendaCompromisso.getModel().getValueAt(setar, 4).toString());
+       // lblEstiloData.setText("<html><font color=orange><b>Formato Data: Ex.: 2019-01-10");
+        lblEstiloData.setText("<html><font color=orange><b>Formato Data: Ex.: "+tblAgendaCompromisso.getModel().getValueAt(setar, 3).toString() );
 
         txtPesquisaAgenda.requestFocus();
     }
@@ -506,7 +573,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                         txtValorAgenda.setText("0.00");
                         btnAgendar.setEnabled(true);
                         btnAlterarAgenda.setEnabled(false);
-                        btnCancelarAgenda.setEnabled(false);
+                        btnLimparAgenda.setEnabled(false);
 
                     }
                 }
@@ -522,23 +589,17 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         Date dataAtual = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         String dataFormatadaAtual = sdf.format(dataAtual);
-
-        //    int anoExtraido = Integer.parseInt(dataExtraida.substring(0,4))
+        //Extraindo a data atual do sistema e armazenando em variaveis diferentes
         Integer dia = Integer.parseInt(dataFormatadaAtual.substring(0, 2));
-        //    Integer diaInteiro = Integer.parseInt(dia);
-
         Integer mes = Integer.parseInt(dataFormatadaAtual.substring(2, 4));
-        //   Integer mesInteiro = Integer.parseInt(mes);
-
         Integer ano = Integer.parseInt(dataFormatadaAtual.substring(4));
-        // Integer anoInteiro = Integer.parseInt(ano);
 
         List<Agenda> listaAgenda = new ArrayList<>();
         String sql = "SELECT * FROM agendacompromisso";
         try {
             pst = conexao.prepareStatement(sql);
             rs = pst.executeQuery();
-
+//setando as variaveis do objeto agenda com os campos extriado da tabela agendacompromisso através do cmando sql;
             while (rs.next()) {
                 Agenda agenda = new Agenda();
                 agenda.setCodAgenda(rs.getInt(1));
@@ -546,11 +607,15 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                 agenda.setValorAgenda(rs.getDouble(3));
                 agenda.setDataAgenda(rs.getDate(4));
                 agenda.setSituacaoAgenda(rs.getString(5));
+                //apos setar o objeto agenda como todos os campos da tabela agendacompromisso,o objeto agenda e adicionado a listaAgenda
                 listaAgenda.add(agenda);
             }
+            //for exibe através da agendaCompleta cada objeto do tipo agenda que foi criado
             for (Agenda agendaCompleta : listaAgenda) {//2019-07-21
                 System.out.println("Agendas : " + agendaCompleta.toString());
+                //extraindo a data completa do objeto List:agendaCompleta e armazenando em uma variavel do tipo String
                 String dataExtraida = (agendaCompleta.dataAgenda.toString());
+                //extraindo o ano do objeto List:agendaCompleta e armazenando em uma variavel do tipo int
                 int anoExtraido = Integer.parseInt(dataExtraida.substring(0, 4));
                 System.out.println("ano extraido:: " + anoExtraido);
                 System.out.println("Ano Atual :" + ano);
@@ -575,41 +640,43 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                 int mesExtraido = Integer.parseInt(dataExtraida.substring(5, 7));
                 int diaExtraido = Integer.parseInt(dataExtraida.substring(8));
                 //abaixo o codigo html muda a cor do texto conform situação
-                if (diaExtraido < dia && mesExtraido <= mes && anoExtraido <= ano && ((!cboSituacaoAgenda.getSelectedItem().equals("REALIZADO")) && (!cboSituacaoAgenda.getSelectedItem().equals("CANCELADO"))) ) {
-                    JOptionPane.showMessageDialog(null, "<html><font color=red >Compromisso VENCIDO : <html><font color=black ><b>".concat(txtDescricaoAgenda.getText()).concat(txtDataAgenda.getText()));
+                //os ifS abaixao verifica se os compromissos estão vencendo ou situacaos, exceto se estiverem setados como REALIZADO OU CANCELADO
+                if (diaExtraido < dia && mesExtraido <= mes && anoExtraido <= ano && ((!cboSituacaoAgenda.getSelectedItem().equals("REALIZADO")) && (!cboSituacaoAgenda.getSelectedItem().equals("CANCELADO")))) {
+                    JOptionPane.showMessageDialog(null, "<html><font color=red >Compromisso VENCIDO : <html><font color=black ><b>".concat(txtDescricaoAgenda.getText()).concat(" - ").concat(txtDataAgenda.getText()));
                     int codAgenda = agendaCompleta.codAgenda;
-//chamar o metodo atualiza agenda passando o parametro "VENCIDO"
-                    atualizarAgenda("VENCIDO",codAgenda);
-                    
+                    //chamar o metodo atualizaAgenda passando o parametro "situacao"
+                    atualizarAgenda("VENCIDO", codAgenda);
+
                 }
                 if (diaExtraido == dia && mesExtraido == mes && anoExtraido == ano && ((!cboSituacaoAgenda.getSelectedItem().equals("REALIZADO")) && (!cboSituacaoAgenda.getSelectedItem().equals("CANCELADO")))) {
                     JOptionPane.showMessageDialog(null, "<html><font color=orange ><b>Compromisso VENCE HOJE!! : <html><font color=black ><b>" + (txtDescricaoAgenda.getText())
-                            + "-" + txtDataAgenda.getText());
+                            + " - " + txtDataAgenda.getText());
                     int codAgenda = agendaCompleta.codAgenda;
-                    atualizarAgenda("VENCENDO",codAgenda);
+                    //chamar o metodo atualizaAgenda passando o parametro "VENCENDO"
+                    atualizarAgenda("VENCENDO", codAgenda);
                 }
                 if ((diaExtraido - 1) == dia && mesExtraido == mes && anoExtraido == ano && ((!cboSituacaoAgenda.getSelectedItem().equals("REALIZADO")) && (!cboSituacaoAgenda.getSelectedItem().equals("CANCELADO")))) {
                     JOptionPane.showMessageDialog(null, "<html><font color=blue ><b>Compromisso VENCENDO AMANHÃ!! : <html><font color=black ><b>" + txtDescricaoAgenda.getText()
                             + " - " + txtDataAgenda.getText());
                     int codAgenda = agendaCompleta.codAgenda;
-                    atualizarAgenda("VENCENDO",codAgenda);
+                    //chamar o metodo atualizaAgenda passando o parametro "VENCENDO", FALTANDO ainda um dia"
+                    atualizarAgenda("VENCENDO", codAgenda);
                 }
 
             }
-          
- 
-           
+
         } catch (Exception e) {
         }
     }
+//substitui a variavel situacao pelo parametro passado no metodo acima: 
 
-    private void atualizarAgenda(String vencido,int codAg) {
-        String venc = vencido;
+    private void atualizarAgenda(String situacao, int codAg) {
+        String sit = situacao;
         int codAgenda = codAg;
         String sql = "UPDATE agendacompromisso SET situacaoAgenda=? WHERE codAgenda=?";
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, vencido);
+            pst.setString(1, situacao);
             pst.setInt(2, codAgenda);
             pst.executeUpdate();
         } catch (Exception e) {
@@ -617,5 +684,4 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         }
     }
 
-  
 }
