@@ -35,7 +35,7 @@ public class TelaRelatorioSaida extends javax.swing.JFrame {
 
     public TelaRelatorioSaida() {
         initComponents();
-        conexao = Conexao.conexao;
+        conexao = Conexao.conector;
     }
 
     /**

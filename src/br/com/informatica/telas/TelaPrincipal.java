@@ -62,6 +62,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuCaixaSaida = new javax.swing.JMenuItem();
         menuCaixaCategoria = new javax.swing.JMenuItem();
         menuUsuarios = new javax.swing.JMenuItem();
+        menuCliente = new javax.swing.JMenuItem();
         menuAgenda = new javax.swing.JMenu();
         menuAgendaAgendamento = new javax.swing.JMenuItem();
         menuAgendaRotinas = new javax.swing.JMenuItem();
@@ -105,6 +106,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblUsuario.setText("<html><u>Usuario");
 
         menuInicio.setText("Inicio");
+        menuInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuInicioActionPerformed(evt);
+            }
+        });
 
         menuCaixa.setText("Caixa");
         menuCaixa.addActionListener(new java.awt.event.ActionListener() {
@@ -147,6 +153,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         menuInicio.add(menuUsuarios);
+
+        menuCliente.setText("Cliente");
+        menuCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuClienteActionPerformed(evt);
+            }
+        });
+        menuInicio.add(menuCliente);
 
         menuAgenda.setText("Agenda");
 
@@ -294,6 +308,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
       new TelaNewAgenda().setVisible(true);
     }//GEN-LAST:event_menuAgendaAgendamentoActionPerformed
 
+    private void menuInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuInicioActionPerformed
+
+    private void menuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClienteActionPerformed
+        new TelaCliente().setVisible(true);
+        
+
+        cadastrarCliente();
+    }//GEN-LAST:event_menuClienteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -349,6 +374,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuCaixaCategoria;
     private javax.swing.JMenuItem menuCaixaEntrada;
     private javax.swing.JMenuItem menuCaixaSaida;
+    private javax.swing.JMenuItem menuCliente;
     private javax.swing.JMenu menuInicio;
     private javax.swing.JMenu menuLogout;
     private javax.swing.JMenuItem menuLogoutFechar;
@@ -377,6 +403,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaUsuarios telaUsuario = new TelaUsuarios();
         telaUsuario.setVisible(true);
         DesktopPrincipal.add(telaUsuario);
+    }
+
+    private void cadastrarCliente() {
+        
+        TelaCliente telaCliente = new TelaCliente();
+        telaCliente.setVisible(true);
+        DesktopPrincipal.add(telaCliente);
     }
 
    

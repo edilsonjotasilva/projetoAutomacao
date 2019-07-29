@@ -6,7 +6,6 @@
 package br.com.informatica.telas;
 
 import br.com.informatica.dal.Conexao;
-import static br.com.informatica.dal.Conexao.conexao;
 import static br.com.informatica.telas.TelaEntrada.pst;
 import static br.com.informatica.telas.TelaEntrada.pst;
 import static br.com.informatica.telas.TelaEntrada.pst;
@@ -21,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import static br.com.informatica.dal.Conexao.conector;
 
 /**
  *
@@ -50,7 +50,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
             java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         initComponents();
-        conexao = Conexao.conexao;
+        conexao = Conexao.conector;
     }
 
     /**

@@ -25,7 +25,7 @@ public class TelaVerificarRotinasDeAgendamento extends javax.swing.JFrame {
     Connection conexao = null;
 
     public TelaVerificarRotinasDeAgendamento() {
-        conexao = Conexao.conexao;
+        conexao = Conexao.conector;
          
         initComponents();
         verificaRotinasDeAgendamento();

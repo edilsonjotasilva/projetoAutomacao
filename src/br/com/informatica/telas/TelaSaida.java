@@ -34,7 +34,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
 
     public TelaSaida() {
         initComponents();
-        conexao = Conexao.conexao;
+        conexao = Conexao.conector;
     }
 
     @SuppressWarnings("unchecked")

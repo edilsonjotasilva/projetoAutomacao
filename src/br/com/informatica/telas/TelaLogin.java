@@ -6,7 +6,6 @@
 package br.com.informatica.telas;
 
 import br.com.informatica.dal.Conexao;
-import static br.com.informatica.dal.Conexao.conexao;
 import static br.com.informatica.fabrica.CriarTabelas.inserirAdmin;
 import br.com.informatica.telas.TelaPrincipal;
 import static br.com.informatica.telas.TelaSaida.pst;
@@ -22,6 +21,7 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import static br.com.informatica.dal.Conexao.conector;
 
 /**
  *
@@ -38,7 +38,7 @@ public class TelaLogin extends javax.swing.JFrame {
         initComponents();
         //esse codigo deve ser colocado dentro do construtor depois do initComponentes para fazer o butão login funcionar com enter
         getRootPane().setDefaultButton(btnLoginLogar);
-        conexao = Conexao.conexao;
+        conexao = Conexao.conector;
 
     }
 
@@ -172,7 +172,7 @@ public void logar() {
         String sql = "select * from usuarios where login=? and senha=?";
         try {
             //as linhas abaixo preparam a consulta ao banco 
-            pst = Conexao.conexao.prepareStatement(sql);
+            pst = Conexao.conector.prepareStatement(sql);
             pst.setString(1, txtLoginUsuario.getText());
             pst.setString(2, txtLoginSenha.getText());
             // a linha abaixo executa a pesquisa(query)

@@ -7,7 +7,6 @@ package br.com.informatica.fabrica;
 
 //import static br.com.informatica.dal.Conexao.conectarDataBase;
 import br.com.informatica.dal.Conexao;
-import static br.com.informatica.dal.Conexao.conexao;
 import br.com.informatica.telas.TelaLogin;
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +20,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static br.com.informatica.dal.Conexao.conector;
 
 public class CriarTabelas {
 
@@ -34,7 +34,7 @@ public class CriarTabelas {
         PreparedStatement pst = null;
         String sql = "create DATABASE IF NOT EXISTS imobiliaria";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             foiCriado = true;
             String linha;
@@ -104,7 +104,7 @@ public class CriarTabelas {
             Class.forName(driver);
             // a conexao preparada será guradada na variavel conexao, e podera ser chamado de qualquer classe que queira fazer 
             //conexao com o servidor de banco
-            conexao = DriverManager.getConnection("jdbc:mysql://" + SERVIDOR + ":" + PORTA_CONEXAO
+            conector = DriverManager.getConnection("jdbc:mysql://" + SERVIDOR + ":" + PORTA_CONEXAO
                     + "/imobiliaria", USUARIO, SENHA);
             conectado = true;
         } catch (ClassNotFoundException Fonte) {
@@ -121,9 +121,9 @@ public class CriarTabelas {
             criarTabelas.tabelaUsuario();
             criarTabelas.tabelaCaixa();
             criarTabelas.tabelaAgendaCompromisso();
-            criarTabelas.tabelaEnderecoCorretor();
+          //  criarTabelas.tabelaEnderecoCorretor();
             criarTabelas.tabelaCorretor();
-            criarTabelas.tablelaEnderecoCliente();
+      //      criarTabelas.tablelaEnderecoCliente();
             criarTabelas.tablelaCliente();
             criarTabelas.tablelaVenda();
             criarTabelas.tabelaLoteamento();
@@ -153,7 +153,7 @@ public class CriarTabelas {
                 + " ) ENGINE=InnoDB";
 
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             foiCriado = true;
         } catch (SQLException ex) {
@@ -175,7 +175,7 @@ public class CriarTabelas {
         ResultSet result = null;
         String sql = "SELECT * FROM categoria";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             result = pst.executeQuery();
             //se não encontrou registros chama o metodo inserirCategoria()
             if (!result.next()) {
@@ -199,7 +199,7 @@ public class CriarTabelas {
                 + ", ('600', 'Gastos Extras', 'SAIDA')"
                 + ", ('700', 'Sangria', 'SAIDA')";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
@@ -220,7 +220,7 @@ public class CriarTabelas {
                 + " PRIMARY KEY (codAgenda)"
                 + ")COLLATE='utf8mb4_0900_ai_ci'";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             foiCriado = true;
         } catch (SQLException ex) {
@@ -232,98 +232,104 @@ public class CriarTabelas {
         return foiCriado;
     }
 
-    public void tabelaEnderecoCorretor() {
-        PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`endereco_corretor` (\n"
-                + "  `cod_endereco_corretor` INT NOT NULL AUTO_INCREMENT,\n"
-                + "  `rua` VARCHAR(60) NULL,\n"
-                + "  `quadra` INT NULL,\n"
-                + "  `lote` INT NULL,\n"
-                + "  `numero` INT NULL,\n"
-                + "  `bairro` VARCHAR(50) NULL,\n"
-                + "  `cep` VARCHAR(10) NULL,\n"
-                + "  `cidade` VARCHAR(45) NULL,\n"
-                + "  `uf` CHAR(2) NULL,\n"
-                + "  PRIMARY KEY (`cod_endereco_corretor`))\n"
-                + "ENGINE = InnoDB;";
-        try {
-            pst = conexao.prepareStatement(sql);
-            pst.execute();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
-        }
-    }
+//    public void tabelaEnderecoCorretor() {
+//        PreparedStatement pst = null;
+//        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`endereco_corretor` (\n"
+//                + "  `cod_endereco_corretor` INT NOT NULL AUTO_INCREMENT,\n"
+//                + "  `rua` VARCHAR(60) NULL,\n"
+//                + "  `quadra` INT NULL,\n"
+//                + "  `lote` INT NULL,\n"
+//                + "  `numero` INT NULL,\n"
+//                + "  `bairro` VARCHAR(50) NULL,\n"
+//                + "  `cep` VARCHAR(10) NULL,\n"
+//                + "  `cidade` VARCHAR(45) NULL,\n"
+//                + "  `uf` CHAR(2) NULL,\n"
+//                + "  PRIMARY KEY (`cod_endereco_corretor`))\n"
+//                + "ENGINE = InnoDB;";
+//        try {
+//            pst = conexao.prepareStatement(sql);
+//            pst.execute();
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+//        }
+//    }
 
     public static void tabelaCorretor() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`corretor` (\n"
-                + "  `cod_corretor` INT NOT NULL AUTO_INCREMENT,\n"
-                + "  `nome_corretor` VARCHAR(50) NULL,\n"
-                + "  `cpf_corretor` VARCHAR(15) NULL,\n"
-                + "  `rg_corretor` INT NULL,\n"
-                + "  `telefone_corretor` VARCHAR(15) NULL,\n"
-                + "  `celular_corretor` VARCHAR(15) NULL,\n"
-                + "  `email_corretor` VARCHAR(60) NULL,\n"
-                + "  `cod_endereco_corretor` INT NOT NULL,\n"
-                + "  PRIMARY KEY (`cod_corretor`),\n"
-                + "  INDEX `fk_corretor_endereco_corretor1_idx` (`cod_endereco_corretor` ASC) VISIBLE,\n"
-                + "  CONSTRAINT `fk_corretor_endereco_corretor1`\n"
-                + "    FOREIGN KEY (`cod_endereco_corretor`)\n"
-                + "    REFERENCES `imobiliaria`.`endereco_corretor` (`cod_endereco_corretor`)\n"
-                + "    ON DELETE NO ACTION\n"
-                + "    ON UPDATE NO ACTION)\n"
-                + "ENGINE = InnoDB;";
+        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`corretor` (\n" +
+"  `cod_corretor` INT NOT NULL AUTO_INCREMENT,\n" +
+"  `nome_corretor` VARCHAR(50) NOT NULL,\n" +
+"  `cpf_corretor` VARCHAR(15) NOT NULL,\n" +
+"  `rg_corretor` INT NOT NULL,\n" +
+"  `telefone_corretor` VARCHAR(15) NULL,\n" +
+"  `celular_corretor` VARCHAR(15) NULL,\n" +
+"  `email_corretor` VARCHAR(60) NULL,\n" +
+"  `contato` VARCHAR(50) NULL,\n" +
+"  `rua` VARCHAR(60) NOT NULL,\n" +
+"  `quadra` INT NOT NULL,\n" +
+"  `lote` INT NOT NULL,\n" +
+"  `numero` CHAR(3) NULL,\n" +
+"  `bairro` VARCHAR(45) NOT NULL,\n" +
+"  `complemento` VARCHAR(60) NULL,\n" +
+"  `cep` VARCHAR(10) NOT NULL,\n" +
+"  `cidade` VARCHAR(45) NOT NULL,\n" +
+"  `uf` CHAR(2) NOT NULL,\n" +
+"  PRIMARY KEY (`cod_corretor`))\n" +
+"ENGINE = InnoDB";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
         }
     }
 
-    public static void tablelaEnderecoCliente() {
-        PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`enderecoCliente` (\n"
-                + "  `idenderecoCliente` INT NOT NULL AUTO_INCREMENT,\n"
-                + "  `rua` VARCHAR(60) NOT NULL,\n"
-                + "  `quadra` INT NOT NULL,\n"
-                + "  `lote` INT(4) NULL,\n"
-                + "  `numero` INT NULL,\n"
-                + "  `bairro` VARCHAR(45) NOT NULL,\n"
-                + "  `cep` VARCHAR(10) NOT NULL,\n"
-                + "  `cidade` VARCHAR(30) NOT NULL,\n"
-                + "  `uf` CHAR(2) NULL,\n"
-                + "  PRIMARY KEY (`idenderecoCliente`))\n"
-                + "ENGINE = InnoDB";
-        try {
-            pst = conexao.prepareStatement(sql);
-            pst.execute();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
-        }
-    }
+//    public static void tablelaEnderecoCliente() {
+//        PreparedStatement pst = null;
+//        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`enderecoCliente` (\n"
+//                + "  `idenderecoCliente` INT NOT NULL AUTO_INCREMENT,\n"
+//                + "  `rua` VARCHAR(60) NOT NULL,\n"
+//                + "  `quadra` INT NOT NULL,\n"
+//                + "  `lote` INT(4) NULL,\n"
+//                + "  `numero` INT NULL,\n"
+//                + "  `bairro` VARCHAR(45) NOT NULL,\n"
+//                + "  `cep` VARCHAR(10) NOT NULL,\n"
+//                + "  `cidade` VARCHAR(30) NOT NULL,\n"
+//                + "  `uf` CHAR(2) NULL,\n"
+//                + "  PRIMARY KEY (`idenderecoCliente`))\n"
+//                + "ENGINE = InnoDB";
+//        try {
+//            pst = conexao.prepareStatement(sql);
+//            pst.execute();
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+//        }
+//    }
 
     public static void tablelaCliente() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`Cliente` (\n"
-                + "  `idCliente` INT NOT NULL AUTO_INCREMENT,\n"
-                + "  `nomeCliente` VARCHAR(45) NOT NULL,\n"
-                + "  `telefoneCliente` VARCHAR(15) NULL,\n"
-                + "  `celularCliente` VARCHAR(15) NULL,\n"
-                + "  `cpf` VARCHAR(15) NOT NULL,\n"
-                + "  `rg` INT NOT NULL,\n"
-                + "  `idenderecoCliente` INT NOT NULL,\n"
-                + "  `emailCliente` VARCHAR(60) NULL,\n"
-                + "  PRIMARY KEY (`idCliente`),\n"
-                + "  INDEX `fk_Cliente_enderecoCliente1_idx` (`idenderecoCliente` ASC) VISIBLE,\n"
-                + "  CONSTRAINT `fk_Cliente_enderecoCliente1`\n"
-                + "    FOREIGN KEY (`idenderecoCliente`)\n"
-                + "    REFERENCES `imobiliaria`.`enderecoCliente` (`idenderecoCliente`)\n"
-                + "    ON DELETE NO ACTION\n"
-                + "    ON UPDATE NO ACTION)\n"
-                + "ENGINE = InnoDB";
+        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`Cliente` (\n" +
+"  `idCliente` INT NOT NULL AUTO_INCREMENT,\n" +
+"  `nomeCliente` VARCHAR(45) NOT NULL,\n" +
+"  `telefoneCliente` VARCHAR(15) NULL,\n" +
+"  `celularCliente` VARCHAR(15) NULL,\n" +
+"  `cpf` VARCHAR(15) NOT NULL,\n" +
+"  `rg` INT NOT NULL,\n" +
+"  `emailCliente` VARCHAR(60) NULL,\n" +
+"  `contato` VARCHAR(50) NULL,\n" +
+"  `rua` VARCHAR(60) NOT NULL,\n" +
+"  `quadra` INT NOT NULL,\n" +
+"  `lote` INT NOT NULL,\n" +
+"  `numero` CHAR(3) NULL,\n" +
+"  `bairro` VARCHAR(45) NOT NULL,\n" +
+"  `complemento` VARCHAR(60) NULL,\n" +                
+"  `cep` VARCHAR(10) NOT NULL,\n" +
+"  `cidade` VARCHAR(45) NOT NULL,\n" +
+"  `uf` CHAR(2) NOT NULL,\n" +
+"  PRIMARY KEY (`idCliente`))\n" +
+"ENGINE = InnoDB";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
@@ -350,7 +356,7 @@ public class CriarTabelas {
                 + "    ON UPDATE NO ACTION)\n"
                 + "ENGINE = InnoDB";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
@@ -385,7 +391,7 @@ public class CriarTabelas {
                 + "    ON UPDATE NO ACTION)\n"
                 + "ENGINE = InnoDB";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
@@ -413,7 +419,7 @@ public class CriarTabelas {
                 + "    ON UPDATE NO ACTION)\n"
                 + "ENGINE = InnoDB";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
@@ -431,7 +437,7 @@ public class CriarTabelas {
                 + "  PRIMARY KEY (`codLoteamento`))\n"
                 + "ENGINE = InnoDB";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
@@ -456,7 +462,7 @@ public class CriarTabelas {
                 + " ) ENGINE=InnoDB";
 
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             foiCriado = true;
         } catch (SQLException ex) {
@@ -482,7 +488,7 @@ public class CriarTabelas {
                 + " CONSTRAINT fk_saida_categoria1 FOREIGN KEY (categoria_codCategoria) REFERENCES categoria (codCategoria) "
                 + " ) ENGINE=InnoDB";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             foiCriado = true;
         } catch (SQLException ex) {
@@ -507,7 +513,7 @@ public class CriarTabelas {
                 + " PRIMARY KEY ( idUsuario ) "
                 + " )ENGINE=InnoDB";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             foiCriado = true;
         } catch (SQLException ex) {
@@ -529,7 +535,7 @@ public class CriarTabelas {
         ResultSet result = null;
         String sql = "SELECT * FROM usuarios";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             result = pst.executeQuery();
             if (!result.next()) {
                 inserirAdmin();
@@ -545,7 +551,7 @@ public class CriarTabelas {
         PreparedStatement pst = null;
         String sql = "insert into `usuarios`(`nomeUsu`,`telefone`,`login`,`senha`,`perfil`)VALUES('Administrador',99999999,'admin','admin','Admin')";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
@@ -564,7 +570,7 @@ public class CriarTabelas {
                 + "  PRIMARY KEY (idCaixa) "
                 + ") ENGINE=InnoDB";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             foiCriado = true;
         } catch (SQLException ex) {
@@ -580,7 +586,7 @@ public class CriarTabelas {
         ResultSet result = null;
         String sql = "select * from caixa";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             result = pst.executeQuery();
             if (!result.next()) {
                 inserirCaixa();
@@ -594,7 +600,7 @@ public class CriarTabelas {
         PreparedStatement pst = null;
         String sql = "insert into caixa(totalEntrada,totalSaida,saldo)VALUES('0','0','0')";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
@@ -611,7 +617,7 @@ public class CriarTabelas {
                 + "  PRIMARY KEY (codVerificaAgenda)"
                 + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
 
         } catch (SQLException ex) {
@@ -625,7 +631,7 @@ public class CriarTabelas {
         //o IGNORE permite que os dados seja inseridos somente se não existirem
         String sql = "INSERT IGNORE INTO `verifica_agenda` (`codVerificaAgenda`, `statusVerificaAgenda`) VALUES(1, 'SIM')";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
 
         } catch (SQLException ex) {
@@ -639,7 +645,7 @@ public class CriarTabelas {
         ResultSet result = null;
         String sql = "SHOW triggers";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             result = pst.executeQuery();
             if (!result.next()) {
                 criarTriggersEntradaInsert();
@@ -657,7 +663,7 @@ public class CriarTabelas {
                 + "update caixa set saldo = totalEntrada - totalSaida;\n"
                 + "END";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
@@ -680,7 +686,7 @@ public class CriarTabelas {
                 + "end if;\n"
                 + "END";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
@@ -701,7 +707,7 @@ public class CriarTabelas {
                 + "update caixa set saldo = totalEntrada - totalSaida;\n"
                 + "END";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
@@ -723,7 +729,7 @@ public class CriarTabelas {
                 + "end if;\n"
                 + "END";
         try {
-            pst = conexao.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
             pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {

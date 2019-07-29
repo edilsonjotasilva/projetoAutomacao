@@ -27,7 +27,7 @@ public class TelaCadastroCategoria extends javax.swing.JFrame {
 
     public TelaCadastroCategoria() {
         initComponents();
-        conexao = Conexao.conexao;
+        conexao = Conexao.conector;
     }
 
     /**

@@ -28,7 +28,7 @@ public class Conexao {
     public Conexao(){
         if (cont == 0) {
            TelaLogin login = new TelaLogin();
-         if (conexao != null) {
+         if (conector != null) {
             
                login.lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/jsinformatica/telas/dbconnect.png")));
             } else {
@@ -43,7 +43,7 @@ public class Conexao {
 
     static String host, porta, user, senha;
     static private String driver = "com.mysql.jdbc.Driver";
-    static public Connection conexao;
+    static public Connection conector;
 //    private boolean verificacao = false;
 //    static boolean leitura = false;
 
@@ -111,7 +111,7 @@ public class Conexao {
         //  compara as variaveis acima com as variaveis que estão dentro do mysql descrito no caminho abaixo
         try {
             Class.forName(driver);
-            conexao = DriverManager.getConnection("jdbc:mysql://" + SERVIDOR + ":" + PORTA_CONEXAO + "",
+            conector = DriverManager.getConnection("jdbc:mysql://" + SERVIDOR + ":" + PORTA_CONEXAO + "",
                     USUARIO, SENHA);
             conectar = true;
         } catch (ClassNotFoundException Fonte) {
@@ -144,7 +144,7 @@ public class Conexao {
 
     static public void fechaConexao() {
         try {
-            conexao.close();
+            conector.close();
         } catch (SQLException fech) {
             JOptionPane.showMessageDialog(null, "Erro ao fechar conexao com o banco de dados" + fech);
         }

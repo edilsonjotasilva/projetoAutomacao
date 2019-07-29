@@ -57,7 +57,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         initComponents();
         txtDataAgenda.setText(dataAtual);
         lblEstiloData.setText("Formato Data: Ex.: "+dataAtual);
-        conexao = Conexao.conexao;
+        conexao = Conexao.conector;
     }
 
     /**
