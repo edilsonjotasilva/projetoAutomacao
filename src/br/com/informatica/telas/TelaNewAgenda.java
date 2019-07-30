@@ -35,7 +35,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
     Connection conexao = null;
 
     public TelaNewAgenda() {
-          try {
+        try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -52,11 +52,11 @@ public class TelaNewAgenda extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(TelaNewAgenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         Date data = new Date();
-        SimpleDateFormat sdf  = new SimpleDateFormat("ddMMyyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         String dataAtual = sdf.format(data);
         initComponents();
         txtDataAgenda.setText(dataAtual);
-        lblEstiloData.setText("Formato Data: Ex.: "+dataAtual);
+        lblEstiloData.setText("Formato Data: Ex.: " + dataAtual);
         conexao = Conexao.conector;
     }
 
@@ -195,6 +195,11 @@ public class TelaNewAgenda extends javax.swing.JFrame {
 
         btnCancelarAgenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/cancelar.png"))); // NOI18N
         btnCancelarAgenda.setEnabled(false);
+        btnCancelarAgenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarAgendaActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnCancelarAgenda);
 
         jLabel3.setText("Codigo");
@@ -346,8 +351,18 @@ public class TelaNewAgenda extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPesquisaAgendaKeyReleased
 
     private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
-
+       
         inserirAgenda();
+         Date data = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+        String dataAtual = sdf.format(data);
+        txtDataAgenda.setText(dataAtual);
+        txtDescricaoAgenda.setText("");
+        txtCodigoAgenda.setText("");
+        btnAgendar.setEnabled(true);
+        btnAlterarAgenda.setEnabled(false);
+        lblEstiloData.setText("Formato Data: Ex.: " + dataAtual);
+        
     }//GEN-LAST:event_btnAgendarActionPerformed
 
     private void btnAlterarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarAgendaActionPerformed
@@ -364,6 +379,9 @@ public class TelaNewAgenda extends javax.swing.JFrame {
     }//GEN-LAST:event_tblAgendaCompromissoMouseClicked
 
     private void btnVerificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerificarActionPerformed
+        btnAgendar.setEnabled(false);
+        btnAlterarAgenda.setEnabled(true);
+        btnCancelarAgenda.setEnabled(true);
         verificaAgenda();
     }//GEN-LAST:event_btnVerificarActionPerformed
 
@@ -372,13 +390,17 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         String dataAtual = sdf.format(data);
         txtDataAgenda.setText(dataAtual);
-        txtDescricaoAgenda.setText(null);
-        txtCodigoAgenda.setText(null);
+        txtDescricaoAgenda.setText("");
+        txtCodigoAgenda.setText("");
         btnAgendar.setEnabled(true);
         btnAlterarAgenda.setEnabled(false);
-         lblEstiloData.setText("Formato Data: Ex.: "+dataAtual);
-        
+        lblEstiloData.setText("Formato Data: Ex.: " + dataAtual);
+
     }//GEN-LAST:event_btnLimparAgendaActionPerformed
+
+    private void btnCancelarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarAgendaActionPerformed
+        excluirAgendamento();
+    }//GEN-LAST:event_btnCancelarAgendaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -389,9 +411,8 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-      
+
         //</editor-fold>
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -445,6 +466,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
     }
 
     private void inserirAgenda() {
+
         int confirma = JOptionPane.showConfirmDialog(null, "Confirma o Agendamento? ", "Atenção", JOptionPane.YES_NO_OPTION);
         //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
         //for Empty significa que não ha usuario com esse ID
@@ -518,6 +540,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                         }
                     }
                 }
+
             } catch (Exception e) {
             }
 
@@ -532,8 +555,8 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         txtValorAgenda.setText(tblAgendaCompromisso.getModel().getValueAt(setar, 2).toString());
         txtDataAgenda.setText(tblAgendaCompromisso.getModel().getValueAt(setar, 3).toString());
         cboSituacaoAgenda.setSelectedItem(tblAgendaCompromisso.getModel().getValueAt(setar, 4).toString());
-       // lblEstiloData.setText("<html><font color=orange><b>Formato Data: Ex.: 2019-01-10");
-        lblEstiloData.setText("<html><font color=orange><b>Formato Data: Ex.: "+tblAgendaCompromisso.getModel().getValueAt(setar, 3).toString() );
+        // lblEstiloData.setText("<html><font color=orange><b>Formato Data: Ex.: 2019-01-10");
+        lblEstiloData.setText("<html><font color=orange><b>Formato Data: Ex.: " + tblAgendaCompromisso.getModel().getValueAt(setar, 3).toString());
 
         txtPesquisaAgenda.requestFocus();
     }
@@ -681,6 +704,24 @@ public class TelaNewAgenda extends javax.swing.JFrame {
             pst.executeUpdate();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void excluirAgendamento() {
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a remoção do Agendamento? " + txtDescricaoAgenda.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
+            String sql = "delete from agendacompromisso where codAgenda = ?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtCodigoAgenda.getText());
+                int rowsAffected = pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Agendamento removido com Sucesso!");
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }
 

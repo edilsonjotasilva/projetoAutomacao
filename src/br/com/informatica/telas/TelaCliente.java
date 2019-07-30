@@ -17,6 +17,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 import org.apache.commons.logging.LogFactory;
 
 /**
@@ -48,7 +51,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         pnlDadosCliente = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtIdCliente = new javax.swing.JTextField();
+        txtCodCliente = new javax.swing.JTextField();
         txtNomeCliente = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -104,7 +107,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Nome ");
 
-        txtIdCliente.setEnabled(false);
+        txtCodCliente.setEnabled(false);
 
         txtNomeCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,7 +167,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                     .addGroup(pnlDadosClienteLayout.createSequentialGroup()
                         .addGap(65, 65, 65)
                         .addGroup(pnlDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnlDadosClienteLayout.createSequentialGroup()
                                 .addGroup(pnlDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlDadosClienteLayout.createSequentialGroup()
@@ -202,7 +205,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(pnlDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -283,6 +286,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         });
 
         btnImprimeCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora2.png"))); // NOI18N
+        btnImprimeCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimeClienteActionPerformed(evt);
+            }
+        });
 
         btnLimparCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/clear.png"))); // NOI18N
         btnLimparCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -522,6 +530,10 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         limparCampos();
     }//GEN-LAST:event_btnLimparClienteActionPerformed
 
+    private void btnImprimeClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimeClienteActionPerformed
+       imprimeRelatorioCliente();
+    }//GEN-LAST:event_btnImprimeClienteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton btnAlteraCliente;
@@ -556,11 +568,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField txtCelularCliente;
     private javax.swing.JFormattedTextField txtCepCliente;
     private javax.swing.JTextField txtCidadeCliente;
+    private javax.swing.JTextField txtCodCliente;
     private javax.swing.JTextField txtComplementoCliente;
     private javax.swing.JTextField txtContatoCliente;
     private javax.swing.JFormattedTextField txtCpfCliente;
     private javax.swing.JTextField txtEmailCliente;
-    private javax.swing.JTextField txtIdCliente;
     private javax.swing.JTextField txtLoteCliente;
     private javax.swing.JTextField txtNomeCliente;
     private javax.swing.JTextField txtNumeroCliente;
@@ -573,8 +585,8 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void cadastrarCliente() {
-        String sql = "INSERT INTO cliente (nomeCliente,telefoneCliente,celularCliente,cpf,rg,emailCliente"
-                + ",contato,rua,quadra,lote,numero,bairro,complemento,cep,cidade,uf ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cliente (nomeCliente,telefoneCliente,celularCliente,cpfCliente,rgCliente,emailCliente"
+                + ",contatoCliente,rua,quadra,lote,numero,bairro,complemento,cep,cidade,uf ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtNomeCliente.getText().toUpperCase());
@@ -653,8 +665,8 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 //            Date anoCorrente = new Date();
 //            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 //            String dataFormatada = sdf.format(anoCorrente);
-            String sql = "update cliente set nomeCliente=?,telefoneCliente=?,celularCliente=?,cpf=?,rg=?,emailCliente=?"
-                    + ",contato=?,rua=?,quadra=?,lote=?,numero=?,bairro=?,complemento=?,cep=?,cidade=?,uf=? where idCliente=?";
+            String sql = "update cliente set nomeCliente=?,telefoneCliente=?,celularCliente=?,cpfCliente=?,rgCliente=?,emailCliente=?"
+                    + ",contatoCliente=?,rua=?,quadra=?,lote=?,numero=?,bairro=?,complemento=?,cep=?,cidade=?,uf=? where codCliente=?";
             try {
                 pst = conexao.prepareStatement(sql);
                 pst.setString(1, txtNomeCliente.getText());
@@ -673,7 +685,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 pst.setString(14, txtCepCliente.getText());
                 pst.setString(15, txtCidadeCliente.getText());
                 pst.setString(16, txtUFCliente.getText());
-                pst.setString(17, txtIdCliente.getText());
+                pst.setString(17, txtCodCliente.getText());
                 // validaçao dos campos obrigatórios
                 if (txtNomeCliente.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo Nome é Obrigatório!");
@@ -754,7 +766,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 //        }
 //    }
     private void pesquisarCliente() {
-        String sql = "select * from cliente where nomeCliente LIKE ? order by idCliente desc";
+        String sql = "select * from cliente where nomeCliente LIKE ? order by codCliente desc";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, "%" + txtPesquisarCliente.getText() + "%");
@@ -769,7 +781,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
     private void setarCampos() {
         int setar = tblCliente.getSelectedRow();
-        txtIdCliente.setText(tblCliente.getModel().getValueAt(setar, 0).toString());
+        txtCodCliente.setText(tblCliente.getModel().getValueAt(setar, 0).toString());
         txtNomeCliente.setText(tblCliente.getModel().getValueAt(setar, 1).toString());
         txtTelefoneCliente.setText(tblCliente.getModel().getValueAt(setar, 2).toString());
         txtCelularCliente.setText(tblCliente.getModel().getValueAt(setar, 3).toString());
@@ -809,7 +821,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtCepCliente.setText("");
         txtCidadeCliente.setText("");
         txtUFCliente.setText("");
-        txtIdCliente.setText("");
+        txtCodCliente.setText("");
         txtNomeCliente.requestFocus();
         String sql2 = "select * from cliente where nomeCliente = 'XXXX' ";
         try {
@@ -829,10 +841,10 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
         //for Empty significa que não ha usuario com esse ID
         if (confirma == JOptionPane.YES_OPTION) {
-         String sql = "delete from cliente where idCliente = ?";
+         String sql = "delete from cliente where codCliente = ?";
         try {
               pst = conexao.prepareStatement(sql);
-                pst.setString(1, txtIdCliente.getText());
+                pst.setString(1, txtCodCliente.getText());
                 int rowsAffected = pst.executeUpdate();
         JOptionPane.showMessageDialog(null, "Cliente removido com Sucesso!");
         btnAlteraCliente.setEnabled(false);
@@ -853,7 +865,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtCepCliente.setText("");
         txtCidadeCliente.setText("");
         txtUFCliente.setText("");
-        txtIdCliente.setText("");
+        txtCodCliente.setText("");
         txtNomeCliente.requestFocus();
         btnCadastraCliente.setEnabled(true);
         btnAlteraCliente.setEnabled(false);
@@ -862,5 +874,16 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    }
+
+    private void imprimeRelatorioCliente() {
+       try {
+            //Usando a classe JasperPrint para preparar a impressao de um relatorio, o caminho pode ser usado '/' ou '\\'
+            JasperPrint print = JasperFillManager.fillReport("C:\\imobiliaria\\relatorios\\relatorioClientes.jasper", null, conexao);
+            //a linha abaixo exibe o relatorio através da classe JasperViewer
+            JasperViewer.viewReport(print, false);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 }

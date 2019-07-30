@@ -63,6 +63,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuCaixaCategoria = new javax.swing.JMenuItem();
         menuUsuarios = new javax.swing.JMenuItem();
         menuCliente = new javax.swing.JMenuItem();
+        menuCorretor = new javax.swing.JMenuItem();
         menuAgenda = new javax.swing.JMenu();
         menuAgendaAgendamento = new javax.swing.JMenuItem();
         menuAgendaRotinas = new javax.swing.JMenuItem();
@@ -161,6 +162,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         menuInicio.add(menuCliente);
+
+        menuCorretor.setText("Corretor");
+        menuCorretor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuCorretorActionPerformed(evt);
+            }
+        });
+        menuInicio.add(menuCorretor);
 
         menuAgenda.setText("Agenda");
 
@@ -319,6 +328,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         cadastrarCliente();
     }//GEN-LAST:event_menuClienteActionPerformed
 
+    private void menuCorretorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCorretorActionPerformed
+          new TelaCliente().setVisible(true);
+        
+
+        cadastrarCorretor();
+    }//GEN-LAST:event_menuCorretorActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -375,6 +391,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuCaixaEntrada;
     private javax.swing.JMenuItem menuCaixaSaida;
     private javax.swing.JMenuItem menuCliente;
+    private javax.swing.JMenuItem menuCorretor;
     private javax.swing.JMenu menuInicio;
     private javax.swing.JMenu menuLogout;
     private javax.swing.JMenuItem menuLogoutFechar;
@@ -410,6 +427,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaCliente telaCliente = new TelaCliente();
         telaCliente.setVisible(true);
         DesktopPrincipal.add(telaCliente);
+    }
+
+    private void cadastrarCorretor() {
+    TelaCorretor telaCorretor = new TelaCorretor();
+        telaCorretor.setVisible(true);
+        DesktopPrincipal.add(telaCorretor);
     }
 
    

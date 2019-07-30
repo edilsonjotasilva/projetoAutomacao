@@ -257,14 +257,14 @@ public class CriarTabelas {
     public static void tabelaCorretor() {
         PreparedStatement pst = null;
         String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`corretor` (\n" +
-"  `cod_corretor` INT NOT NULL AUTO_INCREMENT,\n" +
-"  `nome_corretor` VARCHAR(50) NOT NULL,\n" +
-"  `cpf_corretor` VARCHAR(15) NOT NULL,\n" +
-"  `rg_corretor` INT NOT NULL,\n" +
-"  `telefone_corretor` VARCHAR(15) NULL,\n" +
-"  `celular_corretor` VARCHAR(15) NULL,\n" +
-"  `email_corretor` VARCHAR(60) NULL,\n" +
-"  `contato` VARCHAR(50) NULL,\n" +
+"  `codCorretor` INT NOT NULL AUTO_INCREMENT,\n" +
+"  `nomeCorretor` VARCHAR(50) NOT NULL,\n" +
+"  `cpfCorretor` VARCHAR(15) NOT NULL,\n" +
+"  `rgCorretor` INT NOT NULL,\n" +
+"  `telefoneCorretor` VARCHAR(15) NULL,\n" +
+"  `celularCorretor` VARCHAR(15) NULL,\n" +
+"  `emailCorretor` VARCHAR(60) NULL,\n" +
+"  `contatoCorretor` VARCHAR(50) NULL,\n" +
 "  `rua` VARCHAR(60) NOT NULL,\n" +
 "  `quadra` INT NOT NULL,\n" +
 "  `lote` INT NOT NULL,\n" +
@@ -274,7 +274,7 @@ public class CriarTabelas {
 "  `cep` VARCHAR(10) NOT NULL,\n" +
 "  `cidade` VARCHAR(45) NOT NULL,\n" +
 "  `uf` CHAR(2) NOT NULL,\n" +
-"  PRIMARY KEY (`cod_corretor`))\n" +
+"  PRIMARY KEY (`codCorretor`))\n" +
 "ENGINE = InnoDB";
         try {
             pst = conector.prepareStatement(sql);
@@ -309,14 +309,14 @@ public class CriarTabelas {
     public static void tablelaCliente() {
         PreparedStatement pst = null;
         String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`Cliente` (\n" +
-"  `idCliente` INT NOT NULL AUTO_INCREMENT,\n" +
+"  `codCliente` INT NOT NULL AUTO_INCREMENT,\n" +
 "  `nomeCliente` VARCHAR(45) NOT NULL,\n" +
 "  `telefoneCliente` VARCHAR(15) NULL,\n" +
 "  `celularCliente` VARCHAR(15) NULL,\n" +
-"  `cpf` VARCHAR(15) NOT NULL,\n" +
-"  `rg` INT NOT NULL,\n" +
+"  `cpfCliente` VARCHAR(15) NOT NULL,\n" +
+"  `rgCliente` INT NOT NULL,\n" +
 "  `emailCliente` VARCHAR(60) NULL,\n" +
-"  `contato` VARCHAR(50) NULL,\n" +
+"  `contatoCliente` VARCHAR(50) NULL,\n" +
 "  `rua` VARCHAR(60) NOT NULL,\n" +
 "  `quadra` INT NOT NULL,\n" +
 "  `lote` INT NOT NULL,\n" +
@@ -326,7 +326,7 @@ public class CriarTabelas {
 "  `cep` VARCHAR(10) NOT NULL,\n" +
 "  `cidade` VARCHAR(45) NOT NULL,\n" +
 "  `uf` CHAR(2) NOT NULL,\n" +
-"  PRIMARY KEY (`idCliente`))\n" +
+"  PRIMARY KEY (`codCliente`))\n" +
 "ENGINE = InnoDB";
         try {
             pst = conector.prepareStatement(sql);
@@ -374,14 +374,14 @@ public class CriarTabelas {
                 + "  `cep_imovel` VARCHAR(10) NOT NULL,\n"
                 + "  `tipo_imovel` VARCHAR(45) NOT NULL,\n"
                 + "  `metragem_imovel` INT NULL,\n"
-                + "  `Cliente_idCliente` INT NOT NULL,\n"
+                + "  `Cliente_codCliente` INT NOT NULL,\n"
                 + "  `loteamento_codLoteamento` INT NOT NULL,\n"
-                + "  INDEX `fk_imovel_Cliente1_idx` (`Cliente_idCliente` ASC) VISIBLE,\n"
+                + "  INDEX `fk_imovel_Cliente1_idx` (`Cliente_codCliente` ASC) VISIBLE,\n"
                 + "  INDEX `fk_imovel_loteamento1_idx` (`loteamento_codLoteamento` ASC) VISIBLE,\n"
                 + "  PRIMARY KEY (`cod_imovel`),\n"
                 + "  CONSTRAINT `fk_imovel_Cliente1`\n"
-                + "    FOREIGN KEY (`Cliente_idCliente`)\n"
-                + "    REFERENCES `imobiliaria`.`Cliente` (`idCliente`)\n"
+                + "    FOREIGN KEY (`Cliente_codCliente`)\n"
+                + "    REFERENCES `imobiliaria`.`Cliente` (`codCliente`)\n"
                 + "    ON DELETE NO ACTION\n"
                 + "    ON UPDATE NO ACTION,\n"
                 + "  CONSTRAINT `fk_imovel_loteamento1`\n"
