@@ -596,7 +596,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             pst.setString(5, txtRgCliente.getText().toUpperCase());
             pst.setString(6, txtEmailCliente.getText().toLowerCase());
             pst.setString(7, txtContatoCliente.getText().toUpperCase());
-            pst.setString(8, txtRuaCliente.getText().toUpperCase());
+            pst.setString(8, txtRuaCliente.getText().toUpperCase().toUpperCase());
             pst.setString(9, txtQuadraCliente.getText());
             pst.setString(10, txtLoteCliente.getText());
             pst.setString(11, txtNumeroCliente.getText());
@@ -669,22 +669,22 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                     + ",contatoCliente=?,rua=?,quadra=?,lote=?,numero=?,bairro=?,complemento=?,cep=?,cidade=?,uf=? where codCliente=?";
             try {
                 pst = conexao.prepareStatement(sql);
-                pst.setString(1, txtNomeCliente.getText());
+                pst.setString(1, txtNomeCliente.getText().toUpperCase());
                 pst.setString(2, txtTelefoneCliente.getText());
                 pst.setString(3, txtCelularCliente.getText());
                 pst.setString(4, txtCpfCliente.getText());
                 pst.setString(5, txtRgCliente.getText());
                 pst.setString(6, txtEmailCliente.getText());
-                pst.setString(7, txtContatoCliente.getText());
-                pst.setString(8, txtRuaCliente.getText());
-                pst.setString(9, txtQuadraCliente.getText());
+                pst.setString(7, txtContatoCliente.getText().toUpperCase());
+                pst.setString(8, txtRuaCliente.getText().toUpperCase());
+                pst.setString(9, txtQuadraCliente.getText().toUpperCase());
                 pst.setString(10, txtLoteCliente.getText());
                 pst.setString(11, txtNumeroCliente.getText());
-                pst.setString(12, txtBairroCliente.getText());
-                pst.setString(13, txtComplementoCliente.getText());
+                pst.setString(12, txtBairroCliente.getText().toUpperCase());
+                pst.setString(13, txtComplementoCliente.getText().toUpperCase());
                 pst.setString(14, txtCepCliente.getText());
-                pst.setString(15, txtCidadeCliente.getText());
-                pst.setString(16, txtUFCliente.getText());
+                pst.setString(15, txtCidadeCliente.getText().toUpperCase());
+                pst.setString(16, txtUFCliente.getText().toUpperCase());
                 pst.setString(17, txtCodCliente.getText());
                 // validaçao dos campos obrigatórios
                 if (txtNomeCliente.getText().isEmpty()) {

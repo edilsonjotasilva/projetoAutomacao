@@ -17,6 +17,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 import org.apache.commons.logging.LogFactory;
 
 /**
@@ -282,6 +285,11 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
         });
 
         btnImprimeCorretor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora2.png"))); // NOI18N
+        btnImprimeCorretor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimeCorretorActionPerformed(evt);
+            }
+        });
 
         btnLimparCorretor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/clear.png"))); // NOI18N
         btnLimparCorretor.addActionListener(new java.awt.event.ActionListener() {
@@ -516,6 +524,10 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
     private void btnLimparCorretorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCorretorActionPerformed
         limparCampos();
     }//GEN-LAST:event_btnLimparCorretorActionPerformed
+
+    private void btnImprimeCorretorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimeCorretorActionPerformed
+        imprimeRelatorioCorretor();
+    }//GEN-LAST:event_btnImprimeCorretorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -858,5 +870,16 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    }
+
+    private void imprimeRelatorioCorretor() {
+        try {
+            //Usando a classe JasperPrint para preparar a impressao de um relatorio, o caminho pode ser usado '/' ou '\\'
+            JasperPrint print = JasperFillManager.fillReport("C:\\imobiliaria\\relatorios\\relatorioCorretores.jasper", null, conexao);
+            //a linha abaixo exibe o relatorio através da classe JasperViewer
+            JasperViewer.viewReport(print, false);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 }
