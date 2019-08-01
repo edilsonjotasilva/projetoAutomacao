@@ -22,7 +22,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Classe de apoio para o banco de dados
     public TelaPrincipal() {
-         try {
+        try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -40,7 +40,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         initComponents();
         // o codigo abaixo verifica pagamentos em atraso
-  
+
     }
 
     /**
@@ -67,6 +67,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuAgenda = new javax.swing.JMenu();
         menuAgendaAgendamento = new javax.swing.JMenuItem();
         menuAgendaRotinas = new javax.swing.JMenuItem();
+        menuVendas = new javax.swing.JMenuItem();
         menuRelatorio = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -191,6 +192,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menuInicio.add(menuAgenda);
 
+        menuVendas.setText("Vendas");
+        menuVendas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVendasActionPerformed(evt);
+            }
+        });
+        menuInicio.add(menuVendas);
+
         jMenuBar1.add(menuInicio);
 
         menuRelatorio.setText("Relatorio");
@@ -307,14 +316,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuCaixaActionPerformed
 
     private void menuAgendaRotinasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAgendaRotinasActionPerformed
-      
+
         new TelaVerificarRotinasDeAgendamento().setVisible(true);
-      
-      
+
+
     }//GEN-LAST:event_menuAgendaRotinasActionPerformed
 
     private void menuAgendaAgendamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAgendaAgendamentoActionPerformed
-      new TelaNewAgenda().setVisible(true);
+        new TelaNewAgenda().setVisible(true);
     }//GEN-LAST:event_menuAgendaAgendamentoActionPerformed
 
     private void menuInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInicioActionPerformed
@@ -323,17 +332,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void menuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClienteActionPerformed
         new TelaCliente().setVisible(true);
-        
 
         cadastrarCliente();
     }//GEN-LAST:event_menuClienteActionPerformed
 
     private void menuCorretorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCorretorActionPerformed
-          new TelaCliente().setVisible(true);
-        
+        new TelaCliente().setVisible(true);
 
         cadastrarCorretor();
     }//GEN-LAST:event_menuCorretorActionPerformed
+
+    private void menuVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVendasActionPerformed
+        new TelaVendas().setVisible(true);
+        CadastrarVendas();
+    }//GEN-LAST:event_menuVendasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -344,7 +356,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-       
+
         //</editor-fold>
 //   try {
 //       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -367,7 +379,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 //       java.util.logging.Logger.getLogger(windows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //    }
 //    
-  //new SwingApplication(); //Create and show the GUI.
+        //new SwingApplication(); //Create and show the GUI.
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -399,6 +411,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public javax.swing.JMenu menuRelatorio;
     private javax.swing.JMenu menuSobre;
     public javax.swing.JMenuItem menuUsuarios;
+    private javax.swing.JMenuItem menuVendas;
     // End of variables declaration//GEN-END:variables
 
     private void cadastrarEntrada() {
@@ -423,18 +436,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     private void cadastrarCliente() {
-        
+
         TelaCliente telaCliente = new TelaCliente();
         telaCliente.setVisible(true);
         DesktopPrincipal.add(telaCliente);
     }
 
     private void cadastrarCorretor() {
-    TelaCorretor telaCorretor = new TelaCorretor();
+        TelaCorretor telaCorretor = new TelaCorretor();
         telaCorretor.setVisible(true);
         DesktopPrincipal.add(telaCorretor);
     }
 
-   
+    private void CadastrarVendas() {
+        TelaVendas telaVendas = new TelaVendas();
+        telaVendas.setVisible(true);
+        DesktopPrincipal.add(telaVendas);
+    }
 
 }

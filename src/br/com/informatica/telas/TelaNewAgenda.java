@@ -492,7 +492,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                     if (confirmaData == JOptionPane.YES_OPTION) {
                         //inseri a data no formato do MYSQL
                         String dataMysql = ano + mes + dia;
-                        pst.setString(1, txtDescricaoAgenda.getText());
+                        pst.setString(1, txtDescricaoAgenda.getText().toUpperCase());
                         pst.setString(2, txtValorAgenda.getText());
                         pst.setString(3, dataMysql);
                         pst.setString(4, cboSituacaoAgenda.getSelectedItem().toString());
@@ -572,7 +572,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
             String sql = "update agendacompromisso set descAgenda=?,valorAgenda=?,dataAgenda=?,situacaoAgenda=? where codAgenda=?";
             try {
                 pst = conexao.prepareStatement(sql);//---- 13091968
-                pst.setString(1, txtDescricaoAgenda.getText());
+                pst.setString(1, txtDescricaoAgenda.getText().toUpperCase());
                 pst.setString(2, txtValorAgenda.getText());
                 pst.setString(3, txtDataAgenda.getText());
                 pst.setString(4, cboSituacaoAgenda.getSelectedItem().toString());
