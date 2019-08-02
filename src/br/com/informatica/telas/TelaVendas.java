@@ -18,6 +18,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -31,8 +32,8 @@ public class TelaVendas extends javax.swing.JInternalFrame {
 
     public TelaVendas() {
         initComponents();
-      //  Locale.setDefault(Locale.US);
-     
+        //  Locale.setDefault(Locale.US);
+        //  txtTotalVenda.setText(new DecimalFormat("#.00").format(somaTotal));
         conexao = Conexao.conector;
 
     }
@@ -71,6 +72,8 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         cboComissaoVenda = new javax.swing.JComboBox<>();
         txtTotalVenda = new javax.swing.JTextField();
         txtValorEntrada = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtPesquisarVenda = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -91,7 +94,9 @@ public class TelaVendas extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Corretor");
 
-        jLabel6.setText("Comissão %");
+        jLabel6.setText("Perc. %");
+
+        txtCodVenda.setEnabled(false);
 
         txtValorPrestacaoVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,6 +120,11 @@ public class TelaVendas extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblVendas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblVendasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblVendas);
 
         pnlMenuVendas.setLayout(new java.awt.GridLayout(1, 0));
@@ -129,9 +139,19 @@ public class TelaVendas extends javax.swing.JInternalFrame {
 
         btnAlterarVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/alterar_registro.png"))); // NOI18N
         btnAlterarVenda.setPreferredSize(new java.awt.Dimension(97, 73));
+        btnAlterarVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarVendaActionPerformed(evt);
+            }
+        });
         pnlMenuVendas.add(btnAlterarVenda);
 
         btnExcluirVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/delete.png"))); // NOI18N
+        btnExcluirVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirVendaActionPerformed(evt);
+            }
+        });
         pnlMenuVendas.add(btnExcluirVenda);
 
         btnImprimeVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora2.png"))); // NOI18N
@@ -142,13 +162,37 @@ public class TelaVendas extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Total Vendas");
 
-        jLabel8.setText("Val Comissão");
+        jLabel8.setText(" Comissão");
+
+        txtValorComissaoVenda.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtValorComissaoVendaFocusGained(evt);
+            }
+        });
+        txtValorComissaoVenda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtValorComissaoVendaMouseClicked(evt);
+            }
+        });
 
         cboComissaoVenda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5", "10\t", "12", "15", "18" }));
 
+        txtTotalVenda.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtTotalVendaFocusGained(evt);
+            }
+        });
         txtTotalVenda.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtTotalVendaMouseClicked(evt);
+            }
+        });
+
+        jLabel9.setText("Pesquisar");
+
+        txtPesquisarVenda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPesquisarVendaKeyReleased(evt);
             }
         });
 
@@ -156,43 +200,54 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         pnlPrincipalVendas.setLayout(pnlPrincipalVendasLayout);
         pnlPrincipalVendasLayout.setHorizontalGroup(
             pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalVendasLayout.createSequentialGroup()
+                .addContainerGap(42, Short.MAX_VALUE)
                 .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
-                .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalVendasLayout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtPesquisarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(614, 614, 614))
                     .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
-                        .addComponent(txtCodVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtValorPrestacaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtQntPrestacaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cboComissaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtValorComissaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(pnlMenuVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCorretorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 876, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                        .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPrincipalVendasLayout.createSequentialGroup()
+                                .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)
+                                .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(pnlMenuVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
+                                        .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(txtCorretorVenda, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPrincipalVendasLayout.createSequentialGroup()
+                                                .addComponent(txtCodVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jLabel2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jLabel4)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(txtValorPrestacaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtQntPrestacaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cboComissaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtValorComissaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         pnlPrincipalVendasLayout.setVerticalGroup(
             pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,9 +272,13 @@ public class TelaVendas extends javax.swing.JInternalFrame {
                 .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtCorretorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(67, 67, 67)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
+                .addGap(56, 56, 56)
+                .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtPesquisarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
                 .addComponent(pnlMenuVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53))
         );
@@ -235,19 +294,18 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlPrincipalVendas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(pnlPrincipalVendas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setBounds(0, 0, 1008, 610);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarVendaActionPerformed
-      
-        
+
+        calcularComissaoVenda();
+        calcularValorTotal();
         cadastrarVenda();
+        cboComissaoVenda.setSelectedItem("5");
     }//GEN-LAST:event_btnCadastrarVendaActionPerformed
 
     private void txtValorPrestacaoVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorPrestacaoVendaActionPerformed
@@ -258,13 +316,46 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         calcularValorTotal();
     }//GEN-LAST:event_txtTotalVendaMouseClicked
 
+    private void txtValorComissaoVendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtValorComissaoVendaMouseClicked
+        calcularComissaoVenda();
+    }//GEN-LAST:event_txtValorComissaoVendaMouseClicked
+
+    private void txtTotalVendaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTotalVendaFocusGained
+        calcularValorTotal();
+    }//GEN-LAST:event_txtTotalVendaFocusGained
+
+    private void txtValorComissaoVendaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtValorComissaoVendaFocusGained
+        calcularComissaoVenda();
+    }//GEN-LAST:event_txtValorComissaoVendaFocusGained
+
+    private void txtPesquisarVendaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarVendaKeyReleased
+        pesquisarVenda();
+    }//GEN-LAST:event_txtPesquisarVendaKeyReleased
+
+    private void btnAlterarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarVendaActionPerformed
+        calcularValorTotal();
+        calcularComissaoVenda();                
+        alterarVenda();
+    }//GEN-LAST:event_btnAlterarVendaActionPerformed
+
+    private void tblVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVendasMouseClicked
+        btnCadastrarVenda.setEnabled(false);
+        btnAlterarVenda.setEnabled(true);
+        btnExcluirVenda.setEnabled(true);
+        setarCampoVenda();
+    }//GEN-LAST:event_tblVendasMouseClicked
+
+    private void btnExcluirVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirVendaActionPerformed
+        ExcluirVenda();
+    }//GEN-LAST:event_btnExcluirVendaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAlterarVenda;
-    private javax.swing.JButton btnCadastrarVenda;
-    private javax.swing.JButton btnExcluirVenda;
-    private javax.swing.JButton btnImprimeVenda;
-    private javax.swing.JButton btnLimparVenda;
+    protected javax.swing.JButton btnAlterarVenda;
+    protected javax.swing.JButton btnCadastrarVenda;
+    protected javax.swing.JButton btnExcluirVenda;
+    protected javax.swing.JButton btnImprimeVenda;
+    protected javax.swing.JButton btnLimparVenda;
     private javax.swing.JComboBox<String> cboComissaoVenda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -274,12 +365,14 @@ public class TelaVendas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlMenuVendas;
     private javax.swing.JPanel pnlPrincipalVendas;
     private javax.swing.JTable tblVendas;
     private javax.swing.JTextField txtCodVenda;
     private javax.swing.JTextField txtCorretorVenda;
+    private javax.swing.JTextField txtPesquisarVenda;
     private javax.swing.JTextField txtQntPrestacaoVenda;
     private javax.swing.JTextField txtTotalVenda;
     private javax.swing.JTextField txtValorComissaoVenda;
@@ -295,19 +388,20 @@ public class TelaVendas extends javax.swing.JInternalFrame {
             pst = conexao.prepareStatement(sql);
 
             String totalVenda = txtTotalVenda.getText();//22.456,90
-            
+
 //            String milhar = valorEntrada.substring(0, 2);
 //            String inteiro = valorEntrada.substring(3, 6);
 //            String decimal = valorEntrada.substring(7);
-           // String decimalPonto = decimal.replace(",", ".");
-           // String valoEntradaCompleto = milhar+inteiro+decimal;
-            Double formatado = formatador.convertVirgulaParaPonto(txtTotalVenda.getText());
+            // String decimalPonto = decimal.replace(",", ".");
+            // String valoEntradaCompleto = milhar+inteiro+decimal;
+            Double valorTotalF = formatador.convertVirgulaParaPonto(txtTotalVenda.getText());
+            Double valorComissaoF = formatador.convertVirgulaParaPonto(txtValorComissaoVenda.getText());
             pst.setString(1, txtValorEntrada.getText());
             pst.setString(2, txtValorPrestacaoVenda.getText());
             pst.setString(3, txtQntPrestacaoVenda.getText());
-            pst.setString(4, formatado.toString());
+            pst.setString(4, valorTotalF.toString());
             pst.setString(5, cboComissaoVenda.getSelectedItem().toString());
-            pst.setString(6, txtValorComissaoVenda.getText());
+            pst.setString(6, valorComissaoF.toString());
             pst.setString(7, txtCorretorVenda.getText());
             if (txtValorEntrada.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo Valor Entrada é Obrigatório!");
@@ -324,6 +418,8 @@ public class TelaVendas extends javax.swing.JInternalFrame {
                     txtValorPrestacaoVenda.setText("");
                     txtQntPrestacaoVenda.setText("");
                     txtTotalVenda.setText("");
+                    txtValorComissaoVenda.setText("");
+                    txtCorretorVenda.setText("");
 
                 }
             }
@@ -337,12 +433,141 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         Double somaTotal = (Double.parseDouble(txtValorEntrada.getText()) + (Integer.parseInt(txtQntPrestacaoVenda.getText()) * Double.parseDouble(txtValorPrestacaoVenda.getText())));
         //txtTotalVenda.setText(new DecimalFormat("#,##0.00").format(somaTotal));
         txtTotalVenda.setText(new DecimalFormat("#.00").format(somaTotal));
-//        Double valorEntrada = Double.parseDouble(txtValorEntrada.getText());
-//        Double valorPrestacao = Double.parseDouble(txtValorPrestacaoVenda.getText());
-//        Double quantPrestacao = Double.parseDouble(txtQntPrestacaoVenda.getText());
-//        Double totalVendas = valorEntrada +(valorPrestacao*quantPrestacao);
-//        JOptionPane.showMessageDialog(null, totalVendas);
-//        txtTotalVenda.setText(totalVendas.toString());
-         
+
+    }
+
+    private void calcularComissaoVenda() {
+        Formatador formatador = new Formatador();
+        Double percetualComissao = Double.parseDouble(cboComissaoVenda.getSelectedItem().toString());
+        // Double valorComissao = Double.parseDouble(txtTotalVenda.getText());
+        Double valorTotalVenda = formatador.convertVirgulaParaPonto(txtTotalVenda.getText());
+        Double totalComissao = valorTotalVenda * (percetualComissao / 100);
+        //txtTotalVenda.setText(new DecimalFormat("#,##0.00").format(somaTotal));
+        txtValorComissaoVenda.setText(new DecimalFormat("#.00").format(totalComissao));
+    }
+
+    private void pesquisarVenda() {
+        String sql = "select * from venda";
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            tblVendas.setModel(DbUtils.resultSetToTableModel(rs));
+            tblVendas.isValid();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void ExcluirVenda() {
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a remoção da Venda? " + txtCodVenda.getText(), "Atenção", JOptionPane.YES_NO_OPTION,0);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
+
+            String sql = "DELETE FROM venda WHERE codVenda = ?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtCodVenda.getText());
+                int rowsAffected = pst.executeUpdate();
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Venda Removida com Sucesso!");
+                    txtCodVenda.setText("");
+                    txtValorEntrada.setText("");
+                    txtValorPrestacaoVenda.setText("");
+                    txtQntPrestacaoVenda.setText("");
+                    cboComissaoVenda.setSelectedItem("5");
+                    txtValorComissaoVenda.setText("");
+                    txtCorretorVenda.setText("");
+                    txtValorEntrada.requestFocus();
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }
+
+    private void setarCampoVenda() {
+        int setar = tblVendas.getSelectedRow();
+        txtCodVenda.setText(tblVendas.getModel().getValueAt(setar, 0).toString());
+        txtValorEntrada.setText(tblVendas.getModel().getValueAt(setar, 1).toString());
+        txtValorPrestacaoVenda.setText(tblVendas.getModel().getValueAt(setar, 2).toString());
+        txtQntPrestacaoVenda.setText(tblVendas.getModel().getValueAt(setar, 3).toString());
+        txtTotalVenda.setText(tblVendas.getModel().getValueAt(setar, 4).toString());
+        cboComissaoVenda.setSelectedItem(tblVendas.getModel().getValueAt(setar, 5).toString());
+        txtValorComissaoVenda.setText(tblVendas.getModel().getValueAt(setar, 6).toString());
+        txtCorretorVenda.setText(tblVendas.getModel().getValueAt(setar, 7).toString());
+
+        txtPesquisarVenda.requestFocus();
+    }
+
+    private void alterarVenda() {
+               int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Alteracao de Vendas? " + txtCodVenda.getText(), "Atenção", JOptionPane.YES_NO_OPTION,0);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
+//            Date anoCorrente = new Date();
+//            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+//            String dataFormatada = sdf.format(anoCorrente);
+            String sql = "update venda set valorEntrada=?,valorPrestacao=?,quantPrestacao=?,totalVenda=?,comissao=?,valorComissao=?"
+                    + ",corretor=? where codVenda = ?";
+            Formatador formatador = new Formatador();
+             Double valorTotalF = formatador.convertVirgulaParaPonto(txtTotalVenda.getText());
+            Double valorComissaoF = formatador.convertVirgulaParaPonto(txtValorComissaoVenda.getText());
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtValorEntrada.getText());
+                pst.setString(2, txtValorPrestacaoVenda.getText());
+                pst.setString(3, txtQntPrestacaoVenda.getText());
+                pst.setString(4, valorTotalF.toString());
+                pst.setString(5, cboComissaoVenda.getSelectedItem().toString());
+                pst.setString(6, valorComissaoF.toString());
+                pst.setString(7, txtCorretorVenda.getText().toUpperCase());
+                pst.setString(8, txtCodVenda.getText());
+              
+                // validaçao dos campos obrigatórios
+                if (txtValorEntrada.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Entrada é Obrigatório!");
+                } else if (txtValorPrestacaoVenda.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Valor Prestacao é Obrigatório!");
+                } else if (txtQntPrestacaoVenda.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Qantidade de Prestação é Obrigatório!");
+                } else {
+                    int rowsAfected = pst.executeUpdate();
+
+                    if (rowsAfected > 0) {
+                        JOptionPane.showMessageDialog(null, "Venda Alterada com Sucesso!");
+                        btnCadastrarVenda.setEnabled(true);
+                        btnAlterarVenda.setEnabled(false);
+                        btnExcluirVenda.setEnabled(false);
+                        // O SELECT abaixoa seta a tabela com valores vazios
+                        String sql2 = "select * from cliente where nomeCliente = 'XXXX' ";
+                        try {
+                            pst = conexao.prepareStatement(sql2);
+                            rs = pst.executeQuery();
+                            tblVendas.setModel(DbUtils.resultSetToTableModel(rs));
+                            tblVendas.isValid();
+
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, e);
+                        }
+
+                        txtValorEntrada.setText("");
+                        txtValorPrestacaoVenda.setText("");
+                        txtQntPrestacaoVenda.setText("");
+                        txtTotalVenda.setText("");
+                        cboComissaoVenda.setSelectedItem("5");
+                        txtValorComissaoVenda.setText("");
+                        txtCorretorVenda.setText("");                    
+                        txtValorEntrada.requestFocus();
+
+                    }
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+       
     }
 }

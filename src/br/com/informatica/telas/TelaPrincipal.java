@@ -68,6 +68,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuAgendaAgendamento = new javax.swing.JMenuItem();
         menuAgendaRotinas = new javax.swing.JMenuItem();
         menuVendas = new javax.swing.JMenuItem();
+        menuLoteamento = new javax.swing.JMenuItem();
         menuRelatorio = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -199,6 +200,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         menuInicio.add(menuVendas);
+
+        menuLoteamento.setText("Loteamento");
+        menuLoteamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLoteamentoActionPerformed(evt);
+            }
+        });
+        menuInicio.add(menuLoteamento);
 
         jMenuBar1.add(menuInicio);
 
@@ -347,6 +356,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         CadastrarVendas();
     }//GEN-LAST:event_menuVendasActionPerformed
 
+    private void menuLoteamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLoteamentoActionPerformed
+      new TelaLoteamento().setVisible(true);
+      cadastrarLoteamento();
+      
+    }//GEN-LAST:event_menuLoteamentoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -408,6 +423,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu menuLogout;
     private javax.swing.JMenuItem menuLogoutFechar;
     private javax.swing.JMenuItem menuLogoutSair;
+    private javax.swing.JMenuItem menuLoteamento;
     public javax.swing.JMenu menuRelatorio;
     private javax.swing.JMenu menuSobre;
     public javax.swing.JMenuItem menuUsuarios;
@@ -451,7 +467,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void CadastrarVendas() {
         TelaVendas telaVendas = new TelaVendas();
         telaVendas.setVisible(true);
+        telaVendas.btnAlterarVenda.setEnabled(false);
+        telaVendas.btnExcluirVenda.setEnabled(false);
         DesktopPrincipal.add(telaVendas);
+    }
+
+    private void cadastrarLoteamento() {
+      TelaLoteamento loteamento = new TelaLoteamento();
+      loteamento.setVisible(true);
+       DesktopPrincipal.add(loteamento);
     }
 
 }
