@@ -6,22 +6,30 @@
 package br.com.informatica.telas;
 
 import br.com.informatica.dal.SwingApplication;
+import br.com.informatica.util.GerenteDeJanelas;
 import com.sun.java.swing.plaf.windows.resources.windows;
 import java.sql.Connection;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.hsqldb.jdbc.jdbcBlob;
 
 /**
  *
  * @author edilson
  */
 public class TelaPrincipal extends javax.swing.JFrame {
-
+    
+    GerenteDeJanelas gerenteJanelas;
+    
     Connection conexao = null;
 
     // Classe de apoio para o banco de dados
     public TelaPrincipal() {
+       
+       
+       
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -39,6 +47,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         initComponents();
+         this.gerenteJanelas = new GerenteDeJanelas(DesktopPrincipal);
+      
+       
+         
         // o codigo abaixo verifica pagamentos em atraso
 
     }
@@ -69,6 +81,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuAgendaRotinas = new javax.swing.JMenuItem();
         menuVendas = new javax.swing.JMenuItem();
         menuLoteamento = new javax.swing.JMenuItem();
+        menuImovel = new javax.swing.JMenuItem();
         menuRelatorio = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -209,6 +222,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menuInicio.add(menuLoteamento);
 
+        menuImovel.setText("Imovel");
+        menuImovel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuImovelActionPerformed(evt);
+            }
+        });
+        menuInicio.add(menuImovel);
+
         jMenuBar1.add(menuInicio);
 
         menuRelatorio.setText("Relatorio");
@@ -341,8 +362,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void menuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClienteActionPerformed
         new TelaCliente().setVisible(true);
+//
+      cadastrarCliente();
 
-        cadastrarCliente();
     }//GEN-LAST:event_menuClienteActionPerformed
 
     private void menuCorretorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCorretorActionPerformed
@@ -357,10 +379,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuVendasActionPerformed
 
     private void menuLoteamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLoteamentoActionPerformed
-      new TelaLoteamento().setVisible(true);
-      cadastrarLoteamento();
+    //  new TelaLoteamento().setVisible(true);
+    //  cadastrarLoteamento();
+   gerenteJanelas.abrirJanelas(TelaLoteamento.getInstancia());
       
     }//GEN-LAST:event_menuLoteamentoActionPerformed
+
+    private void menuImovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuImovelActionPerformed
+      new TelaImovel().setVisible(true);
+      cadastrarImovel();
+    }//GEN-LAST:event_menuImovelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -404,7 +432,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane DesktopPrincipal;
+    public static javax.swing.JDesktopPane DesktopPrincipal;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -419,6 +447,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuCaixaSaida;
     private javax.swing.JMenuItem menuCliente;
     private javax.swing.JMenuItem menuCorretor;
+    private javax.swing.JMenuItem menuImovel;
     private javax.swing.JMenu menuInicio;
     private javax.swing.JMenu menuLogout;
     private javax.swing.JMenuItem menuLogoutFechar;
@@ -472,10 +501,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
         DesktopPrincipal.add(telaVendas);
     }
 
-    private void cadastrarLoteamento() {
-      TelaLoteamento loteamento = new TelaLoteamento();
-      loteamento.setVisible(true);
-       DesktopPrincipal.add(loteamento);
+//    protected void cadastrarLoteamento() {
+//      TelaLoteamento loteamento = new TelaLoteamento();
+//      loteamento.setVisible(true);
+//       DesktopPrincipal.add(loteamento);
+//      
+//    }
+
+    private void cadastrarImovel() {
+         TelaImovel imovel = new TelaImovel();
+      imovel.setVisible(true);
+       DesktopPrincipal.add(imovel);
     }
 
 }

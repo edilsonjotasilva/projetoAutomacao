@@ -313,7 +313,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblUsuario;
     private javax.swing.JTextField txtIdUsuario;
     private javax.swing.JTextField txtLogin;
-    private javax.swing.JTextField txtNomeUsuario;
+    public javax.swing.JTextField txtNomeUsuario;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPesquisaUsuario;
     private javax.swing.JTextField txtTelefone;

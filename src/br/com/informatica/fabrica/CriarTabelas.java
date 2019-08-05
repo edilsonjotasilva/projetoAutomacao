@@ -125,10 +125,10 @@ public class CriarTabelas {
             criarTabelas.tabelaCorretor();
             //      criarTabelas.tablelaEnderecoCliente();
             criarTabelas.tablelaCliente();
-            criarTabelas.tablelaVenda();
             criarTabelas.tabelaLoteamento();
             criarTabelas.tablelaImovel();
-            criarTabelas.tabelaItemDeVenda();
+            criarTabelas.tablelaVenda();
+         //   criarTabelas.tabelaItemDeVenda();
             criarTabelas.tabelaVerificaAgenda();
             criarTabelas.verificarTriggers();
 
@@ -274,7 +274,7 @@ public class CriarTabelas {
 "  `cidade` VARCHAR(45) NOT NULL,\n" +
 "  `uf` CHAR(2) NOT NULL,\n" +
 "  PRIMARY KEY (`codCorretor`))\n" +
-"ENGINE = InnoDB";
+"ENGINE = InnoDB;";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -344,8 +344,28 @@ public class CriarTabelas {
 "  `totalVenda` DECIMAL(9,2) NULL,\n" +
 "  `comissao` DECIMAL(9,2) NULL,\n" +
 "  `valorComissao` DECIMAL(9,2) NULL,\n" +
-"  `corretor` VARCHAR(60) NULL,\n" +
-"  PRIMARY KEY (`codVenda`))\n" +
+"  `corretor_codCorretor` INT NOT NULL,\n" +
+"  `Cliente_codCliente` INT NOT NULL,\n" +
+"  `imovel_codImovel` INT NOT NULL,\n" +
+"  PRIMARY KEY (`codVenda`),\n" +
+"  INDEX `fk_venda_corretor1_idx` (`corretor_codCorretor` ASC) VISIBLE,\n" +
+"  INDEX `fk_venda_Cliente1_idx` (`Cliente_codCliente` ASC) VISIBLE,\n" +
+"  INDEX `fk_venda_imovel1_idx` (`imovel_codImovel` ASC) VISIBLE,\n" +
+"  CONSTRAINT `fk_venda_corretor1`\n" +
+"    FOREIGN KEY (`corretor_codCorretor`)\n" +
+"    REFERENCES `imobiliaria`.`corretor` (`codCorretor`)\n" +
+"    ON DELETE NO ACTION\n" +
+"    ON UPDATE NO ACTION,\n" +
+"  CONSTRAINT `fk_venda_Cliente1`\n" +
+"    FOREIGN KEY (`Cliente_codCliente`)\n" +
+"    REFERENCES `imobiliaria`.`Cliente` (`codCliente`)\n" +
+"    ON DELETE NO ACTION\n" +
+"    ON UPDATE NO ACTION,\n" +
+"  CONSTRAINT `fk_venda_imovel1`\n" +
+"    FOREIGN KEY (`imovel_codImovel`)\n" +
+"    REFERENCES `imobiliaria`.`imovel` (`codImovel`)\n" +
+"    ON DELETE NO ACTION\n" +
+"    ON UPDATE NO ACTION)\n" +
 "ENGINE = InnoDB";
         try {
             pst = conector.prepareStatement(sql);
@@ -354,8 +374,9 @@ public class CriarTabelas {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
         }
     }
-    public void tabelaLoteamento(){
-               PreparedStatement pst = null;
+
+    public void tabelaLoteamento() {
+        PreparedStatement pst = null;
         String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`loteamento` (\n" +
 "  `codLoteamento` INT NOT NULL AUTO_INCREMENT,\n" +
 "  `nomeLoteamento` VARCHAR(45) NOT NULL,\n" +
@@ -377,11 +398,11 @@ public class CriarTabelas {
         PreparedStatement pst = null;
         String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`imovel` (\n" +
 "  `codImovel` INT NOT NULL AUTO_INCREMENT,\n" +
-"  `quadraImovel` INT NOT NULL,\n" +
-"  `lote_imovel` INT NOT NULL,\n" +
-"  `numeroImovel` INT NULL,\n" +
 "  `ruaImovel` VARCHAR(60) NOT NULL,\n" +
-"  `cep_imovel` VARCHAR(10) NOT NULL,\n" +
+"  `quadraImovel` INT NOT NULL,\n" +
+"  `loteImovel` INT NOT NULL,\n" +
+"  `numeroImovel` VARCHAR(10) NULL,\n" +
+"  `cepImovel` VARCHAR(10) NOT NULL,\n" +
 "  `tipoImovel` VARCHAR(45) NOT NULL,\n" +
 "  `metragemImovel` INT NULL,\n" +
 "  `loteamento_codLoteamento` INT NOT NULL,\n" +
@@ -403,14 +424,14 @@ public class CriarTabelas {
 
     public void tabelaItemDeVenda() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`item_venda` (\n" +
-"  `cod_item_venda` INT NOT NULL AUTO_INCREMENT,\n" +
+        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`itemVenda` (\n" +
+"  `codItemVenda` INT NOT NULL AUTO_INCREMENT,\n" +
 "  `dataVenda` DATE NOT NULL,\n" +
 "  `venda_codVenda` INT NOT NULL,\n" +
 "  `corretor_codCorretor` INT NOT NULL,\n" +
 "  `Cliente_codCliente` INT NOT NULL,\n" +
 "  `imovel_codImovel` INT NOT NULL,\n" +
-"  PRIMARY KEY (`cod_item_venda`),\n" +
+"  PRIMARY KEY (`codItemVenda`),\n" +
 "  INDEX `fk_item_venda_venda1_idx` (`venda_codVenda` ASC) VISIBLE,\n" +
 "  INDEX `fk_item_venda_corretor1_idx` (`corretor_codCorretor` ASC) VISIBLE,\n" +
 "  INDEX `fk_item_venda_Cliente1_idx` (`Cliente_codCliente` ASC) VISIBLE,\n" +
