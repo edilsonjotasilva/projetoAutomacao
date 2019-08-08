@@ -405,6 +405,7 @@ public class CriarTabelas {
 "  `cepImovel` VARCHAR(10) NOT NULL,\n" +
 "  `tipoImovel` VARCHAR(45) NOT NULL,\n" +
 "  `metragemImovel` INT NULL,\n" +
+"  `situacaoImovel` VARCHAR(12) NOT NULL,\n" +
 "  `loteamento_codLoteamento` INT NOT NULL,\n" +
 "  PRIMARY KEY (`codImovel`),\n" +
 "  INDEX `fk_imovel_loteamento1_idx` (`loteamento_codLoteamento` ASC) VISIBLE,\n" +
@@ -413,7 +414,7 @@ public class CriarTabelas {
 "    REFERENCES `imobiliaria`.`loteamento` (`codLoteamento`)\n" +
 "    ON DELETE NO ACTION\n" +
 "    ON UPDATE NO ACTION)\n" +
-"ENGINE = InnoDB";
+"ENGINE = InnoDB;";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();

@@ -50,55 +50,18 @@ public class LoteamentoDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        txtCodLoteamento = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        txtNomeLoteamento = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        txtSetorLoteamento = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtCidadeLoteamento = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        txtEstadoLoteamento = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        cboULoteamento = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLoteamento = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         txtPesquisarLoteamento = new javax.swing.JTextField();
-        btnInserirLoteamento = new javax.swing.JButton();
+        jBnFechar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Pesquisa Loteamento");
 
         jPanel1.setBackground(new java.awt.Color(204, 240, 240));
-
-        jLabel1.setText("COD Lote");
-
-        txtCodLoteamento.setEnabled(false);
-
-        jLabel2.setText("Nome Lot");
-
-        jLabel4.setText("Setor");
-
-        txtSetorLoteamento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSetorLoteamentoActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("Cidade");
-
-        jLabel7.setText("Estado");
-
-        txtEstadoLoteamento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEstadoLoteamentoActionPerformed(evt);
-            }
-        });
-
-        jLabel6.setText("UF");
-
-        cboULoteamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO", " " }));
+        jPanel1.setName("Pesquisa Loteamento"); // NOI18N
 
         tblLoteamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -136,12 +99,18 @@ public class LoteamentoDialog extends javax.swing.JDialog {
             }
         });
 
-        btnInserirLoteamento.setBackground(new java.awt.Color(102, 102, 255));
-        btnInserirLoteamento.setText("Inserir");
-        btnInserirLoteamento.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnInserirLoteamento.addActionListener(new java.awt.event.ActionListener() {
+        jBnFechar.setBackground(new java.awt.Color(204, 240, 240));
+        jBnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/fechar2.png"))); // NOI18N
+        jBnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInserirLoteamentoActionPerformed(evt);
+                jBnFecharActionPerformed(evt);
+            }
+        });
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/inserir.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -149,80 +118,42 @@ public class LoteamentoDialog extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 972, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(454, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addComponent(jBnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(378, 378, 378))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(16, 16, 16)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 939, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(16, 16, 16)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addGap(0, 0, Short.MAX_VALUE)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtPesquisarLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(43, 43, 43)
-                                    .addComponent(btnInserirLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(454, 454, 454))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel1)
-                                        .addComponent(jLabel3))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(txtCodLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jLabel2)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtNomeLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jLabel4)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtSetorLoteamento))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(txtCidadeLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jLabel7)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtEstadoLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel6)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(cboULoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGap(58, 58, 58)))))
-                    .addGap(17, 17, 17)))
+                            .addGap(0, 88, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtPesquisarLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(571, 571, 571))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 939, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(17, 17, 17)))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 503, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(368, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jBnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(158, 158, 158))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(84, 84, 84)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel4)
-                        .addComponent(txtCodLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtSetorLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtNomeLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(36, 36, 36)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
-                        .addComponent(txtCidadeLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel6)
-                        .addComponent(cboULoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtEstadoLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(76, 76, 76)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(55, 55, 55)
+                    .addGap(140, 140, 140)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(61, 61, 61)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel9)
-                        .addComponent(txtPesquisarLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnInserirLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtPesquisarLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(85, Short.MAX_VALUE)))
         );
 
@@ -230,7 +161,7 @@ public class LoteamentoDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,33 +171,31 @@ public class LoteamentoDialog extends javax.swing.JDialog {
         setSize(new java.awt.Dimension(1008, 610));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtSetorLoteamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSetorLoteamentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSetorLoteamentoActionPerformed
-
-    private void txtEstadoLoteamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstadoLoteamentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEstadoLoteamentoActionPerformed
-
     private void tblLoteamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLoteamentoMouseClicked
 //        btnCadastrarLoteamento.setEnabled(false);
 //        btnAlterarLoteamento.setEnabled(true);
 //        btnExcluirLoteamento.setEnabled(true);
-        setarCamposLoteamento();
-        codigo = txtCodLoteamento.getText();
+     //   setarCamposLoteamento();
+       // codigo = txtCodLoteamento.getText();
+        int setar = tblLoteamento.getSelectedRow();
+        codigo = (tblLoteamento.getModel().getValueAt(setar, 0).toString());
     }//GEN-LAST:event_tblLoteamentoMouseClicked
 
     private void txtPesquisarLoteamentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarLoteamentoKeyReleased
         pesquisarLoteamento();
     }//GEN-LAST:event_txtPesquisarLoteamentoKeyReleased
 
-    private void btnInserirLoteamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirLoteamentoActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnInserirLoteamentoActionPerformed
-
     private void txtPesquisarLoteamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisarLoteamentoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPesquisarLoteamentoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jBnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBnFecharActionPerformed
+           this.dispose();
+    }//GEN-LAST:event_jBnFecharActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,24 +241,13 @@ public class LoteamentoDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton btnInserirLoteamento;
-    private javax.swing.JComboBox<String> cboULoteamento;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JButton jBnFechar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblLoteamento;
-    private javax.swing.JTextField txtCidadeLoteamento;
-    private javax.swing.JTextField txtCodLoteamento;
-    private javax.swing.JTextField txtEstadoLoteamento;
-    private javax.swing.JTextField txtNomeLoteamento;
     private javax.swing.JTextField txtPesquisarLoteamento;
-    private javax.swing.JTextField txtSetorLoteamento;
     // End of variables declaration//GEN-END:variables
 
     public void pesquisarLoteamento() {
@@ -345,15 +263,16 @@ public class LoteamentoDialog extends javax.swing.JDialog {
         }
     }
 
-    private void setarCamposLoteamento() {
-        int setar = tblLoteamento.getSelectedRow();
-        txtCodLoteamento.setText(tblLoteamento.getModel().getValueAt(setar, 0).toString());
-        txtNomeLoteamento.setText(tblLoteamento.getModel().getValueAt(setar, 1).toString());
-        txtSetorLoteamento.setText(tblLoteamento.getModel().getValueAt(setar, 2).toString());
-        txtCidadeLoteamento.setText(tblLoteamento.getModel().getValueAt(setar, 3).toString());
-        txtEstadoLoteamento.setText(tblLoteamento.getModel().getValueAt(setar, 4).toString());
-        cboULoteamento.setSelectedItem(tblLoteamento.getModel().getValueAt(setar, 5).toString());
-
-        txtPesquisarLoteamento.requestFocus();
-    }
+//    private void setarCamposLoteamento() {
+//        int setar = tblLoteamento.getSelectedRow();
+//        //txtCodLoteamento.setText(tblLoteamento.getModel().getValueAt(setar, 0).toString());
+//        txtCodLoteamento.setText(tblLoteamento.getModel().getValueAt(setar, 0).toString());
+//        txtNomeLoteamento.setText(tblLoteamento.getModel().getValueAt(setar, 1).toString());
+//        txtSetorLoteamento.setText(tblLoteamento.getModel().getValueAt(setar, 2).toString());
+//        txtCidadeLoteamento.setText(tblLoteamento.getModel().getValueAt(setar, 3).toString());
+//        txtEstadoLoteamento.setText(tblLoteamento.getModel().getValueAt(setar, 4).toString());
+//        cboULoteamento.setSelectedItem(tblLoteamento.getModel().getValueAt(setar, 5).toString());
+//
+//        txtPesquisarLoteamento.requestFocus();
+//    }
 }

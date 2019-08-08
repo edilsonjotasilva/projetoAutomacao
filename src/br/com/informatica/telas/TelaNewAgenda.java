@@ -671,6 +671,18 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                     atualizarAgenda("VENCIDO", codAgenda);
 
                 }
+                              if (diaExtraido > dia && mesExtraido < mes && anoExtraido <= ano && ((!cboSituacaoAgenda.getSelectedItem().equals("REALIZADO")) && (!cboSituacaoAgenda.getSelectedItem().equals("CANCELADO")))) {
+                    JOptionPane.showMessageDialog(null, "<html><font color=red >Compromisso VENCIDO : <html><font color=black ><b>".concat(txtDescricaoAgenda.getText()).concat(" - ").concat(txtDataAgenda.getText()));
+                    int codAgenda = agendaCompleta.codAgenda;
+                    //chamar o metodo atualizaAgenda passando o parametro "situacao"
+                    atualizarAgenda("VENCIDO", codAgenda);
+                }
+//                              if (diaExtraido <= dia && mesExtraido < mes && anoExtraido <= ano && ((!cboSituacaoAgenda.getSelectedItem().equals("REALIZADO")) && (!cboSituacaoAgenda.getSelectedItem().equals("CANCELADO")))) {
+//                    JOptionPane.showMessageDialog(null, "<html><font color=red >Compromisso VENCIDO : <html><font color=black ><b>".concat(txtDescricaoAgenda.getText()).concat(" - ").concat(txtDataAgenda.getText()));
+//                    int codAgenda = agendaCompleta.codAgenda;
+//                    //chamar o metodo atualizaAgenda passando o parametro "situacao"
+//                    atualizarAgenda("VENCIDO", codAgenda);
+//                }
                 if (diaExtraido == dia && mesExtraido == mes && anoExtraido == ano && ((!cboSituacaoAgenda.getSelectedItem().equals("REALIZADO")) && (!cboSituacaoAgenda.getSelectedItem().equals("CANCELADO")))) {
                     JOptionPane.showMessageDialog(null, "<html><font color=orange ><b>Compromisso VENCE HOJE!! : <html><font color=black ><b>" + (txtDescricaoAgenda.getText())
                             + " - " + txtDataAgenda.getText());

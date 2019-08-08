@@ -20,16 +20,14 @@ import org.hsqldb.jdbc.jdbcBlob;
  * @author edilson
  */
 public class TelaPrincipal extends javax.swing.JFrame {
-    
+
     GerenteDeJanelas gerenteJanelas;
-    
+
     Connection conexao = null;
 
     // Classe de apoio para o banco de dados
     public TelaPrincipal() {
-       
-       
-       
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -47,12 +45,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         initComponents();
-         this.gerenteJanelas = new GerenteDeJanelas(DesktopPrincipal);
-      
-       
-         
-        // o codigo abaixo verifica pagamentos em atraso
+        this.gerenteJanelas = new GerenteDeJanelas(DesktopPrincipal);
 
+        // o codigo abaixo verifica pagamentos em atraso
     }
 
     /**
@@ -247,6 +242,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(menuSobre);
 
         menuLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/sair.png"))); // NOI18N
+        menuLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLogoutActionPerformed(evt);
+            }
+        });
 
         menuLogoutFechar.setText("Fechar");
         menuLogoutFechar.addActionListener(new java.awt.event.ActionListener() {
@@ -363,7 +363,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void menuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClienteActionPerformed
         new TelaCliente().setVisible(true);
 //
-      cadastrarCliente();
+        cadastrarCliente();
 
     }//GEN-LAST:event_menuClienteActionPerformed
 
@@ -379,16 +379,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuVendasActionPerformed
 
     private void menuLoteamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLoteamentoActionPerformed
-    //  new TelaLoteamento().setVisible(true);
-    //  cadastrarLoteamento();
-   gerenteJanelas.abrirJanelas(TelaLoteamento.getInstancia());
-      
+        new TelaLoteamento().setVisible(true);
+        cadastrarLoteamento();
+        // gerenteJanelas.abrirJanelas(TelaLoteamento.getInstancia());
+
     }//GEN-LAST:event_menuLoteamentoActionPerformed
 
     private void menuImovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuImovelActionPerformed
-      new TelaImovel().setVisible(true);
-      cadastrarImovel();
+        new TelaImovel().setVisible(true);
+        cadastrarImovel();
     }//GEN-LAST:event_menuImovelActionPerformed
+
+    private void menuLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLogoutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuLogoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -501,17 +505,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         DesktopPrincipal.add(telaVendas);
     }
 
-//    protected void cadastrarLoteamento() {
-//      TelaLoteamento loteamento = new TelaLoteamento();
-//      loteamento.setVisible(true);
-//       DesktopPrincipal.add(loteamento);
-//      
-//    }
+    protected void cadastrarLoteamento() {
+        TelaLoteamento loteamento = new TelaLoteamento();
+        loteamento.setVisible(true);
+        DesktopPrincipal.add(loteamento);
+
+    }
 
     private void cadastrarImovel() {
-         TelaImovel imovel = new TelaImovel();
-      imovel.setVisible(true);
-       DesktopPrincipal.add(imovel);
+        TelaImovel imovel = new TelaImovel();
+        imovel.setVisible(true);
+        imovel.btnAlterarImovel.setEnabled(false);
+        imovel.btnExcluirImovel.setEnabled(false);
+        DesktopPrincipal.add(imovel);
     }
 
 }

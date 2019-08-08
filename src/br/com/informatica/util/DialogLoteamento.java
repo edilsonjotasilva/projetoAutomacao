@@ -5,8 +5,8 @@
  */
 package br.com.informatica.util;
 
-import br.com.informatica.dal.Conexao;
 import br.com.informatica.telas.TelaImovel;
+import br.com.informatica.dal.Conexao;
 import br.com.informatica.telas.TelaPrincipal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
