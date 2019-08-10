@@ -1,22 +1,30 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package br.com.informatica.dal;
 
 import br.com.informatica.fabrica.CriarTabelas;
 import br.com.informatica.telas.TelaLogin;
-import static com.lowagie.text.pdf.BidiOrder.L;
-import static com.lowagie.text.pdf.PdfName.F;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
 
+/**
+ *
+ * @author edilson
+ */
 public class Conexao {
-    int cont =0;
+        int cont =0;
 
     public static void main(String[] args) {
 
@@ -51,7 +59,7 @@ public class Conexao {
         try {
             String linha;
             //guarda o caminho nessa variavel(ArquivoConfiguracao)
-            String ArquivoConfiguracao = "C:/controle/conexao.ini";
+            String ArquivoConfiguracao = "C:/imobSys/conexao.ini";
             int cont = 0;
             //cria o arquivo conexao.ini no caminiho apontado pela variavel (ArquivoConfiguracao)
             File arq = new File(ArquivoConfiguracao);
@@ -149,4 +157,5 @@ public class Conexao {
             JOptionPane.showMessageDialog(null, "Erro ao fechar conexao com o banco de dados" + fech);
         }
     }
+    
 }

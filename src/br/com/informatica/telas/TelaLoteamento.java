@@ -5,6 +5,7 @@
  */
 package br.com.informatica.telas;
 
+//import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 import br.com.informatica.util.Formatador;
 import java.sql.Connection;
@@ -43,6 +44,7 @@ public class TelaLoteamento extends javax.swing.JInternalFrame {
 
     public TelaLoteamento() {
         initComponents();
+        //conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
 
         btnInserirLoteamento.setVisible(false);
@@ -155,6 +157,11 @@ public class TelaLoteamento extends javax.swing.JInternalFrame {
         pnlMenuVendas.add(btnAlterarLoteamento);
 
         btnImprimeLoteamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora2.png"))); // NOI18N
+        btnImprimeLoteamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimeLoteamentoActionPerformed(evt);
+            }
+        });
         pnlMenuVendas.add(btnImprimeLoteamento);
 
         btnLimparLoteamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/clear.png"))); // NOI18N
@@ -320,6 +327,7 @@ public class TelaLoteamento extends javax.swing.JInternalFrame {
         //        calcularValorTotal();
         //        calcularComissaoVenda();
         alterarLoteamento();
+        limparLoteamento();
     }//GEN-LAST:event_btnAlterarLoteamentoActionPerformed
 
     private void btnCadastrarLoteamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarLoteamentoActionPerformed
@@ -354,6 +362,10 @@ public class TelaLoteamento extends javax.swing.JInternalFrame {
     private void txtPesquisarLoteamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisarLoteamentoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPesquisarLoteamentoActionPerformed
+
+    private void btnImprimeLoteamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimeLoteamentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnImprimeLoteamentoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

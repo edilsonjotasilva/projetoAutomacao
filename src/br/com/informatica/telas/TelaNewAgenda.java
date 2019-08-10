@@ -5,24 +5,18 @@ essa classe faz inserção , alteração cancelamento e pesquisa na tabela agend
  */
 package br.com.informatica.telas;
 
+//import br.com.iformatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 
-import static br.com.informatica.telas.TelaSaida.pst;
-import static br.com.informatica.telas.TelaSaida.rs;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.paint.Color;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
-import org.codehaus.groovy.tools.shell.util.SimpleCompletor;
 
 /**
  *
@@ -57,6 +51,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         initComponents();
         txtDataAgenda.setText(dataAtual);
         lblEstiloData.setText("Formato Data: Ex.: " + dataAtual);
+        //conexao = CoexaoBanco.conector;
         conexao = Conexao.conector;
     }
 
@@ -367,6 +362,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
 
     private void btnAlterarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarAgendaActionPerformed
         alterarAgendaCompromisso();
+        limparAgenda();
 
     }//GEN-LAST:event_btnAlterarAgendaActionPerformed
 
@@ -395,6 +391,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         btnAgendar.setEnabled(true);
         btnAlterarAgenda.setEnabled(false);
         lblEstiloData.setText("Formato Data: Ex.: " + dataAtual);
+        limparAgenda();
 
     }//GEN-LAST:event_btnLimparAgendaActionPerformed
 
@@ -737,4 +734,16 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         }
     }
 
+    private void limparAgenda() {
+        String sql2 = "select * from agendaCompromisso where descAgenda = 'XXXX' ";
+        try {
+            pst = conexao.prepareStatement(sql2);
+            rs = pst.executeQuery();
+            tblAgendaCompromisso.setModel(DbUtils.resultSetToTableModel(rs));
+            tblAgendaCompromisso.isValid();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+    }
+    }
 }

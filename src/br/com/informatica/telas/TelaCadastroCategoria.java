@@ -5,6 +5,7 @@
  */
 package br.com.informatica.telas;
 
+//import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 import static br.com.informatica.telas.TelaSaida.pst;
 import java.sql.Connection;
@@ -27,6 +28,7 @@ public class TelaCadastroCategoria extends javax.swing.JFrame {
 
     public TelaCadastroCategoria() {
         initComponents();
+      //  conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
     }
 

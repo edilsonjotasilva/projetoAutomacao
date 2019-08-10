@@ -5,6 +5,7 @@
  */
 package br.com.informatica.telas;
 
+//import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 import static br.com.informatica.telas.TelaSaida.pst;
 import java.sql.Connection;
@@ -25,6 +26,7 @@ public class TelaVerificarRotinasDeAgendamento extends javax.swing.JFrame {
     Connection conexao = null;
 
     public TelaVerificarRotinasDeAgendamento() {
+        //conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
          
         initComponents();

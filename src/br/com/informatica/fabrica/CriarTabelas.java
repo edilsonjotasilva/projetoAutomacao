@@ -6,13 +6,16 @@
 package br.com.informatica.fabrica;
 
 //import static br.com.informatica.dal.Conexao.conectarDataBase;
+//import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
+import static br.com.informatica.dal.Conexao.conector;
 import br.com.informatica.telas.TelaLogin;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,11 +23,11 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static br.com.informatica.dal.Conexao.conector;
+//import static br.com.informatica.dal.ConexaoBanco.conexao;
 
 public class CriarTabelas {
 
-    static String driver = "com.mysql.jdbc.Driver";
+     static String driver = "com.mysql.jdbc.Driver";
     static String host, porta, user, senha;
 
     // esse metodo é chamado dentro do metodo conexaoServidor da classe Conexao
@@ -39,7 +42,7 @@ public class CriarTabelas {
             foiCriado = true;
             String linha;
             //busca o arquivo conexao.ini no caminho especifico e guarda na variavel ArquivoConfiguracao
-            String ArquivoConfiguracao = "C:/controle/conexao.ini";
+            String ArquivoConfiguracao = "C:/imobSys/conexao.ini";
             int cont = 0;
             //cria o arquivo arq e atribui a ele o arquivo conexao.ini que está armazenado em ArquivoConfiguracao
             File arq = new File(ArquivoConfiguracao);

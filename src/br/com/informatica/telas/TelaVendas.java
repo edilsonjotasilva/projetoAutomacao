@@ -5,6 +5,7 @@
  */
 package br.com.informatica.telas;
 
+//import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 import br.com.informatica.util.ClienteDialog;
 import br.com.informatica.util.CorretorDialog;
@@ -22,6 +23,9 @@ import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import net.proteanit.sql.DbUtils;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 import org.apache.tools.ant.taskdefs.Concat;
 import org.xhtmlrenderer.css.parser.property.PrimitivePropertyBuilders;
 
@@ -40,6 +44,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         //  Locale.setDefault(Locale.US);
         //  txtTotalVenda.setText(new DecimalFormat("#.00").format(somaTotal));
         conexao = Conexao.conector;
+        //conexao = ConexaoBanco.conector;
 
     }
 
@@ -90,6 +95,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
+        setResizable(true);
         setTitle("Tela de Vendas");
         setPreferredSize(new java.awt.Dimension(851, 610));
 
@@ -121,11 +127,11 @@ public class TelaVendas extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Cod Venda", "Valor Venda", "Valor Prest", "Qant Prest", "Corretor", "Comissão"
+                "Cod Venda", "Valor Venda", "Valor Prest", "Qant Prest", "Corretor", "Comissão", "Cod Cli", "Cliente", "Telefl", "Celular", "Email", "CodImov", "Qd", "Lte", "Loteamento", "Cidade"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -167,6 +173,11 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         pnlMenuVendas.add(btnExcluirVenda);
 
         btnImprimeVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora2.png"))); // NOI18N
+        btnImprimeVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimeVendaActionPerformed(evt);
+            }
+        });
         pnlMenuVendas.add(btnImprimeVenda);
 
         btnLimparVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/clear.png"))); // NOI18N
@@ -245,72 +256,68 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         pnlPrincipalVendas.setLayout(pnlPrincipalVendasLayout);
         pnlPrincipalVendasLayout.setHorizontalGroup(
             pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalVendasLayout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
+            .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlMenuVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalVendasLayout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtPesquisarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(614, 614, 614))
                     .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
                         .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPrincipalVendasLayout.createSequentialGroup()
-                                .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
                                     .addComponent(jLabel1)
-                                    .addComponent(jLabel5))
-                                .addGap(18, 18, 18)
-                                .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(pnlMenuVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
-                                        .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPrincipalVendasLayout.createSequentialGroup()
-                                                .addComponent(txtCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btnPesquisarCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPrincipalVendasLayout.createSequentialGroup()
-                                                .addComponent(txtCodVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(35, 35, 35)
-                                                .addComponent(jLabel2)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
-                                                .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jLabel4)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(txtValorPrestacaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
-                                                .addComponent(jLabel10)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(txtCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btnPesquisarCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
-                                                .addComponent(jLabel3)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(txtQntPrestacaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jLabel7)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
-                                                .addComponent(jLabel11)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(txtCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btnPesquisariCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cboComissaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtValorComissaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtCodVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(35, 35, 35)
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txtValorPrestacaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txtQntPrestacaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel7)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel6)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(cboComissaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel8)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtValorComissaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addGap(28, 28, 28)
+                                    .addComponent(txtCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnPesquisarCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(83, 83, 83)
+                                    .addComponent(jLabel10)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnPesquisarCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(109, 109, 109)
+                                    .addComponent(jLabel11)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnPesquisariCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 48, Short.MAX_VALUE))
+                    .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtPesquisarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         pnlPrincipalVendasLayout.setVerticalGroup(
@@ -341,8 +348,8 @@ public class TelaVendas extends javax.swing.JInternalFrame {
                     .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addComponent(btnPesquisarCodCorretor))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalVendasLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnPesquisarCodCliente)
                             .addComponent(btnPesquisariCodImovel)
@@ -355,13 +362,13 @@ public class TelaVendas extends javax.swing.JInternalFrame {
                                     .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel11)
                                         .addComponent(txtCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addGap(74, 74, 74)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
                 .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtPesquisarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
                 .addComponent(pnlMenuVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53))
         );
@@ -384,13 +391,13 @@ public class TelaVendas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarVendaActionPerformed
-        
+
         calcularComissaoVenda();
         calcularValorTotal();
         cadastrarVenda();
         cboComissaoVenda.setSelectedItem("5");
         alteraSituacaoImovel();
-        
+
     }//GEN-LAST:event_btnCadastrarVendaActionPerformed
 
     private void txtValorPrestacaoVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorPrestacaoVendaActionPerformed
@@ -421,6 +428,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         calcularValorTotal();
         calcularComissaoVenda();
         alterarVenda();
+        limparVendas();
     }//GEN-LAST:event_btnAlterarVendaActionPerformed
 
     private void tblVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVendasMouseClicked
@@ -455,6 +463,10 @@ public class TelaVendas extends javax.swing.JInternalFrame {
     private void btnLimparVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparVendaActionPerformed
         limparVendas();
     }//GEN-LAST:event_btnLimparVendaActionPerformed
+
+    private void btnImprimeVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimeVendaActionPerformed
+        imprimeRelatorioVendas();
+    }//GEN-LAST:event_btnImprimeVendaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -546,7 +558,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
 //                    txtValorComissaoVenda.setText("");
 //                    txtCodCorretor.setText("");
 //                    txtCodCliente.setText("");
-                 //   txtCodImovel.setText("");
+                    //   txtCodImovel.setText("");
 
                 }
             }
@@ -574,9 +586,10 @@ public class TelaVendas extends javax.swing.JInternalFrame {
     }
 
     private void pesquisarVenda() {
-        String sql = "select * from venda";
+        String sql = "select * from venda where codVenda like ? order by codVenda desc";
         try {
             pst = conexao.prepareStatement(sql);
+            pst.setString(1,  txtPesquisarVenda.getText()+"%");            
             rs = pst.executeQuery();
             tblVendas.setModel(DbUtils.resultSetToTableModel(rs));
             tblVendas.isValid();
@@ -642,8 +655,8 @@ public class TelaVendas extends javax.swing.JInternalFrame {
 //            Date anoCorrente = new Date();
 //            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 //            String dataFormatada = sdf.format(anoCorrente);
-            String sql = "update venda set valorEntrada=?,valorPrestacao=?,quantPrestacao=?,totalVenda=?,comissao=?,valorComissao=?,corretor_codCorreto=?,cliente_codCliente=?,imovel_codImovel=?"
-                    + ",corretor=? where codVenda = ?";
+            String sql = "update venda set valorEntrada=?,valorPrestacao=?,quantPrestacao=?,totalVenda=?,comissao=?,valorComissao=?,corretor_codCorretor=?,cliente_codCliente=?,imovel_codImovel=?"
+                    + " where codVenda = ?";
             Formatador formatador = new Formatador();
             Double valorTotalF = formatador.convertVirgulaParaPonto(txtTotalVenda.getText());
             Double valorComissaoF = formatador.convertVirgulaParaPonto(txtValorComissaoVenda.getText());
@@ -732,25 +745,36 @@ public class TelaVendas extends javax.swing.JInternalFrame {
     }
 
     private void alteraSituacaoImovel() {
-        
-         // String sql = "SELECT codLoteamento FROM loteamento ORDER BY codLoteamento DESC limit 1";
-          String sql = "UPDATE imovel set situacaoImovel='VENDIDO' WHERE codImovel=?";
+
+        // String sql = "SELECT codLoteamento FROM loteamento ORDER BY codLoteamento DESC limit 1";
+        String sql = "UPDATE imovel set situacaoImovel='VENDIDO' WHERE codImovel=?";
         try {
-            pst = conexao.prepareStatement(sql);            
+            pst = conexao.prepareStatement(sql);
             pst.setString(1, txtCodImovel.getText().toUpperCase());
             pst.executeUpdate();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-           txtValorEntrada.setText("");
-                    txtValorPrestacaoVenda.setText("");
-                    txtQntPrestacaoVenda.setText("");
-                    txtTotalVenda.setText("");
-                    txtValorComissaoVenda.setText("");
-                    txtCodCorretor.setText("");
-                    txtCodCliente.setText("");
+        txtValorEntrada.setText("");
+        txtValorPrestacaoVenda.setText("");
+        txtQntPrestacaoVenda.setText("");
+        txtTotalVenda.setText("");
+        txtValorComissaoVenda.setText("");
+        txtCodCorretor.setText("");
+        txtCodCliente.setText("");
         txtCodImovel.setText("");
-        
+
+    }
+
+    private void imprimeRelatorioVendas() {
+        try {
+            //Usando a classe JasperPrint para preparar a impressao de um relatorio, o caminho pode ser usado '/' ou '\\'
+            JasperPrint print = JasperFillManager.fillReport("C:\\imobsys\\relatorios\\relatorioVendas.jasper", null, conexao);
+            //a linha abaixo exibe o relatorio através da classe JasperViewer
+            JasperViewer.viewReport(print, false);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 }

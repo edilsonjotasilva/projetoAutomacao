@@ -5,6 +5,7 @@
  */
 package br.com.informatica.telas;
 
+//import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,6 +25,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
 
     public TelaUsuarios() {
         initComponents();
+        //conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
     }
 
@@ -281,10 +283,18 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
 
     private void btnAlterarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarUsuarioActionPerformed
         alterarUsuario();
+         limparUsuario();
     }//GEN-LAST:event_btnAlterarUsuarioActionPerformed
 
     private void btnLimparUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparUsuarioActionPerformed
-         limparUsuario();
+        txtIdUsuario.setText(null);
+        txtNomeUsuario.setText(null);
+        txtTelefone.setText(null);
+        txtLogin.setText(null);
+        txtPassword.setText(null);
+        btnAdicionarUsuario.setEnabled(true);
+        txtPesquisaUsuario.requestFocus(); 
+        limparUsuario();
     }//GEN-LAST:event_btnLimparUsuarioActionPerformed
 
     private void btnApagarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApagarUsuarioActionPerformed
@@ -322,7 +332,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     private void adcionarUsuario() {
          //  Connection conexao = null;
         PreparedStatement pst = null;
-        String sql = "INSERT INTO usuarios (nomeUsu,telefone,login,senha,perfil,cpf) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (nomeUsu,telefone,login,senha,perfil) VALUES (?, ?, ?, ?, ?)";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtNomeUsuario.getText());
@@ -428,13 +438,16 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     }
 
     private void limparUsuario() {
-        txtIdUsuario.setText(null);
-        txtNomeUsuario.setText(null);
-        txtTelefone.setText(null);
-        txtLogin.setText(null);
-        txtPassword.setText(null);
-        btnAdicionarUsuario.setEnabled(true);
-        txtPesquisaUsuario.requestFocus();
+       String sql2 = "select * from usuarios where nomeUsu = 'XXXX' ";
+        try {
+            pst = conexao.prepareStatement(sql2);
+            rs = pst.executeQuery();
+            tblUsuario.setModel(DbUtils.resultSetToTableModel(rs));
+            tblUsuario.isValid();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     private void deletarUsuario() {

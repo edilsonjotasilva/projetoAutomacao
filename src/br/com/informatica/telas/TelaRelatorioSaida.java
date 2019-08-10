@@ -5,6 +5,7 @@
  */
 package br.com.informatica.telas;
 
+//import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,6 +36,7 @@ public class TelaRelatorioSaida extends javax.swing.JFrame {
 
     public TelaRelatorioSaida() {
         initComponents();
+       // conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
     }
 
@@ -329,7 +331,7 @@ public class TelaRelatorioSaida extends javax.swing.JFrame {
             HashMap parameterMap = new HashMap();
             //String report_dir = drive+fsep+"dados"+fsep+"empr"+emp4dig+fsep+"relatorio"+fsep;
             //  String report_dir = System.getProperty("user.dir")+fsep+"Relatorios"+fsep;
-            String arquivo = "C:\\imobiliaria\\relatorios\\relatoriodesaida.jasper";
+            String arquivo = "C:\\imobsys\\relatorios\\relatoriodesaida.jasper";
             //     String arquivo = report_dir+"areceber.jasper"; 
 //JOptionPane.showMessageDialog(null, "Arquivo Jasper: "+arquivo);
             boolean retorno = true;
@@ -472,7 +474,7 @@ public class TelaRelatorioSaida extends javax.swing.JFrame {
         //imprimindo o relatorio com o framework JasperReport
         try {
             //Usando a classe JasperPrint para preparar a impressao de um relatorio, o caminho pode ser usado '/' ou '\\'
-            JasperPrint print = JasperFillManager.fillReport("C:\\imobiliaria\\relatorios\\relatorioSaidaTotal.jasper", null, conexao);
+            JasperPrint print = JasperFillManager.fillReport("C:\\imobsys\\relatorios\\relatorioSaidaTotal.jasper", null, conexao);
             //a linha abaixo exibe o relatorio através da classe JasperViewer
             JasperViewer.viewReport(print, false);
         } catch (Exception e) {

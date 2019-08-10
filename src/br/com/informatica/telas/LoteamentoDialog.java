@@ -5,6 +5,7 @@
  */
 package br.com.informatica.telas;
 
+//import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,6 +30,7 @@ public class LoteamentoDialog extends javax.swing.JDialog {
         this.loteamento = parent;
         this.setModal(modal);
         initComponents();
+       // conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
     }
 

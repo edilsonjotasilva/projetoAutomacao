@@ -5,6 +5,7 @@
  */
 package br.com.informatica.telas;
 
+//import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 import br.com.informatica.telas.LoteamentoDialog;
 import br.com.informatica.util.DialogLoteamento;
@@ -22,7 +23,25 @@ import net.proteanit.sql.DbUtils;
  */
 public class TelaImovel extends javax.swing.JInternalFrame {
 
+    static String situacaoAtual;
+    static String situacaoNova;
     private static TelaImovel telaImovel;
+
+    public static String getSituacaoAtual() {
+        return situacaoAtual;
+    }
+
+    public static String getSituacaoNova() {
+        return situacaoNova;
+    }
+
+    public static void setSituacaoAtual(String situacaoAtual) {
+        TelaImovel.situacaoAtual = situacaoAtual;
+    }
+
+    public static void setSituacaoNova(String situacaoNova) {
+        TelaImovel.situacaoNova = situacaoNova;
+    }
 
     public static TelaImovel getInstancia() {
         if (telaImovel == null) {
@@ -40,6 +59,7 @@ public class TelaImovel extends javax.swing.JInternalFrame {
         initComponents();
         // tblImovelLoteamento.setVisible(false);
 
+        //conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
     }
 
@@ -143,6 +163,11 @@ public class TelaImovel extends javax.swing.JInternalFrame {
         });
 
         btnImprimeImovel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora2.png"))); // NOI18N
+        btnImprimeImovel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimeImovelActionPerformed(evt);
+            }
+        });
 
         btnLimparImovel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/clear.png"))); // NOI18N
         btnLimparImovel.addActionListener(new java.awt.event.ActionListener() {
@@ -439,8 +464,7 @@ public class TelaImovel extends javax.swing.JInternalFrame {
                             .addComponent(jLabel9)
                             .addGroup(pnlPrincipalImovelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(pnlPrincipalImovelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(30, 30, 30)
                         .addComponent(pnlMenuVendas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -527,8 +551,41 @@ public class TelaImovel extends javax.swing.JInternalFrame {
 
     private void btnAlterarImovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarImovelActionPerformed
 
-        alterarImovel();
-        btnCadastrarImovel.setEnabled(false);
+        setSituacaoNova(jCbSituacaoImovel.getSelectedItem().toString()) ;
+        if (getSituacaoAtual().equals("VENDIDO") && situacaoNova.equals("DISPONIVEL")) {
+            int confirma = JOptionPane.showConfirmDialog(null, "Esse Imovel consta como Vendido, deseja torna-lo DISPONIVEL? " + txtCodImovel.getText(), "Atenção", JOptionPane.YES_NO_OPTION, 0);
+            //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+            //for Empty significa que não ha usuario com esse ID
+            if (confirma == JOptionPane.YES_OPTION) {
+               String sql = "DELETE from venda where imovel_codImovel=?";
+                try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtCodImovel.getText());
+                int rowsAffected = pst.executeUpdate();
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Venda Removida com Sucesso!");
+//                    txtRuaImovel.setText("");
+//                    txtQuadraImovel.setText("");
+//                    txtLoteImovel.setText("");
+//                    txtNumeroImovel.setText("");
+//                    txtCEPImovel.setText("");
+//                    cboTipoImovel.setSelectedItem("LOTE");
+//                    txtMetragemImovel.setText("");
+//                    jCbSituacaoImovel.setSelectedItem("DISPONIVEL");
+//                    txtCodLoteamentoImovel.setText("");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+                alterarImovel();
+                btnCadastrarImovel.setEnabled(false);
+                limparImovel();
+            }
+        } else {
+            alterarImovel();
+            btnCadastrarImovel.setEnabled(false);
+            limparImovel();
+        }
     }//GEN-LAST:event_btnAlterarImovelActionPerformed
 
     private void btnCadastrarImovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarImovelActionPerformed
@@ -554,17 +611,21 @@ public class TelaImovel extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnCadastrarDinamicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarDinamicoActionPerformed
-         if (jTfLoteInicial.getText().isEmpty()) {
+        if (jTfLoteInicial.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo Lote Inicial não pode ser fazio", "Atenção", 0);
         } else if (jTfLoteFinal.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo Lote Finall não pode ser fazio", "Atenção", 0);
         } else {
-        cadastrarDinamico();
-        btnCadastrarImovel.setEnabled(false);
-        btnCadastrarDinamico.setEnabled(true);
-        limparImovel();
+            cadastrarDinamico();
+            btnCadastrarImovel.setEnabled(false);
+            btnCadastrarDinamico.setEnabled(true);
+            limparImovel();
         }
     }//GEN-LAST:event_btnCadastrarDinamicoActionPerformed
+
+    private void btnImprimeImovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimeImovelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnImprimeImovelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -663,65 +724,65 @@ public class TelaImovel extends javax.swing.JInternalFrame {
     }
 
     private void cadastrarDinamico() {
-       
-            int loteInicial = Integer.parseInt(jTfLoteInicial.getText());
-            int loteInseri = loteInicial;
-            int loteFinal = Integer.parseInt(jTfLoteFinal.getText());
 
-            int confirma = JOptionPane.showConfirmDialog(null, "Confirma o Cadastro de imoveis no intervalo de: " + loteInicial + " A " + loteFinal, "Atenção", JOptionPane.YES_NO_OPTION, 0);
-            //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
-            //for Empty significa que não ha usuario com esse ID
-            if (confirma == JOptionPane.YES_OPTION) {
+        int loteInicial = Integer.parseInt(jTfLoteInicial.getText());
+        int loteInseri = loteInicial;
+        int loteFinal = Integer.parseInt(jTfLoteFinal.getText());
 
-                for (int i = loteInicial; i <= loteFinal; i++) {
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma o Cadastro de imoveis no intervalo de: " + loteInicial + " A " + loteFinal, "Atenção", JOptionPane.YES_NO_OPTION, 0);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
 
-                    String loteInseriStr = String.valueOf(loteInseri);
-                    String sql = "INSERT INTO imovel (ruaImovel,quadraImovel,loteImovel,numeroImovel,cepImovel,tipoImovel"
-                            + ",metragemImovel,situacaoImovel,loteamento_codLoteamento ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                    try {
-                        pst = conexao.prepareStatement(sql);
-                        pst.setString(1, txtRuaImovel.getText().toUpperCase());
-                        pst.setString(2, txtQuadraImovel.getText().toUpperCase());
-                        // pst.setString(3, txtLoteImovel.getText().toUpperCase());
-                        pst.setString(3, loteInseriStr);
-                        pst.setString(4, txtNumeroImovel.getText().toUpperCase());
-                        pst.setString(5, txtCEPImovel.getText().toUpperCase());
-                        pst.setString(6, cboTipoImovel.getSelectedItem().toString());
-                        pst.setString(7, txtMetragemImovel.getText().toUpperCase());
-                        pst.setString(8, jCbSituacaoImovel.getSelectedItem().toString());
-                        pst.setString(9, txtCodLoteamentoImovel.getText().toUpperCase());
+            for (int i = loteInicial; i <= loteFinal; i++) {
 
-                        if (txtRuaImovel.getText().isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "Campo Rua é Obrigatório!");
-                        } else if (txtQuadraImovel.getText().isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "Campo Quadra é Obrigatório!");
-                        } else if (txtLoteImovel.getText().isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "Campo Lote é Obrigatório!");
-                        } else if (txtNumeroImovel.getText().isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "Campo Numero é Obrigatório!");
-                        } else if (txtCEPImovel.getText().isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "Campo CEP é Obrigatório!");
-                        } else if (txtMetragemImovel.getText().isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "Campo Metragem é Obrigatório!");
-                        } else if (txtCodLoteamentoImovel.getText().isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "Campo Cod Loteamento é Obrigatório!");
-                        } else {
-                            int rowsAfected = pst.executeUpdate();
+                String loteInseriStr = String.valueOf(loteInseri);
+                String sql = "INSERT INTO imovel (ruaImovel,quadraImovel,loteImovel,numeroImovel,cepImovel,tipoImovel"
+                        + ",metragemImovel,situacaoImovel,loteamento_codLoteamento ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                try {
+                    pst = conexao.prepareStatement(sql);
+                    pst.setString(1, txtRuaImovel.getText().toUpperCase());
+                    pst.setString(2, txtQuadraImovel.getText().toUpperCase());
+                    // pst.setString(3, txtLoteImovel.getText().toUpperCase());
+                    pst.setString(3, loteInseriStr);
+                    pst.setString(4, txtNumeroImovel.getText().toUpperCase());
+                    pst.setString(5, txtCEPImovel.getText().toUpperCase());
+                    pst.setString(6, cboTipoImovel.getSelectedItem().toString());
+                    pst.setString(7, txtMetragemImovel.getText().toUpperCase());
+                    pst.setString(8, jCbSituacaoImovel.getSelectedItem().toString());
+                    pst.setString(9, txtCodLoteamentoImovel.getText().toUpperCase());
 
-                            if (rowsAfected > 0) {
+                    if (txtRuaImovel.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo Rua é Obrigatório!");
+                    } else if (txtQuadraImovel.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo Quadra é Obrigatório!");
+                    } else if (txtLoteImovel.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo Lote é Obrigatório!");
+                    } else if (txtNumeroImovel.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo Numero é Obrigatório!");
+                    } else if (txtCEPImovel.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo CEP é Obrigatório!");
+                    } else if (txtMetragemImovel.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo Metragem é Obrigatório!");
+                    } else if (txtCodLoteamentoImovel.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Campo Cod Loteamento é Obrigatório!");
+                    } else {
+                        int rowsAfected = pst.executeUpdate();
 
-                                if (loteInseri >= loteFinal) {
-                                    JOptionPane.showMessageDialog(null, "Imovis cadastrados com sucesso!", "Cadastros", 1);
-                                }
+                        if (rowsAfected > 0) {
 
+                            if (loteInseri >= loteFinal) {
+                                JOptionPane.showMessageDialog(null, "Imovis cadastrados com sucesso!", "Cadastros", 1);
                             }
+
                         }
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, e);
                     }
-                    loteInseri++;
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
                 }
-            
+                loteInseri++;
+            }
+
         }
     }
 
@@ -774,11 +835,13 @@ public class TelaImovel extends javax.swing.JInternalFrame {
         txtMetragemImovel.setText(tblImovel.getModel().getValueAt(setar, 7).toString());
         jCbSituacaoImovel.setSelectedItem(tblImovel.getModel().getValueAt(setar, 8).toString());
         txtCodLoteamentoImovel.setText(tblImovel.getModel().getValueAt(setar, 9).toString());
+        
+        setSituacaoAtual(jCbSituacaoImovel.getSelectedItem().toString());
 
     }
 
     private void alterarImovel() {
-        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Alteracao de Vendas? " + txtCodImovel.getText(), "Atenção", JOptionPane.YES_NO_OPTION, 0);
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Alteracao do Imovel ? " + txtCodImovel.getText(), "Atenção", JOptionPane.YES_NO_OPTION, 0);
         //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
         //for Empty significa que não ha usuario com esse ID
         if (confirma == JOptionPane.YES_OPTION) {
@@ -919,7 +982,7 @@ public class TelaImovel extends javax.swing.JInternalFrame {
         }
     }
 
-    public  void pesquisarVendidos() {
+    public void pesquisarVendidos() {
         String sql = "select * from imovel where situacaoImovel = 'VENDIDO' order by codImovel desc";
         try {
             pst = conexao.prepareStatement(sql);

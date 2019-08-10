@@ -5,7 +5,9 @@
  */
 package br.com.informatica.telas;
 
+//import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
+import static br.com.informatica.dal.Conexao.conector;
 import static br.com.informatica.fabrica.CriarTabelas.inserirAdmin;
 import br.com.informatica.telas.TelaPrincipal;
 import static br.com.informatica.telas.TelaSaida.pst;
@@ -21,7 +23,7 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
-import static br.com.informatica.dal.Conexao.conector;
+//import static br.com.informatica.dal.ConexaoBanco.conector;
 
 /**
  *
@@ -38,7 +40,14 @@ public class TelaLogin extends javax.swing.JFrame {
         initComponents();
         //esse codigo deve ser colocado dentro do construtor depois do initComponentes para fazer o butão login funcionar com enter
         getRootPane().setDefaultButton(btnLoginLogar);
+        //conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
+           if (conector != (null)) {
+            
+               lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/dbconnect.png")));
+            } else {
+                lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/dberror.png")));
+            }
 
     }
 
@@ -168,7 +177,7 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JTextField txtLoginUsuario;
     // End of variables declaration//GEN-END:variables
 public void logar() {
-        System.out.println("Conexao status3: " + conexao);
+     System.out.println("Conexao status3: " + conexao);
         String sql = "select * from usuarios where login=? and senha=?";
         try {
             //as linhas abaixo preparam a consulta ao banco 
@@ -217,24 +226,8 @@ public void logar() {
         }
         System.out.println("Conexao status5: " + conexao);
     }
-// public void verificaRotinas(String veri){
-//     Scanner scanner = new Scanner(System.in);
-//     if (veri.equals("sim")) {
-//     String resp = "SIM";
-//     String resposta = scanner.next(resp);
-//         if (resposta.equals("SIM")) {
-//             new TelaNewAgenda().verificaAgenda();
-//         }
-//     }else{
-//        
-//          String resp = "NAO";
-//     String resposta = scanner.next(resp);
-//     }
-//   
-//     
-//     //https://www.devmedia.com.br/como-funciona-a-classe-scanner-do-java/28448
-//    
-// }
+   
+
 
     private void verificaRotinasDeAgendamento() {
 

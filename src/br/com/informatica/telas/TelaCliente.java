@@ -5,6 +5,7 @@
  */
 package br.com.informatica.telas;
 
+//import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 import static br.com.informatica.telas.TelaEntrada.pst;
 import static br.com.informatica.telas.TelaSaida.pst;
@@ -36,6 +37,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         initComponents();
         btnAlteraCliente.setEnabled(false);
         btnExcluirCliente.setEnabled(false);
+      //  conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
     }
 
@@ -879,7 +881,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     private void imprimeRelatorioCliente() {
        try {
             //Usando a classe JasperPrint para preparar a impressao de um relatorio, o caminho pode ser usado '/' ou '\\'
-            JasperPrint print = JasperFillManager.fillReport("C:\\imobiliaria\\relatorios\\relatorioClientes.jasper", null, conexao);
+            JasperPrint print = JasperFillManager.fillReport("C:\\imobsys\\relatorios\\relatorioClientes.jasper", null, conexao);
             //a linha abaixo exibe o relatorio através da classe JasperViewer
             JasperViewer.viewReport(print, false);
         } catch (Exception e) {

@@ -5,6 +5,7 @@
  */
 package br.com.informatica.telas;
 
+//import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 import com.lowagie.text.pdf.CMYKColor;
 import java.awt.Color;
@@ -34,6 +35,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
 
     public TelaSaida() {
         initComponents();
+       // conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
     }
 
