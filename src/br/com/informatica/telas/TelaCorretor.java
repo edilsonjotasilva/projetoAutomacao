@@ -35,9 +35,10 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
 
     public TelaCorretor() {
         initComponents();
+         jCbUFcorretor.setSelectedItem("GO");
         btnAlteraCorretor.setEnabled(false);
         btnExcluirCorretor.setEnabled(false);
-       // conexao = ConexaoBanco.conector;
+        // conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
     }
 
@@ -59,7 +60,6 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtRgCorretor = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtEmailCorretor = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
@@ -67,6 +67,7 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
         txtTelefoneCorretor = new javax.swing.JFormattedTextField();
         txtCelularCorretor = new javax.swing.JFormattedTextField();
         txtCpfCorretor = new javax.swing.JFormattedTextField();
+        txtRgCorretor = new javax.swing.JTextField();
         pnlEnderecoCorretor = new javax.swing.JPanel();
         txtComplementoCorretor = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -91,11 +92,11 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
         btnImprimeCorretor = new javax.swing.JButton();
         btnLimparCorretor = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
-        txtUFCorretor = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCorretor = new javax.swing.JTable();
         jLabel19 = new javax.swing.JLabel();
         txtPesquisarCorretor = new javax.swing.JTextField();
+        jCbUFcorretor = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -105,7 +106,7 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
         pnlDadosCorretor.setBackground(new java.awt.Color(204, 240, 240));
         pnlDadosCorretor.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel1.setText("ID Cliente");
+        jLabel1.setText("ID Cli");
 
         jLabel2.setText("Nome ");
 
@@ -124,12 +125,6 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
         jLabel5.setText("CPF");
 
         jLabel6.setText("RG.");
-
-        txtRgCorretor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRgCorretorActionPerformed(evt);
-            }
-        });
 
         jLabel7.setText("Email");
 
@@ -153,48 +148,54 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
 
+        txtRgCorretor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRgCorretorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlDadosCorretorLayout = new javax.swing.GroupLayout(pnlDadosCorretor);
         pnlDadosCorretor.setLayout(pnlDadosCorretorLayout);
         pnlDadosCorretorLayout.setHorizontalGroup(
             pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDadosCorretorLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel5)
                     .addGroup(pnlDadosCorretorLayout.createSequentialGroup()
-                        .addGap(62, 62, 62)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtNomeCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtEmailCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDadosCorretorLayout.createSequentialGroup()
                         .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlDadosCorretorLayout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(txtCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlDadosCorretorLayout.createSequentialGroup()
-                                .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNomeCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(pnlDadosCorretorLayout.createSequentialGroup()
-                                        .addComponent(txtCpfCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtRgCorretor)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel17)
-                                    .addComponent(jLabel7))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtContatoCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtEmailCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                                .addComponent(jLabel3)
-                                .addGap(20, 20, 20)
-                                .addComponent(txtTelefoneCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel4)
+                                .addComponent(txtCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlDadosCorretorLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(21, 21, 21)
+                                .addComponent(txtCpfCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCelularCorretor, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))))
-                    .addComponent(jLabel2))
-                .addContainerGap())
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtRgCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtContatoCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtTelefoneCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtCelularCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         pnlDadosCorretorLayout.setVerticalGroup(
             pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,30 +204,29 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
                 .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnlDadosCorretorLayout.createSequentialGroup()
-                        .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtNomeCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtEmailCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(txtTelefoneCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCelularCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel6)
-                                .addComponent(txtRgCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(txtCpfCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel5))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtNomeCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEmailCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(txtTelefoneCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCelularCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel17)
-                        .addComponent(txtContatoCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtContatoCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDadosCorretorLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel5))
+                    .addGroup(pnlDadosCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtCpfCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)
+                        .addComponent(txtRgCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         pnlEnderecoCorretor.setBackground(new java.awt.Color(204, 240, 240));
@@ -236,13 +236,19 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Cidade");
 
-        jLabel10.setText("Numero");
+        jLabel10.setText("Num");
 
         jLabel11.setText("CEP");
 
         jLabel13.setText("Bairro");
 
-        jLabel14.setText("Complemento");
+        txtBairroCorretor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBairroCorretorActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setText("Comple");
 
         jLabel15.setText("Rua");
 
@@ -314,8 +320,7 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
                 .addGap(0, 0, 0)
                 .addComponent(btnImprimeCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnLimparCorretor, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(btnLimparCorretor, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
         );
         pnlMenuCorretorLayout.setVerticalGroup(
             pnlMenuCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,67 +370,67 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
             }
         });
 
+        jCbUFcorretor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
+
         javax.swing.GroupLayout pnlEnderecoCorretorLayout = new javax.swing.GroupLayout(pnlEnderecoCorretor);
         pnlEnderecoCorretor.setLayout(pnlEnderecoCorretorLayout);
         pnlEnderecoCorretorLayout.setHorizontalGroup(
             pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlEnderecoCorretorLayout.createSequentialGroup()
-                .addGroup(pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlEnderecoCorretorLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlEnderecoCorretorLayout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtComplementoCorretor))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlEnderecoCorretorLayout.createSequentialGroup()
-                                .addComponent(jLabel15)
-                                .addGap(64, 64, 64)
-                                .addComponent(txtRuaCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(10, 10, 10)
-                        .addGroup(pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(pnlEnderecoCorretorLayout.createSequentialGroup()
                         .addGroup(pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlEnderecoCorretorLayout.createSequentialGroup()
-                                .addComponent(txtQuadraCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel8)
+                                .addGroup(pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel15))
                                 .addGap(18, 18, 18)
-                                .addComponent(txtLoteCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNumeroCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtCidadeCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlEnderecoCorretorLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel11)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtCepCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel18)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtUFCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlEnderecoCorretorLayout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(jLabel13)
+                                .addGroup(pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtRuaCorretor, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                                    .addComponent(txtComplementoCorretor))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtBairroCorretor))))
-                    .addGroup(pnlEnderecoCorretorLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 962, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlEnderecoCorretorLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel19)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtPesquisarCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlEnderecoCorretorLayout.createSequentialGroup()
-                        .addGap(257, 257, 257)
-                        .addComponent(pnlMenuCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                                .addGroup(pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel9))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(pnlEnderecoCorretorLayout.createSequentialGroup()
+                                        .addComponent(txtCidadeCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel11)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtCepCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel18)
+                                        .addGap(29, 29, 29)
+                                        .addComponent(jCbUFcorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pnlEnderecoCorretorLayout.createSequentialGroup()
+                                        .addComponent(txtQuadraCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtLoteCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtNumeroCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel13)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtBairroCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(pnlEnderecoCorretorLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel19)
+                                .addGap(18, 18, 18)
+                                .addGroup(pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtPesquisarCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(pnlMenuCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(38, 38, 38)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlEnderecoCorretorLayout.setVerticalGroup(
             pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -450,15 +455,15 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
                     .addComponent(txtCidadeCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
                     .addComponent(jLabel18)
-                    .addComponent(txtUFCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCepCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCepCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCbUFcorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addGroup(pnlEnderecoCorretorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
                     .addComponent(txtPesquisarCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(pnlMenuCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -471,34 +476,27 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlEnderecoCorretor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(pnlDadosCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(pnlDadosCorretor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(pnlDadosCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlEnderecoCorretor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(16, 16, 16))
         );
 
-        setBounds(0, 0, 1008, 610);
+        setBounds(0, 0, 970, 610);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNomeCorretorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeCorretorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeCorretorActionPerformed
 
-    private void txtRgCorretorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRgCorretorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRgCorretorActionPerformed
-
     private void btnExcluirCorretorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirCorretorActionPerformed
-       excluirCorretor();
+        excluirCorretor();
     }//GEN-LAST:event_btnExcluirCorretorActionPerformed
 
     private void btnAlteraCorretorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlteraCorretorActionPerformed
@@ -532,6 +530,14 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
         imprimeRelatorioCorretor();
     }//GEN-LAST:event_btnImprimeCorretorActionPerformed
 
+    private void txtBairroCorretorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBairroCorretorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBairroCorretorActionPerformed
+
+    private void txtRgCorretorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRgCorretorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRgCorretorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton btnAlteraCorretor;
@@ -539,6 +545,7 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
     protected javax.swing.JButton btnExcluirCorretor;
     protected javax.swing.JButton btnImprimeCorretor;
     private javax.swing.JButton btnLimparCorretor;
+    private javax.swing.JComboBox<String> jCbUFcorretor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -579,7 +586,6 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtRgCorretor;
     private javax.swing.JTextField txtRuaCorretor;
     private javax.swing.JFormattedTextField txtTelefoneCorretor;
-    private javax.swing.JTextField txtUFCorretor;
     // End of variables declaration//GEN-END:variables
 
     private void cadastrarCorretor() {
@@ -602,7 +608,7 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
             pst.setString(13, txtComplementoCorretor.getText().toUpperCase());
             pst.setString(14, txtCepCorretor.getText());
             pst.setString(15, txtCidadeCorretor.getText().toUpperCase());
-            pst.setString(16, txtUFCorretor.getText().toUpperCase());
+            pst.setString(16, jCbUFcorretor.getSelectedItem().toString());
             // pst.setString(16, txtUFCorretor.getText());
             // validaçao dos campos obrigatórios
             if (txtNomeCorretor.getText().isEmpty()) {
@@ -623,8 +629,6 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Campo CEP é Obrigatório!");
             } else if (txtCidadeCorretor.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo CIDADE é Obrigatório!");
-            } else if (txtUFCorretor.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Campo UF é Obrigatório!");
             } else {
                 int rowsAfected = pst.executeUpdate();
 
@@ -646,7 +650,7 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
                     txtComplementoCorretor.setText("");
                     txtCepCorretor.setText("");
                     txtCidadeCorretor.setText("");
-                    txtUFCorretor.setText("");
+                    jCbUFcorretor.setSelectedItem("GO");
                     txtNomeCorretor.requestFocus();
                 }
             }
@@ -682,7 +686,7 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
                 pst.setString(13, txtComplementoCorretor.getText().toUpperCase());
                 pst.setString(14, txtCepCorretor.getText());
                 pst.setString(15, txtCidadeCorretor.getText().toUpperCase());
-                pst.setString(16, txtUFCorretor.getText().toUpperCase());
+                pst.setString(16, jCbUFcorretor.getSelectedItem().toString());
                 pst.setString(17, txtCodCorretor.getText());
                 // validaçao dos campos obrigatórios
                 if (txtNomeCorretor.getText().isEmpty()) {
@@ -703,8 +707,6 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Campo CEP é Obrigatório!");
                 } else if (txtCidadeCorretor.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo CIDADE é Obrigatório!");
-                } else if (txtUFCorretor.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo UF é Obrigatório!");
                 } else {
                     int rowsAfected = pst.executeUpdate();
 
@@ -740,7 +742,7 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
                         txtComplementoCorretor.setText("");
                         txtCepCorretor.setText("");
                         txtCidadeCorretor.setText("");
-                        txtUFCorretor.setText("");
+                        jCbUFcorretor.setSelectedItem("GO");
                         txtNomeCorretor.requestFocus();
 
                     }
@@ -772,8 +774,6 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
             tblCorretor.setModel(DbUtils.resultSetToTableModel(rs));
             tblCorretor.isValid();
 
-  
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -796,8 +796,8 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
         txtBairroCorretor.setText(tblCorretor.getModel().getValueAt(setar, 12).toString());
         txtComplementoCorretor.setText(tblCorretor.getModel().getValueAt(setar, 13).toString());
         txtCepCorretor.setText(tblCorretor.getModel().getValueAt(setar, 14).toString());
-        txtCidadeCorretor.setText(tblCorretor.getModel().getValueAt(setar, 15).toString());    
-        txtUFCorretor.setText(tblCorretor.getModel().getValueAt(setar, 16).toString());
+        txtCidadeCorretor.setText(tblCorretor.getModel().getValueAt(setar, 15).toString());
+        jCbUFcorretor.setSelectedItem(tblCorretor.getModel().getValueAt(setar, 16).toString());
         txtPesquisarCorretor.requestFocus();
     }
 
@@ -820,7 +820,7 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
         txtComplementoCorretor.setText("");
         txtCepCorretor.setText("");
         txtCidadeCorretor.setText("");
-        txtUFCorretor.setText("");
+        jCbUFcorretor.setSelectedItem("GO");
         txtCodCorretor.setText("");
         txtNomeCorretor.requestFocus();
         String sql2 = "select * from Corretor where nomeCorretor = 'XXXX' ";
@@ -837,42 +837,42 @@ public class TelaCorretor extends javax.swing.JInternalFrame {
     }
 
     private void excluirCorretor() {
-           int confirma = JOptionPane.showConfirmDialog(null, "Confirma a remoção do Corretor? " + txtNomeCorretor.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a remoção do Corretor? " + txtNomeCorretor.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
         //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
         //for Empty significa que não ha usuario com esse ID
         if (confirma == JOptionPane.YES_OPTION) {
-         String sql = "delete from Corretor where codCorretor = ?";
-        try {
-              pst = conexao.prepareStatement(sql);
+            String sql = "delete from Corretor where codCorretor = ?";
+            try {
+                pst = conexao.prepareStatement(sql);
                 pst.setString(1, txtCodCorretor.getText());
                 int rowsAffected = pst.executeUpdate();
-        JOptionPane.showMessageDialog(null, "Corretor removido com Sucesso!");
-        btnAlteraCorretor.setEnabled(false);
-        btnExcluirCorretor.setEnabled(false);
-        txtNomeCorretor.setText("");
-        txtTelefoneCorretor.setText("");
-        txtCelularCorretor.setText("");
-        txtCpfCorretor.setText("");
-        txtRgCorretor.setText("");
-        txtEmailCorretor.setText("");
-        txtContatoCorretor.setText("");
-        txtRuaCorretor.setText("");
-        txtQuadraCorretor.setText("");
-        txtLoteCorretor.setText("");
-        txtBairroCorretor.setText("");
-        txtComplementoCorretor.setText("");
-        txtCepCorretor.setText("");
-        txtCidadeCorretor.setText("");
-        txtUFCorretor.setText("");
-        txtCodCorretor.setText("");
-        txtNomeCorretor.requestFocus();
-        btnCadastraCorretor.setEnabled(true);
-        btnAlteraCorretor.setEnabled(false);
-        btnExcluirCorretor.setEnabled(false);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+                JOptionPane.showMessageDialog(null, "Corretor removido com Sucesso!");
+                btnAlteraCorretor.setEnabled(false);
+                btnExcluirCorretor.setEnabled(false);
+                txtNomeCorretor.setText("");
+                txtTelefoneCorretor.setText("");
+                txtCelularCorretor.setText("");
+                txtCpfCorretor.setText("");
+                txtRgCorretor.setText("");
+                txtEmailCorretor.setText("");
+                txtContatoCorretor.setText("");
+                txtRuaCorretor.setText("");
+                txtQuadraCorretor.setText("");
+                txtLoteCorretor.setText("");
+                txtBairroCorretor.setText("");
+                txtComplementoCorretor.setText("");
+                txtCepCorretor.setText("");
+                txtCidadeCorretor.setText("");
+                jCbUFcorretor.setSelectedItem("GO");
+                txtCodCorretor.setText("");
+                txtNomeCorretor.requestFocus();
+                btnCadastraCorretor.setEnabled(true);
+                btnAlteraCorretor.setEnabled(false);
+                btnExcluirCorretor.setEnabled(false);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
-    }
     }
 
     private void imprimeRelatorioCorretor() {

@@ -8,11 +8,15 @@ package br.com.informatica.telas;
 //import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 import com.lowagie.text.pdf.CMYKColor;
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -35,8 +39,12 @@ public class TelaSaida extends javax.swing.JInternalFrame {
 
     public TelaSaida() {
         initComponents();
-       // conexao = ConexaoBanco.conector;
-        conexao = Conexao.conector;
+        // conexao = ConexaoBanco.conector;
+        conexao = Conexao.conector;       
+     ((JTextFieldDateEditor) jDateChooserSaida.getDateEditor ()). setEditable (false);
+     jDateChooserSaida.setDate(new Date());
+
+
     }
 
     @SuppressWarnings("unchecked")
@@ -70,7 +78,8 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         txtPesqDescSaida = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        txtDataSaida = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooserSaida = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
         setIconifiable(true);
@@ -126,9 +135,9 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 .addComponent(btnAdicionarSaida)
                 .addGap(18, 18, 18)
                 .addComponent(btnAlterarSaida)
-                .addGap(18, 18, 18)
-                .addComponent(btnExcluirSaida)
                 .addGap(27, 27, 27)
+                .addComponent(btnExcluirSaida)
+                .addGap(18, 18, 18)
                 .addComponent(btnImprimirSaida)
                 .addContainerGap(85, Short.MAX_VALUE))
         );
@@ -136,11 +145,12 @@ public class TelaSaida extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAlterarSaida)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnExcluirSaida)
-                    .addComponent(btnImprimirSaida)
-                    .addComponent(btnAdicionarSaida))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAlterarSaida)
+                        .addComponent(btnImprimirSaida)
+                        .addComponent(btnAdicionarSaida)))
                 .addGap(24, 24, 24))
         );
 
@@ -224,7 +234,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAlteraSaidaLayout.createSequentialGroup()
                 .addContainerGap(39, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(369, 369, 369))
             .addGroup(pnlAlteraSaidaLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jLabel7)
@@ -245,7 +255,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                     .addComponent(txtPesquisaSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(34, 34, 34))
         );
 
         lblFormatoData.setForeground(new java.awt.Color(255, 0, 0));
@@ -309,16 +319,15 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 .addGroup(pnlCadastroSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCadastroSaidaLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(pnlCadastroSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlCadastroSaidaLayout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtPesqDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlCadastroSaidaLayout.createSequentialGroup()
                         .addGap(43, 43, 43)
-                        .addComponent(jLabel9)))
+                        .addComponent(jLabel9))
+                    .addGroup(pnlCadastroSaidaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtPesqDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlCadastroSaidaLayout.setVerticalGroup(
@@ -326,14 +335,17 @@ public class TelaSaida extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCadastroSaidaLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(pnlCadastroSaidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtPesqDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
+
+        jDateChooserSaida.setDoubleBuffered(false);
+        jDateChooserSaida.setInheritsPopupMenu(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -359,71 +371,71 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(txtValorSaida, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtCodCategoriaSaida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE))
+                                        .addComponent(txtCodCategoriaSaida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(txtDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtIdSaida, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                                            .addComponent(txtDataSaida))
-                                        .addGap(10, 10, 10)
-                                        .addComponent(lblFormatoData))))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtIdSaida)
+                                        .addComponent(jDateChooserSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblFormatoData)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlCadastroSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(pnlAlteraSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(310, 310, 310))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pnlAlteraSaida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlCadastroSaida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtIdSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblFormatoData)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtDataSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtValorSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCodCategoriaSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pnlCadastroSaida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pnlAlteraSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 269, Short.MAX_VALUE))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtIdSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateChooserSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtValorSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCodCategoriaSaida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(lblFormatoData)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 1008, 610);
+        setBounds(0, 0, 970, 610);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblCategoriaSaidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategoriaSaidaMouseClicked
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-        txtIdSaida.setText(null);
-        txtDataSaida.setText(null);              
+        //    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+
         btnAdicionarSaida.setEnabled(true);
         btnAlterarSaida.setEnabled(false);
-        Date data = new Date();
-        String dataAtual = sdf.format(data);
-        txtDataSaida.setText(dataAtual);
-
-        lblFormatoData.setText("Data: DDMMAAAA - Ex. 01012019");
-
+        //   lblFormatoData.setText("Data: DDMMAAAA - Ex. 01012019");
         setarCampos();
     }//GEN-LAST:event_tblCategoriaSaidaMouseClicked
 
@@ -440,10 +452,10 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAlterarSaidaActionPerformed
 
     private void tblSaidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSaidaMouseClicked
-          
+
         btnAdicionarSaida.setEnabled(false);
         btnAlterarSaida.setEnabled(true);
-        
+
         setarCamposSaida();
     }//GEN-LAST:event_tblSaidaMouseClicked
 
@@ -455,7 +467,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         Color selecionado = new Color(200, 90, 40);
         pnlAlteraSaida.setBackground(selecionado);
         Color naoSelecionado = new Color(204, 240, 240);
-        pnlCadastroSaida.setBackground (naoSelecionado);
+        pnlCadastroSaida.setBackground(naoSelecionado);
         btnAdicionarSaida.setEnabled(false);
         btnAlterarSaida.setEnabled(true);
         btnExcluirSaida.setEnabled(true);
@@ -465,16 +477,16 @@ public class TelaSaida extends javax.swing.JInternalFrame {
 
     private void txtPesqDescSaidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesqDescSaidaKeyReleased
         Color selecionado = new Color(200, 90, 40);
-        pnlCadastroSaida.setBackground (selecionado);       
+        pnlCadastroSaida.setBackground(selecionado);
         Color naoSelecionado = new Color(204, 240, 240);
-         pnlAlteraSaida.setBackground(naoSelecionado);
-        
+        pnlAlteraSaida.setBackground(naoSelecionado);
+
         btnAdicionarSaida.setEnabled(true);
         btnAlterarSaida.setEnabled(false);
         btnExcluirSaida.setEnabled(false);
         txtIdSaida.setText(null);
-        limparCampos();
-        limparTabelaSaida();
+        //   limparCampos();
+        //  limparTabelaSaida();
 
         pesquisarCategoria();
     }//GEN-LAST:event_txtPesqDescSaidaKeyReleased
@@ -489,10 +501,10 @@ public class TelaSaida extends javax.swing.JInternalFrame {
 
     private void btnImprimirSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirSaidaActionPerformed
         new TelaRelatorioSaida().txtRelatorioDataInicial.setText("01072019");
-     
-       new TelaRelatorioSaida().txtRelatorioDataFinal.setText("15072019");
+
+        new TelaRelatorioSaida().txtRelatorioDataFinal.setText("15072019");
         new TelaRelatorioSaida().setVisible(true);
-      
+
     }//GEN-LAST:event_btnImprimirSaidaActionPerformed
 
 
@@ -501,6 +513,8 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAlterarSaida;
     private javax.swing.JButton btnExcluirSaida;
     protected javax.swing.JButton btnImprimirSaida;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooserSaida;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -519,7 +533,6 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblCategoriaSaida;
     private javax.swing.JTable tblSaida;
     private javax.swing.JTextField txtCodCategoriaSaida;
-    private javax.swing.JTextField txtDataSaida;
     private javax.swing.JTextField txtDescSaida;
     private javax.swing.JTextField txtIdSaida;
     private javax.swing.JTextField txtPesqDescSaida;
@@ -542,7 +555,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     }
 
     private void setarCampos() {
-        
+
         int setar = tblCategoriaSaida.getSelectedRow();
         txtDescSaida.setText(tblCategoriaSaida.getModel().getValueAt(setar, 1).toString());
         txtCodCategoriaSaida.setText(tblCategoriaSaida.getModel().getValueAt(setar, 0).toString());
@@ -554,25 +567,46 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         //for Empty significa que não ha usuario com esse ID
         if (confirma == JOptionPane.YES_OPTION) {
             try {
-                Date anoCorrente = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-                String dataFormatada = sdf.format(anoCorrente);
+                Date dataCorrente = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                String dataAtualFormatada = sdf.format(dataCorrente);
+                System.out.println("Data formatada:::" + dataAtualFormatada);
                 String sql = "INSERT INTO saida (dataSaida,descSaida,valorSaida,categoria_codCategoria) VALUES (?, ?, ?, ?)";
 
                 pst = conexao.prepareStatement(sql);//---- 13091968
                 //pega o dia que está no campo txtDAtaSaida
-                String dia = txtDataSaida.getText().substring(0, 2);
-                 //pega o dia atual
-                String diaAtual = dataFormatada.substring(0, 2);
-                String mes = txtDataSaida.getText().substring(2, 4);
-                String mesAtual = dataFormatada.substring(2, 4);
-                String ano = txtDataSaida.getText().substring(4);
-                String anoAtual = dataFormatada.substring(4);
-                if (Integer.parseInt(ano) != Integer.parseInt(anoAtual) || Integer.parseInt(mes) != Integer.parseInt(mesAtual)) {
-                    int confirmaData = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION);
+                //  String dia = jDateChooserSaida.getText().substring(0, 2);
+                ///////////////////////////////////////////////////////////////////
+                String dataInserNoBanco = "";
+                SimpleDateFormat formato = new SimpleDateFormat("yyyyMMdd");
+                java.util.Date recebFormato = jDateChooserSaida.getDate();
+                dataInserNoBanco = formato.format(recebFormato);
+                System.out.println("dataInserNoBanco: --> " + dataInserNoBanco);
+
+                String anoAtual = dataAtualFormatada.substring(0, 4);
+                System.out.println("anoAtual: " + anoAtual);
+                String anoInserido = dataInserNoBanco.substring(0, 4);
+                System.out.println("anoInserido: " + anoInserido);
+                System.out.println("###################//######################");
+
+                String mesAtual = dataAtualFormatada.substring(4, 6);
+                System.out.println("mesAtual: " + mesAtual);
+                String mesInserido = dataInserNoBanco.substring(4, 6);
+                System.out.println("mesInserido: " + mesInserido);
+                System.out.println("###################//######################");
+
+                String diaAtual = dataAtualFormatada.substring(6);
+                System.out.println("diaAtual: " + diaAtual);
+                String diaInserido = dataInserNoBanco.substring(6);
+                System.out.println("diaInserido: " + diaInserido);
+                System.out.println("###################//######################");
+
+                if (Integer.parseInt(anoInserido) != Integer.parseInt(anoAtual) || Integer.parseInt(mesInserido) != Integer.parseInt(mesAtual)) {
+                    int confirmaData = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION,0);
                     if (confirmaData == JOptionPane.YES_OPTION) {
                         //inseri a data no formato do
-                        String dataMysql = ano + mes + dia;
+                        String dataMysql = anoInserido + "-" + mesInserido + "-" + diaInserido;
+                        System.out.println("DataMysql : " + dataMysql);
                         pst.setString(1, dataMysql);
                         pst.setString(2, txtDescSaida.getText());
                         pst.setString(3, txtValorSaida.getText());
@@ -580,7 +614,35 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                         // validaçao dos campos obrigatórios
                         if (txtDescSaida.getText().isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
-                        } if (txtDataSaida.getText().isEmpty()) {
+                        } else if (txtValorSaida.getText().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Campo Valor Saida é Obrigatório!");
+                        } else if (txtCodCategoriaSaida.getText().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
+                        } else {
+                            int rowsAfected = pst.executeUpdate();
+                            //  palestra de informatica
+                            if (rowsAfected > 0) {
+                                JOptionPane.showMessageDialog(null, "Saida cadastrada com sucesso!", "Produto", 1);
+                                txtIdSaida.setText(null);
+                                jDateChooserSaida.setDate(dataCorrente);
+                                txtDescSaida.setText(null);
+                                txtValorSaida.setText(null);
+                                txtCodCategoriaSaida.setText(null);
+
+                            }
+                        }
+                    }
+                } else if (Integer.parseInt(diaInserido) > Integer.parseInt(diaAtual)) {
+                    int confirmaData = JOptionPane.showConfirmDialog(null, "O dia Inserido é MAIOR que o dia ATUAL, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION,0);
+                    if (confirmaData == JOptionPane.YES_OPTION) {
+                        String dataMysql = anoInserido + "-" + mesInserido + "-" + diaInserido;
+                        System.out.println("DataMysql : " + dataMysql);
+                        pst.setString(1, dataMysql);
+                        pst.setString(2, txtDescSaida.getText());
+                        pst.setString(3, txtValorSaida.getText());
+                        pst.setString(4, txtCodCategoriaSaida.getText());
+                        // validaçao dos campos obrigatórios
+                        if (txtDescSaida.getText().isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
                         } else if (txtValorSaida.getText().isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Campo Valor Saida é Obrigatório!");
@@ -588,11 +650,11 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                             JOptionPane.showMessageDialog(null, "Campo Cagegoria  é Obrigatório!");
                         } else {
                             int rowsAfected = pst.executeUpdate();
-                               //  palestra de informatica
+                            //  palestra de informatica
                             if (rowsAfected > 0) {
                                 JOptionPane.showMessageDialog(null, "Saida cadastrada com sucesso!", "Produto", 1);
                                 txtIdSaida.setText(null);
-                                txtDataSaida.setText(null);
+                                jDateChooserSaida.setDate(dataCorrente);
                                 txtDescSaida.setText(null);
                                 txtValorSaida.setText(null);
                                 txtCodCategoriaSaida.setText(null);
@@ -601,7 +663,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                         }
                     }
                 } else {
-                    String dataMysql = ano + "-" + mes + "-" + dia;
+                    String dataMysql = anoInserido + "-" + mesInserido + "-" + diaInserido;
                     pst.setString(1, dataMysql);
                     pst.setString(2, txtDescSaida.getText());
                     pst.setString(3, txtValorSaida.getText());
@@ -619,7 +681,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                         if (rowsAfected > 0) {
                             JOptionPane.showMessageDialog(null, "Saida cadastrada com sucesso!", "Produto", 1);
                             txtIdSaida.setText(null);
-                            txtDataSaida.setText(null);
+                            jDateChooserSaida.setDate(dataCorrente);
                             txtDescSaida.setText(null);
                             txtValorSaida.setText(null);
                             txtCodCategoriaSaida.setText(null);
@@ -635,17 +697,20 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     }
 
     private void alterarSaida() {
+
         int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Alteracao da Saida? " + txtValorSaida.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
         //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
         //for Empty significa que não ha usuario com esse ID
         if (confirma == JOptionPane.YES_OPTION) {
-            Date anoCorrente = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-            String dataFormatada = sdf.format(anoCorrente);
+            String dataInserNoBanco = "";
+            SimpleDateFormat formato = new SimpleDateFormat("yyyyMMdd");
+            java.util.Date recebFormato = jDateChooserSaida.getDate();
+            dataInserNoBanco = formato.format(recebFormato);
             String sql = "update saida set dataSaida=?,descSaida=?,valorSaida=?,categoria_codCategoria=? where idSaida=?";
             try {
                 pst = conexao.prepareStatement(sql);//---- 13091968
-                pst.setString(1, txtDataSaida.getText());
+                //   pst.setString(1, jDateChooserSaida.getDate().toString());
+                pst.setString(1, dataInserNoBanco);
                 pst.setString(2, txtDescSaida.getText());
                 pst.setString(3, txtValorSaida.getText());
                 pst.setString(4, txtCodCategoriaSaida.getText());
@@ -662,9 +727,12 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                     int rowsAfected = pst.executeUpdate();
 
                     if (rowsAfected > 0) {
+                        Date dataCorrente = new Date();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                        String dataAtualFormatada = sdf.format(dataCorrente);
                         JOptionPane.showMessageDialog(null, "Saida Alterado com sucesso!", "Saida", 1);
                         txtIdSaida.setText(null);
-                        txtDataSaida.setText(null);
+                        jDateChooserSaida.setDate(dataCorrente);
                         txtDescSaida.setText(null);
                         txtValorSaida.setText(null);
                         txtCodCategoriaSaida.setText(null);
@@ -695,12 +763,19 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     private void setarCamposSaida() {
         int setar = tblSaida.getSelectedRow();
         txtIdSaida.setText(tblSaida.getModel().getValueAt(setar, 0).toString());
-        txtDataSaida.setText(tblSaida.getModel().getValueAt(setar, 1).toString());
+        //   txtDataSaida.setText(tblSaida.getModel().getValueAt(setar, 1).toString());
+        String dataSaida = (tblSaida.getModel().getValueAt(setar, 1).toString());
+        try {
+            Date vaiProJava = new SimpleDateFormat("yyyy-MM-dd").parse(dataSaida);
+            jDateChooserSaida.setDate(vaiProJava);
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaSaida.class.getName()).log(Level.SEVERE, null, ex);
+        }
         txtDescSaida.setText(tblSaida.getModel().getValueAt(setar, 2).toString());
         txtValorSaida.setText(tblSaida.getModel().getValueAt(setar, 3).toString());
         txtCodCategoriaSaida.setText(tblSaida.getModel().getValueAt(setar, 4).toString());
         txtPesquisaSaida.requestFocus();
-        lblFormatoData.setText("Formato Data: Ano-Mes-Dia: Ex."+tblSaida.getModel().getValueAt(setar, 1));
+        lblFormatoData.setText("Formato Data: Ano-Mes-Dia: Ex." + tblSaida.getModel().getValueAt(setar, 1));
     }
 
     private void limparTabelaCategoria() {
@@ -738,11 +813,11 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 pst = conexao.prepareStatement(sql);
                 pst.setString(1, txtIdSaida.getText());
                 int rowsAffected = pst.executeUpdate();
-                 System.out.println("Quantidade de linhas : "+ rowsAffected);
+                System.out.println("Quantidade de linhas : " + rowsAffected);
                 if (rowsAffected > 0) {
                     JOptionPane.showMessageDialog(null, "Saida Removido com Sucesso!");
                     txtIdSaida.setText(null);
-                    txtDataSaida.setText(null);
+                    jDateChooserSaida.setDate(new Date());
                     txtDescSaida.setText(null);
                     txtValorSaida.setText(null);
                     txtCodCategoriaSaida.setText(null);
@@ -757,7 +832,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
 
     private void limparCampos() {
         txtIdSaida.setText(null);
-        txtDataSaida.setText(null);
+        jDateChooserSaida.setDate(null);
         txtDescSaida.setText(null);
         txtValorSaida.setText(null);
         txtCodCategoriaSaida.setText(null);

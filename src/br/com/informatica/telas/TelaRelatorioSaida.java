@@ -70,6 +70,7 @@ public class TelaRelatorioSaida extends javax.swing.JFrame {
         setTitle("Relatorio de Saidas");
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 204, 204));
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
         jLabel1.setText("Relatório de Saidas");
@@ -242,8 +243,7 @@ public class TelaRelatorioSaida extends javax.swing.JFrame {
                 .addGap(42, 42, 42))
         );
 
-        pack();
-        setLocationRelativeTo(null);
+        setBounds(246, 50, 740, 526);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRelatorioGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioGerarActionPerformed

@@ -37,7 +37,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         initComponents();
         btnAlteraCliente.setEnabled(false);
         btnExcluirCliente.setEnabled(false);
-      //  conexao = ConexaoBanco.conector;
+         jCbUF.setSelectedItem("GO");
         conexao = Conexao.conector;
     }
 
@@ -91,11 +91,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         btnImprimeCliente = new javax.swing.JButton();
         btnLimparCliente = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
-        txtUFCliente = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCliente = new javax.swing.JTable();
         jLabel19 = new javax.swing.JLabel();
         txtPesquisarCliente = new javax.swing.JTextField();
+        jCbUF = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -105,7 +105,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         pnlDadosCliente.setBackground(new java.awt.Color(204, 240, 240));
         pnlDadosCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel1.setText("ID Cliente");
+        jLabel1.setText("ID Cli");
 
         jLabel2.setText("Nome ");
 
@@ -165,41 +165,43 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             .addGroup(pnlDadosClienteLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(pnlDadosClienteLayout.createSequentialGroup()
-                        .addGap(65, 65, 65)
                         .addGroup(pnlDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlDadosClienteLayout.createSequentialGroup()
-                                .addGroup(pnlDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlDadosClienteLayout.createSequentialGroup()
-                                        .addComponent(txtCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtRgCliente))
-                                    .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtCpfCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addGroup(pnlDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnlDadosClienteLayout.createSequentialGroup()
-                                        .addComponent(jLabel17)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtContatoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(pnlDadosClienteLayout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtEmailCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jLabel3)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtTelefoneCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel4)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(txtCelularCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel5))
-                .addContainerGap(133, Short.MAX_VALUE))
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtRgCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtContatoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(346, 346, 346))
+                            .addGroup(pnlDadosClienteLayout.createSequentialGroup()
+                                .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtEmailCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtTelefoneCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtCelularCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(pnlDadosClienteLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(125, 125, 125))))
         );
         pnlDadosClienteLayout.setVerticalGroup(
             pnlDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,11 +224,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 .addGroup(pnlDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addGroup(pnlDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6)
                         .addComponent(txtRgCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel17)
-                        .addComponent(txtContatoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtContatoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -237,15 +239,27 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Cidade");
 
-        jLabel10.setText("Numero");
+        jLabel10.setText("Num");
 
         jLabel11.setText("CEP");
 
         jLabel13.setText("Bairro");
 
-        jLabel14.setText("Complemento");
+        txtLoteCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLoteClienteActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setText("Compl");
 
         jLabel15.setText("Rua");
+
+        txtNumeroCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumeroClienteActionPerformed(evt);
+            }
+        });
 
         jLabel16.setText("Quadra");
 
@@ -366,57 +380,53 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        jCbUF.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
+
         javax.swing.GroupLayout pnlEnderecoClienteLayout = new javax.swing.GroupLayout(pnlEnderecoCliente);
         pnlEnderecoCliente.setLayout(pnlEnderecoClienteLayout);
         pnlEnderecoClienteLayout.setHorizontalGroup(
             pnlEnderecoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlEnderecoClienteLayout.createSequentialGroup()
-                .addGroup(pnlEnderecoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pnlEnderecoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlEnderecoClienteLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(pnlEnderecoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlEnderecoClienteLayout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtComplementoCliente))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlEnderecoClienteLayout.createSequentialGroup()
-                                .addComponent(jLabel15)
-                                .addGap(64, 64, 64)
-                                .addComponent(txtRuaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(10, 10, 10)
                         .addGroup(pnlEnderecoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel9))
-                        .addGap(34, 34, 34)
-                        .addGroup(pnlEnderecoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel15))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlEnderecoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlEnderecoClienteLayout.createSequentialGroup()
+                                .addComponent(txtRuaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtQuadraCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtLoteCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtCidadeCliente))
-                        .addGap(12, 12, 12)
-                        .addGroup(pnlEnderecoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11))
-                        .addGap(18, 18, 18)
-                        .addGroup(pnlEnderecoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlEnderecoClienteLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtLoteCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtNumeroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel13))
-                            .addComponent(txtCepCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(pnlEnderecoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtBairroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlEnderecoClienteLayout.createSequentialGroup()
+                                .addComponent(txtComplementoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtCidadeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtCepCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel18)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtUFCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtBairroCliente)))
-                    .addGroup(pnlEnderecoClienteLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 962, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jCbUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(pnlEnderecoClienteLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel19)
@@ -424,8 +434,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                         .addComponent(txtPesquisarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlEnderecoClienteLayout.createSequentialGroup()
                         .addGap(257, 257, 257)
-                        .addComponent(pnlMenuCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(pnlMenuCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlEnderecoClienteLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 922, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pnlEnderecoClienteLayout.setVerticalGroup(
             pnlEnderecoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -450,8 +463,8 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                     .addComponent(txtCidadeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
                     .addComponent(jLabel18)
-                    .addComponent(txtUFCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCepCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCepCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCbUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
@@ -470,10 +483,10 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlEnderecoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(pnlDadosCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(pnlEnderecoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(pnlDadosCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -486,7 +499,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 .addGap(16, 16, 16))
         );
 
-        setBounds(0, 0, 1008, 610);
+        setBounds(0, 0, 970, 610);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCelularClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelularClienteActionPerformed
@@ -536,6 +549,14 @@ public class TelaCliente extends javax.swing.JInternalFrame {
        imprimeRelatorioCliente();
     }//GEN-LAST:event_btnImprimeClienteActionPerformed
 
+    private void txtLoteClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoteClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtLoteClienteActionPerformed
+
+    private void txtNumeroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumeroClienteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton btnAlteraCliente;
@@ -543,6 +564,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     protected javax.swing.JButton btnExcluirCliente;
     protected javax.swing.JButton btnImprimeCliente;
     private javax.swing.JButton btnLimparCliente;
+    private javax.swing.JComboBox<String> jCbUF;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -583,7 +605,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtRgCliente;
     private javax.swing.JTextField txtRuaCliente;
     private javax.swing.JFormattedTextField txtTelefoneCliente;
-    private javax.swing.JTextField txtUFCliente;
     // End of variables declaration//GEN-END:variables
 
     private void cadastrarCliente() {
@@ -606,7 +627,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             pst.setString(13, txtComplementoCliente.getText().toUpperCase());
             pst.setString(14, txtCepCliente.getText());
             pst.setString(15, txtCidadeCliente.getText().toUpperCase());
-            pst.setString(16, txtUFCliente.getText().toUpperCase());
+            pst.setString(16, jCbUF.getSelectedItem().toString());
             // pst.setString(16, txtUFCliente.getText());
             // validaçao dos campos obrigatórios
             if (txtNomeCliente.getText().isEmpty()) {
@@ -627,8 +648,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Campo CEP é Obrigatório!");
             } else if (txtCidadeCliente.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo CIDADE é Obrigatório!");
-            } else if (txtUFCliente.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Campo UF é Obrigatório!");
             } else {
                 int rowsAfected = pst.executeUpdate();
 
@@ -650,7 +669,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                     txtComplementoCliente.setText("");
                     txtCepCliente.setText("");
                     txtCidadeCliente.setText("");
-                    txtUFCliente.setText("");
+                    jCbUF.setSelectedItem("GO");
                     txtNomeCliente.requestFocus();
                 }
             }
@@ -686,7 +705,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 pst.setString(13, txtComplementoCliente.getText().toUpperCase());
                 pst.setString(14, txtCepCliente.getText());
                 pst.setString(15, txtCidadeCliente.getText().toUpperCase());
-                pst.setString(16, txtUFCliente.getText().toUpperCase());
+                pst.setString(16, jCbUF.getSelectedItem().toString());
                 pst.setString(17, txtCodCliente.getText());
                 // validaçao dos campos obrigatórios
                 if (txtNomeCliente.getText().isEmpty()) {
@@ -707,8 +726,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Campo CEP é Obrigatório!");
                 } else if (txtCidadeCliente.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo CIDADE é Obrigatório!");
-                } else if (txtUFCliente.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo UF é Obrigatório!");
                 } else {
                     int rowsAfected = pst.executeUpdate();
 
@@ -744,7 +761,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                         txtComplementoCliente.setText("");
                         txtCepCliente.setText("");
                         txtCidadeCliente.setText("");
-                        txtUFCliente.setText("");
+                        jCbUF.setSelectedItem("GO");
                         txtNomeCliente.requestFocus();
 
                     }
@@ -799,7 +816,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtComplementoCliente.setText(tblCliente.getModel().getValueAt(setar, 13).toString());
         txtCepCliente.setText(tblCliente.getModel().getValueAt(setar, 14).toString());
         txtCidadeCliente.setText(tblCliente.getModel().getValueAt(setar, 15).toString());
-        txtUFCliente.setText(tblCliente.getModel().getValueAt(setar, 16).toString());
+        jCbUF.setSelectedItem(tblCliente.getModel().getValueAt(setar, 16).toString());
         txtPesquisarCliente.requestFocus();
     }
 
@@ -822,7 +839,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtComplementoCliente.setText("");
         txtCepCliente.setText("");
         txtCidadeCliente.setText("");
-        txtUFCliente.setText("");
+        jCbUF.setSelectedItem("GO");
         txtCodCliente.setText("");
         txtNomeCliente.requestFocus();
         String sql2 = "select * from cliente where nomeCliente = 'XXXX' ";
@@ -866,7 +883,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtComplementoCliente.setText("");
         txtCepCliente.setText("");
         txtCidadeCliente.setText("");
-        txtUFCliente.setText("");
+        jCbUF.setSelectedItem("GO");
         txtCodCliente.setText("");
         txtNomeCliente.requestFocus();
         btnCadastraCliente.setEnabled(true);

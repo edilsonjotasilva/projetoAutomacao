@@ -214,7 +214,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                                             .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(cboPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addComponent(jLabel1))
-                        .addContainerGap(279, Short.MAX_VALUE))
+                        .addContainerGap(122, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -223,7 +223,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtPesquisaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 197, Short.MAX_VALUE))))
+                        .addGap(0, 40, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(168, 168, 168)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,7 +266,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 1008, 610);
+        setBounds(0, 0, 970, 610);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdicionarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarUsuarioActionPerformed

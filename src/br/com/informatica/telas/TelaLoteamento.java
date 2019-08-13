@@ -44,6 +44,7 @@ public class TelaLoteamento extends javax.swing.JInternalFrame {
 
     public TelaLoteamento() {
         initComponents();
+        cboULoteamento.setSelectedItem("GO");
         //conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
 
@@ -291,7 +292,7 @@ public class TelaLoteamento extends javax.swing.JInternalFrame {
                     .addComponent(jLabel9)
                     .addComponent(txtPesquisarLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnInserirLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
                 .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlMenuVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExcluirLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -312,7 +313,7 @@ public class TelaLoteamento extends javax.swing.JInternalFrame {
             .addComponent(pnlPrincipalVendas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        setBounds(0, 0, 1008, 610);
+        setBounds(0, 0, 970, 610);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtPesquisarLoteamentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarLoteamentoKeyReleased

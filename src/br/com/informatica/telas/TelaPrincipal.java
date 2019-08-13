@@ -9,6 +9,7 @@ import br.com.informatica.dal.SwingApplication;
 import br.com.informatica.util.GerenteDeJanelas;
 import com.sun.java.swing.plaf.windows.resources.windows;
 import java.sql.Connection;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
@@ -30,7 +31,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Classe de apoio para o banco de dados
     public TelaPrincipal() {
-
+        setExtendedState(MAXIMIZED_BOTH);
+      
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -49,6 +51,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         initComponents();
         this.gerenteJanelas = new GerenteDeJanelas(DesktopPrincipal);
+       ;
 
         // o codigo abaixo verifica pagamentos em atraso
     }
@@ -65,6 +68,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jDialog1 = new javax.swing.JDialog();
         DesktopPrincipal = new javax.swing.JDesktopPane();
         lblUsuario = new javax.swing.JLabel();
+        jCalendar2 = new com.toedter.calendar.JCalendar();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuInicio = new javax.swing.JMenu();
         menuCaixa = new javax.swing.JMenu();
@@ -100,8 +104,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 700));
-        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         DesktopPrincipal.setPreferredSize(new java.awt.Dimension(1008, 610));
 
@@ -109,15 +112,27 @@ public class TelaPrincipal extends javax.swing.JFrame {
         DesktopPrincipal.setLayout(DesktopPrincipalLayout);
         DesktopPrincipalLayout.setHorizontalGroup(
             DesktopPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1008, Short.MAX_VALUE)
+            .addGap(0, 970, Short.MAX_VALUE)
         );
         DesktopPrincipalLayout.setVerticalGroup(
             DesktopPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 610, Short.MAX_VALUE)
         );
 
+        getContentPane().add(DesktopPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 970, -1));
+
         lblUsuario.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
         lblUsuario.setText("<html><u>Usuario");
+        getContentPane().add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 620, 400, -1));
+
+        jCalendar2.setBackground(new java.awt.Color(153, 204, 255));
+        jCalendar2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jCalendar2.setDecorationBackgroundColor(new java.awt.Color(255, 153, 153));
+        jCalendar2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jCalendar2.setTodayButtonText("");
+        jCalendar2.setTodayButtonVisible(true);
+        jCalendar2.setWeekOfYearVisible(false);
+        getContentPane().add(jCalendar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 0, 385, 190));
 
         menuInicio.setText("Inicio");
         menuInicio.addActionListener(new java.awt.event.ActionListener() {
@@ -277,28 +292,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DesktopPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(249, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(454, 454, 454)
-                .addComponent(lblUsuario)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(DesktopPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         setSize(new java.awt.Dimension(1283, 699));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -317,6 +310,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         new TelaSaida().lblFormatoData.setVisible(true);
 
         cadastrarSaida();
+//           new TelaSaida2().lblFormatoData.setText("Foramato da Data: Ano-Mes-Dia");
+//        new TelaSaida2().lblFormatoData.setVisible(true);
+
+  //      cadastrarSaida();
     }//GEN-LAST:event_menuCaixaSaidaActionPerformed
 
     private void menuCaixaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCaixaCategoriaActionPerformed
@@ -448,6 +445,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane DesktopPrincipal;
+    private com.toedter.calendar.JCalendar jCalendar2;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -487,6 +485,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaSaida telaSaida = new TelaSaida();
         telaSaida.setVisible(true);
         DesktopPrincipal.add(telaSaida);
+//       TelaSaida2 telaSaida2 = new TelaSaida2();
+//        telaSaida2.setVisible(true);
+//        DesktopPrincipal.add(telaSaida2); 
     }
 
     private void adicionarUsuario() {
@@ -529,6 +530,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         imovel.btnAlterarImovel.setEnabled(false);
         imovel.btnExcluirImovel.setEnabled(false);
         DesktopPrincipal.add(imovel);
+    }
+
+    private void chamarCalendarios() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

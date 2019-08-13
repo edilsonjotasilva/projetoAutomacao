@@ -7,6 +7,7 @@ package br.com.informatica.telas;
 
 //import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
+import static br.com.informatica.telas.TelaImovel.txtRuaImovel;
 import br.com.informatica.util.ClienteDialog;
 import br.com.informatica.util.CorretorDialog;
 import br.com.informatica.util.Formatador;
@@ -313,7 +314,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
                                     .addComponent(txtCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(btnPesquisariCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 48, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -387,7 +388,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
             .addComponent(pnlPrincipalVendas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        setBounds(0, 0, 1008, 610);
+        setBounds(0, 0, 970, 610);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarVendaActionPerformed
@@ -397,6 +398,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         cadastrarVenda();
         cboComissaoVenda.setSelectedItem("5");
         alteraSituacaoImovel();
+        limparVenda();
 
     }//GEN-LAST:event_btnCadastrarVendaActionPerformed
 
@@ -514,12 +516,6 @@ public class TelaVendas extends javax.swing.JInternalFrame {
             pst = conexao.prepareStatement(sql);
 
             String totalVenda = txtTotalVenda.getText();//22.456,90
-
-//            String milhar = valorEntrada.substring(0, 2);
-//            String inteiro = valorEntrada.substring(3, 6);
-//            String decimal = valorEntrada.substring(7);
-            // String decimalPonto = decimal.replace(",", ".");
-            // String valoEntradaCompleto = milhar+inteiro+decimal;
             Double valorTotalF = formatador.convertVirgulaParaPonto(txtTotalVenda.getText());
             Double valorComissaoF = formatador.convertVirgulaParaPonto(txtValorComissaoVenda.getText());
             pst.setString(1, txtValorEntrada.getText());
@@ -756,14 +752,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        txtValorEntrada.setText("");
-        txtValorPrestacaoVenda.setText("");
-        txtQntPrestacaoVenda.setText("");
-        txtTotalVenda.setText("");
-        txtValorComissaoVenda.setText("");
-        txtCodCorretor.setText("");
-        txtCodCliente.setText("");
-        txtCodImovel.setText("");
+ 
 
     }
 
@@ -776,5 +765,26 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+    }
+
+    private void limparVenda() {
+          String sql2 = "select * from venda where codVenda = 999999 ";
+        try {
+            pst = conexao.prepareStatement(sql2);
+            rs = pst.executeQuery();
+            tblVendas.setModel(DbUtils.resultSetToTableModel(rs));
+            tblVendas.isValid();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        txtValorEntrada.setText("");
+        txtValorPrestacaoVenda.setText("");
+        txtQntPrestacaoVenda.setText("");
+        txtTotalVenda.setText("");
+        txtValorComissaoVenda.setText("");
+        txtCodCorretor.setText("");
+        txtCodCliente.setText("");
+        txtCodImovel.setText("");
     }
 }
