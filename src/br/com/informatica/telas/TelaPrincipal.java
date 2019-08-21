@@ -5,19 +5,25 @@
  */
 package br.com.informatica.telas;
 
-import br.com.informatica.dal.SwingApplication;
-import br.com.informatica.util.GerenteDeJanelas;
-import com.sun.java.swing.plaf.windows.resources.windows;
+import br.com.informatica.dal.Conexao;
+import static br.com.informatica.telas.TelaLogin.anoAtual;
+import br.com.informatica.util.TelaDeTeste;
+import br.com.informatica.util.TelaLbSy;
+import static java.lang.Thread.sleep;
 import java.sql.Connection;
-import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JDesktopPane;
-import javax.swing.JMenuItem;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import org.hsqldb.jdbc.jdbcBlob;
+import net.proteanit.sql.DbUtils;
+import org.pushingpixels.substance.api.skin.SubstanceRavenLookAndFeel;
 
 /**
  *
@@ -25,17 +31,24 @@ import org.hsqldb.jdbc.jdbcBlob;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
 
-    GerenteDeJanelas gerenteJanelas;
-
+    //  GerenteDeJanelas gerenteJanelas;
     Connection conexao = null;
+    static PreparedStatement pst = null;
+    static ResultSet rs = null;
+    static String datafinal;
+    static String dataFinalFormatada;
+    static Integer diaVenc, mesVenc, anoVenc, diaAtual, mesAtual, anoAtual;
+    static long quantTotalDias;
 
     // Classe de apoio para o banco de dados
     public TelaPrincipal() {
         setExtendedState(MAXIMIZED_BOTH);
-      
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                //  if ("Nimbus".equals(info.getName())) {
                 if ("Nimbus".equals(info.getName())) {
+
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -49,11 +62,32 @@ public class TelaPrincipal extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        initComponents();
-        this.gerenteJanelas = new GerenteDeJanelas(DesktopPrincipal);
-       ;
 
-        // o codigo abaixo verifica pagamentos em atraso
+        initComponents();
+        conexao = Conexao.conector;
+        verificaValidadeSistema();
+        // chamaThread();
+        new Thread() {
+            public void run() {
+                int x = 400;
+                int y = jLNotificaoDeBloqueio.getLocation().y;
+                //   int y = jLSetaBloqueio.getLocation().y;
+                while (true) {
+                    x--;
+                    if (x < -100) {
+                        x = getWidth();
+
+                    }
+                    jLNotificaoDeBloqueio.setLocation(x, 640);
+                    try {
+                        sleep(10);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }.start();
+
     }
 
     /**
@@ -66,9 +100,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jDialog1 = new javax.swing.JDialog();
-        DesktopPrincipal = new javax.swing.JDesktopPane();
         lblUsuario = new javax.swing.JLabel();
         jCalendar2 = new com.toedter.calendar.JCalendar();
+        jLNotificaoDeBloqueio = new javax.swing.JLabel();
+        DesktopPrincipal = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuInicio = new javax.swing.JMenu();
         menuCaixa = new javax.swing.JMenu();
@@ -84,9 +119,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuVendas = new javax.swing.JMenuItem();
         menuLoteamento = new javax.swing.JMenuItem();
         menuImovel = new javax.swing.JMenuItem();
+        jMenuTestes = new javax.swing.JMenuItem();
         menuRelatorio = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        menuBoleto = new javax.swing.JMenu();
+        menuBoletoGerar = new javax.swing.JMenuItem();
         menuSobre = new javax.swing.JMenu();
         menuLogout = new javax.swing.JMenu();
         menuLogoutFechar = new javax.swing.JMenuItem();
@@ -106,6 +144,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblUsuario.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        lblUsuario.setText("<html><u>Usuario");
+        getContentPane().add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 620, 240, -1));
+
+        jCalendar2.setBackground(new java.awt.Color(153, 204, 255));
+        jCalendar2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jCalendar2.setDecorationBackgroundColor(new java.awt.Color(255, 153, 153));
+        jCalendar2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jCalendar2.setTodayButtonText("");
+        jCalendar2.setTodayButtonVisible(true);
+        jCalendar2.setWeekOfYearVisible(false);
+        getContentPane().add(jCalendar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 0, 385, 190));
+
+        jLNotificaoDeBloqueio.setEnabled(false);
+        getContentPane().add(jLNotificaoDeBloqueio, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 640, -1, -1));
+
         DesktopPrincipal.setPreferredSize(new java.awt.Dimension(1008, 610));
 
         javax.swing.GroupLayout DesktopPrincipalLayout = new javax.swing.GroupLayout(DesktopPrincipal);
@@ -121,19 +175,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         getContentPane().add(DesktopPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 970, -1));
 
-        lblUsuario.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
-        lblUsuario.setText("<html><u>Usuario");
-        getContentPane().add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 620, 400, -1));
-
-        jCalendar2.setBackground(new java.awt.Color(153, 204, 255));
-        jCalendar2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jCalendar2.setDecorationBackgroundColor(new java.awt.Color(255, 153, 153));
-        jCalendar2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jCalendar2.setTodayButtonText("");
-        jCalendar2.setTodayButtonVisible(true);
-        jCalendar2.setWeekOfYearVisible(false);
-        getContentPane().add(jCalendar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 0, 385, 190));
-
         menuInicio.setText("Inicio");
         menuInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,6 +183,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
 
         menuCaixa.setText("Caixa");
+        menuCaixa.setEnabled(false);
         menuCaixa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuCaixaActionPerformed(evt);
@@ -202,6 +244,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuInicio.add(menuCorretor);
 
         menuAgenda.setText("Agenda");
+        menuAgenda.setEnabled(false);
 
         menuAgendaAgendamento.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_MASK));
         menuAgendaAgendamento.setText("Verificar Agendamento");
@@ -249,6 +292,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menuInicio.add(menuImovel);
 
+        jMenuTestes.setText("TelaDeTestes");
+        jMenuTestes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuTestesActionPerformed(evt);
+            }
+        });
+        menuInicio.add(jMenuTestes);
+
         jMenuBar1.add(menuInicio);
 
         menuRelatorio.setText("Relatorio");
@@ -261,6 +312,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuRelatorio.add(jMenuItem2);
 
         jMenuBar1.add(menuRelatorio);
+
+        menuBoleto.setText("Boleto");
+
+        menuBoletoGerar.setText("Gerar");
+        menuBoletoGerar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuBoletoGerarActionPerformed(evt);
+            }
+        });
+        menuBoleto.add(menuBoletoGerar);
+
+        jMenuBar1.add(menuBoleto);
 
         menuSobre.setText("Sobre");
         jMenuBar1.add(menuSobre);
@@ -292,7 +355,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        setSize(new java.awt.Dimension(1283, 699));
+        setSize(new java.awt.Dimension(1283, 724));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -313,7 +376,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 //           new TelaSaida2().lblFormatoData.setText("Foramato da Data: Ano-Mes-Dia");
 //        new TelaSaida2().lblFormatoData.setVisible(true);
 
-  //      cadastrarSaida();
+        //      cadastrarSaida();
     }//GEN-LAST:event_menuCaixaSaidaActionPerformed
 
     private void menuCaixaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCaixaCategoriaActionPerformed
@@ -338,8 +401,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 "Atenção", JOptionPane.YES_NO_OPTION);
 
         if (sair == JOptionPane.YES_OPTION) {
-           
-           
+
             this.dispose();
             TelaLogin login = new TelaLogin();
 
@@ -402,6 +464,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_menuLogoutActionPerformed
 
+    private void jMenuTestesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuTestesActionPerformed
+
+        TelaDeTeste teste = new TelaDeTeste();
+        teste.setVisible(true);
+        cadastrarImovel();
+
+    }//GEN-LAST:event_jMenuTestesActionPerformed
+
+    private void menuBoletoGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBoletoGerarActionPerformed
+        new GerarBoleto().setVisible(true);
+        gerarBoleto();
+    }//GEN-LAST:event_menuBoletoGerarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -413,48 +488,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
          */
 
         //</editor-fold>
-//   try {
-//       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//           if ("Windows".equals(info.getName())) {
-//               javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//               break;               
-//           }           
-//       }
-//    } 
-//    catch (ClassNotFoundException ex) {
-//       java.util.logging.Logger.getLogger(windows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//    }
-//    catch (InstantiationException ex) {
-//       java.util.logging.Logger.getLogger(windows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//    }
-//   catch (IllegalAccessException ex) {
-//       java.util.logging.Logger.getLogger(windows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//    }
-//       catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//       java.util.logging.Logger.getLogger(windows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//    }
-//    
-        //new SwingApplication(); //Create and show the GUI.
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TelaPrincipal().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane DesktopPrincipal;
     private com.toedter.calendar.JCalendar jCalendar2;
     private javax.swing.JDialog jDialog1;
+    public static javax.swing.JLabel jLNotificaoDeBloqueio;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuTestes;
     protected javax.swing.JLabel lblUsuario;
-    private javax.swing.JMenu menuAgenda;
+    protected javax.swing.JMenu menuAgenda;
     private javax.swing.JMenuItem menuAgendaAgendamento;
     private javax.swing.JMenuItem menuAgendaRotinas;
-    private javax.swing.JMenu menuCaixa;
+    private javax.swing.JMenu menuBoleto;
+    private javax.swing.JMenuItem menuBoletoGerar;
+    protected javax.swing.JMenu menuCaixa;
     private javax.swing.JMenuItem menuCaixaCategoria;
     private javax.swing.JMenuItem menuCaixaEntrada;
     private javax.swing.JMenuItem menuCaixaSaida;
@@ -491,7 +542,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     private void adicionarUsuario() {
-        TelaUsuarios telaUsuario = new TelaUsuarios();
+//        TelaUsuarios telaUsuario = new TelaUsuarios();
+//        telaUsuario.setVisible(true);
+//        DesktopPrincipal.add(telaUsuario);
+        TelaUsuarios1 telaUsuario = new TelaUsuarios1();
         telaUsuario.setVisible(true);
         DesktopPrincipal.add(telaUsuario);
     }
@@ -536,4 +590,156 @@ public class TelaPrincipal extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    private void gerarBoleto() {
+        GerarBoleto boleto = new GerarBoleto();
+        boleto.setVisible(true);
+        DesktopPrincipal.add(boleto);
+    }
+
+    private void verificaRotinasDeAgendamento() {
+
+        try {
+            String sql = "select * from verifica_agenda where codVerificaAgenda=?";
+            pst = conexao.prepareStatement(sql);
+            pst.setInt(1, 1);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+
+                String status = rs.getString(2);
+
+                System.out.println("Resultado do RS: " + rs.getString(2));
+            }
+
+            if (rs.getString(2).equals("SIM")) {
+                new TelaNewAgenda().verificaAgenda();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void verificaRotinasNoLogin(String status) {
+        String STATUS = status;
+        new TelaVerificarRotinasDeAgendamento().cboMudarStatus.setSelectedItem(STATUS);
+    }
+
+    private void verificaValidadeSistema() {
+        TelaLogin login = new TelaLogin();
+        try {
+            String sql2 = "SELECT * from lbsy";
+            Date dataAtual = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("ddMMyyyy");
+
+            String dataAtualFormatada = sdf.format(dataAtual);
+            anoAtual = Integer.parseInt(dataAtualFormatada.substring(0, 4));
+            System.out.println("ANO ATUAL: " + anoAtual);
+            mesAtual = Integer.parseInt(dataAtualFormatada.substring(5, 7));
+            System.out.println("MES ATUAL: " + mesAtual);
+            diaAtual = Integer.parseInt(dataAtualFormatada.substring(8));
+            System.out.println("DIA ATUAL: " + diaAtual);
+            System.out.println("Data ATual formatada: " + dataAtualFormatada);
+
+            pst = conexao.prepareStatement(sql2);
+
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                datafinal = rs.getString(2);
+                System.out.println("Data Final Tirado do banco: " + datafinal);
+                Date dataFinalDate = sdf.parse(datafinal);//yyyyMMdd
+                dataFinalFormatada = sdf.format(dataFinalDate);
+                anoVenc = Integer.parseInt(dataFinalFormatada.substring(0, 4));
+                System.out.println("ANO VENC: " + anoVenc);
+                mesVenc = Integer.parseInt(dataFinalFormatada.substring(5, 7));
+                System.out.println("MES VENC: " + mesVenc.toString());
+
+                diaVenc = Integer.parseInt(dataFinalFormatada.substring(8));
+                System.out.println("DIA VENC + 1::::: " + (diaVenc));
+                System.out.println("Data final formatada: " + dataFinalFormatada);
+                /////////////////////////////////##///////////////////////////////// 
+                String recebDataFinal = rs.getString(2);//2019-08-25
+                System.out.println("recebDataFinal::::" + recebDataFinal);
+                String ano2 = recebDataFinal.substring(0, 4);
+                String mes2 = recebDataFinal.substring(5, 7);
+                String dia2 = recebDataFinal.substring(8);
+                String dataFinalCompletaStr = dia2 + mes2 + ano2;
+                System.out.println("dataFinalCompletaStr" + dataFinalCompletaStr);
+                Date recebDataFinalDate = sdf2.parse(dataFinalCompletaStr);
+                System.out.println("recebDataFinalDate" + recebDataFinalDate);
+                Date dataInicialDate = new Date();
+                System.out.println("dataInicial2 " + dataInicialDate);
+                String dataFinalStr = sdf2.format(recebDataFinalDate);
+                System.out.println("dataFinalStr " + dataFinalStr);
+                String dataInicialStr = sdf2.format(dataInicialDate);
+                System.out.println("dataInicialStr" + dataInicialStr);
+                Date dataFinalDate2 = sdf2.parse(dataFinalStr);
+                Date dataInicialDate2 = sdf2.parse(dataInicialStr);
+
+                long quantDias = Math.abs(dataFinalDate2.getTime() - dataInicialDate2.getTime());
+                long quantTotalDias = TimeUnit.DAYS.convert(quantDias, TimeUnit.MILLISECONDS);
+                JOptionPane.showMessageDialog(null, quantTotalDias);
+                String perfil = login.perfil;
+                if (quantTotalDias > 70) {
+                    if (!perfil.equals("Super")) {
+                        do {
+                            JOptionPane.showMessageDialog(null, "<html><font color=red ><font size=18 >Sistema Bloqueado!", "", 0);
+                             jLNotificaoDeBloqueio.setText("<html><font color=red >Sua licença para uso do sistema está vencida, Ligue (62)98188-7881");
+                            Conexao.fechaConexao();
+                            perfil = "Super";
+                        } while (!perfil.equals("Super"));
+                    }
+                }
+            }
+            // int diferencaDias = diaVenc = diaAtual;           
+            String perfil = login.perfil;
+
+            if ((diaAtual.equals(diaVenc - 5)) && (mesAtual.equals(mesVenc)) && (anoAtual.equals(anoVenc))) {
+                jLNotificaoDeBloqueio.setText("Sua licença para uso do sistema Vence em 5 Dias, Ligue (62)98188-7881");
+            } else if ((diaAtual.equals(diaVenc - 4)) && (mesAtual.equals(mesVenc)) && (anoAtual.equals(anoVenc))) {
+                jLNotificaoDeBloqueio.setText("Sua licença para uso do sistema Vence em 4 Dias, Ligue (62)98188-7881");
+            } else if ((diaAtual.equals(diaVenc - 3)) && (mesAtual.equals(mesVenc)) && (anoAtual.equals(anoVenc))) {
+                jLNotificaoDeBloqueio.setText("Sua licença para uso do sistema Vence em 3 Dias, Ligue (62)98188-7881");
+            } else if ((diaAtual.equals(diaVenc - 2)) && (mesAtual.equals(mesVenc)) && (anoAtual.equals(anoVenc))) {
+                jLNotificaoDeBloqueio.setText("Sua licença para uso do sistema Vence em 2 Dias, Ligue (62)98188-7881");
+            } else if ((diaAtual.equals(diaVenc - 1)) && (mesAtual.equals(mesVenc)) && (anoAtual.equals(anoVenc))) {
+                jLNotificaoDeBloqueio.setText("Sua licença para uso do sistema Vence em 1 Dia, Ligue (62)98188-7881");
+            } else if ((diaAtual.equals(diaVenc)) && (mesAtual.equals(mesVenc)) && (anoAtual.equals(anoVenc))) {
+                jLNotificaoDeBloqueio.setText("<html><font color=red >Sua licença para uso do sistema Vence HOJE, Ligue (62)98188-7881");
+                JOptionPane.showMessageDialog(null, "<html><font color=red >Atenção!! Seu Sistema Vence hoje.\nApós o Vencimento Ele ainda funcionará por 5 Dias,\nEntão Ele será Bloqueado! , Ligue (62)98188-7881", "", 0);
+                ///////////////////////////////////////////////////////////////////////////////////////////////////
+            } else if ((diaAtual.equals(diaVenc + 1)) && (mesAtual.equals(mesVenc)) && (anoAtual.equals(anoVenc))) {
+                jLNotificaoDeBloqueio.setText("Sistema VENCIDO! Bloqueio em 5 DIAS, Ligue (62)98188-7881");
+            } else if ((diaAtual.equals(diaVenc + 2)) && (mesAtual.equals(mesVenc)) && (anoAtual.equals(anoVenc))) {
+                jLNotificaoDeBloqueio.setText("Sistema VENCIDO! Bloqueio em 4 DIAS, Ligue (62)98188-7881");
+                /////////////////////////////////////////////////////////////////
+            } else if ((diaAtual.equals(diaVenc + 3)) && (mesAtual.equals(mesVenc)) && (anoAtual.equals(anoVenc))) {
+                jLNotificaoDeBloqueio.setText("Sistema VENCIDO! Bloqueio em 3 DIAS, Ligue (62)98188-7881");
+            } else if ((diaAtual.equals(diaVenc + 4)) && (mesAtual.equals(mesVenc)) && (anoAtual.equals(anoVenc))) {
+                jLNotificaoDeBloqueio.setText("Sistema VENCIDO! Bloqueio em 2 DIAS, Ligue (62)98188-7881");
+            } else if ((diaAtual.equals(diaVenc + 5)) && (mesAtual.equals(mesVenc)) && (anoAtual.equals(anoVenc))) {
+                jLNotificaoDeBloqueio.setEnabled(true);
+                jLNotificaoDeBloqueio.setText("<html><font color=red >Sistema VENCIDO! Bloqueio em 1 DIA, Ligue (62)98188-7881");
+            } else if ((diaAtual > (diaVenc + 5)) && (mesAtual.equals(mesVenc)) && ((anoAtual) >= (anoVenc))) {
+
+                jLNotificaoDeBloqueio.setText("<html><font color=red >Sistema BLOQUADO , Ligue (62)98188-7881");
+
+                // JOptionPane.showMessageDialog(null, "Perfil do usuario "+loginPerfil );
+                if (!perfil.equals("Super")) {
+                    do {
+                        JOptionPane.showMessageDialog(null, "<html><font color=red ><font size=18 >Sistema Bloqueado!", "", 0);
+                        Conexao.fechaConexao();
+                        perfil = "Super";
+                    } while (!perfil.equals("Super"));
+
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+//    private void chamaThread() {
+//
+//    }
 }

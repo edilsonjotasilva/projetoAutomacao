@@ -42,7 +42,8 @@ public class CriarTabelas {
             foiCriado = true;
             String linha;
             //busca o arquivo conexao.ini no caminho especifico e guarda na variavel ArquivoConfiguracao
-            String ArquivoConfiguracao = "C:/imobSys/conexao.ini";
+          //  String ArquivoConfiguracao = "C:/imobSys/conexao.ini";
+            String ArquivoConfiguracao = "C:/windows/SABD/conexao.ini";
             int cont = 0;
             //cria o arquivo arq e atribui a ele o arquivo conexao.ini que está armazenado em ArquivoConfiguracao
             File arq = new File(ArquivoConfiguracao);
@@ -534,7 +535,7 @@ public class CriarTabelas {
                 + " telefone VARCHAR( 50 ) NOT NULL , "
                 + " login VARCHAR( 12 ) NOT NULL , "
                 + " senha VARCHAR( 12 ) NOT NULL , "
-                + " perfil VARCHAR( 15 ) NOT NULL , "
+                + " perfil VARCHAR( 5 ) NOT NULL , "
                 + " PRIMARY KEY ( idUsuario ) "
                 + " )ENGINE=InnoDB";
         try {

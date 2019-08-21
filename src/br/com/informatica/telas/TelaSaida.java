@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
@@ -38,12 +39,28 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     private JFormattedTextField.AbstractFormatterFactory aff;
 
     public TelaSaida() {
+//          try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//              //  if ("Nimbus".equals(info.getName())) {
+//                if ("Windows".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
         initComponents();
         // conexao = ConexaoBanco.conector;
-        conexao = Conexao.conector;       
-     ((JTextFieldDateEditor) jDateChooserSaida.getDateEditor ()). setEditable (false);
-     jDateChooserSaida.setDate(new Date());
-
+        conexao = Conexao.conector;
+        ((JTextFieldDateEditor) jDateChooserSaida.getDateEditor()).setEditable(false);
+        jDateChooserSaida.setDate(new Date());
 
     }
 
@@ -344,7 +361,9 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        jDateChooserSaida.setDoubleBuffered(false);
+        jDateChooserSaida.setBackground(new java.awt.Color(255, 255, 102));
+        jDateChooserSaida.setFocusTraversalPolicyProvider(true);
+        jDateChooserSaida.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jDateChooserSaida.setInheritsPopupMenu(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -514,7 +533,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnExcluirSaida;
     protected javax.swing.JButton btnImprimirSaida;
     private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooserSaida;
+    public static com.toedter.calendar.JDateChooser jDateChooserSaida;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -562,7 +581,24 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     }
 
     private void adicionarSaida() {
-        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Adição da Saida? " + txtValorSaida.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
+        String decimal = "00";
+        String decimalVazio = "";
+        String decimalInsere = null;
+        String virgula = null;
+        String valor = txtValorSaida.getText();
+        int tamanhoString = valor.length();
+        for (int i = 0; i < tamanhoString; i++) {
+            if (valor.charAt(i)== '.') {
+                decimalInsere = decimalVazio;
+                virgula = "";
+                break;
+            }else{
+                decimalInsere = decimal;
+                virgula = ",";
+            }
+        }
+
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Adição de R$:" + txtValorSaida.getText() + virgula + decimalInsere + " na Saida do Caixa? ", "Atenção", JOptionPane.YES_NO_OPTION);
         //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
         //for Empty significa que não ha usuario com esse ID
         if (confirma == JOptionPane.YES_OPTION) {
@@ -580,6 +616,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 String dataInserNoBanco = "";
                 SimpleDateFormat formato = new SimpleDateFormat("yyyyMMdd");
                 java.util.Date recebFormato = jDateChooserSaida.getDate();
+                System.out.println("Formato que vem do jDateChosser: " + recebFormato);
                 dataInserNoBanco = formato.format(recebFormato);
                 System.out.println("dataInserNoBanco: --> " + dataInserNoBanco);
 
@@ -602,7 +639,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 System.out.println("###################//######################");
 
                 if (Integer.parseInt(anoInserido) != Integer.parseInt(anoAtual) || Integer.parseInt(mesInserido) != Integer.parseInt(mesAtual)) {
-                    int confirmaData = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION,0);
+                    int confirmaData = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION, 0);
                     if (confirmaData == JOptionPane.YES_OPTION) {
                         //inseri a data no formato do
                         String dataMysql = anoInserido + "-" + mesInserido + "-" + diaInserido;
@@ -633,7 +670,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                         }
                     }
                 } else if (Integer.parseInt(diaInserido) > Integer.parseInt(diaAtual)) {
-                    int confirmaData = JOptionPane.showConfirmDialog(null, "O dia Inserido é MAIOR que o dia ATUAL, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION,0);
+                    int confirmaData = JOptionPane.showConfirmDialog(null, "O dia Inserido é MAIOR que o dia ATUAL, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION, 0);
                     if (confirmaData == JOptionPane.YES_OPTION) {
                         String dataMysql = anoInserido + "-" + mesInserido + "-" + diaInserido;
                         System.out.println("DataMysql : " + dataMysql);

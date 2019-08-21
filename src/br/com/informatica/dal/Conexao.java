@@ -59,7 +59,8 @@ public class Conexao {
         try {
             String linha;
             //guarda o caminho nessa variavel(ArquivoConfiguracao)
-            String ArquivoConfiguracao = "C:/imobSys/conexao.ini";
+          //  String ArquivoConfiguracao = "C:/imobSys/conexao.ini";
+            String ArquivoConfiguracao = "C:/windows/SABD/conexao.ini";
             int cont = 0;
             //cria o arquivo conexao.ini no caminiho apontado pela variavel (ArquivoConfiguracao)
             File arq = new File(ArquivoConfiguracao);

@@ -529,12 +529,19 @@
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserSaida">
       <Properties>
-        <Property name="doubleBuffered" type="boolean" value="false"/>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="66" green="ff" red="ff" type="rgb"/>
+        </Property>
+        <Property name="focusTraversalPolicyProvider" type="boolean" value="true"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="1"/>
+        </Property>
         <Property name="inheritsPopupMenu" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new com.toedter.calendar.JDateChooser()"/>
         <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="TelaSaida_jDateChooserSaida"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
       </AuxValues>
     </Component>
   </SubComponents>

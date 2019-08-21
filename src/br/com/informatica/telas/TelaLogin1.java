@@ -10,7 +10,6 @@ import br.com.informatica.dal.Conexao;
 import static br.com.informatica.dal.Conexao.conector;
 import static br.com.informatica.fabrica.CriarTabelas.inserirAdmin;
 import br.com.informatica.telas.TelaPrincipal;
-import static br.com.informatica.telas.TelaPrincipal.anoAtual;
 import static br.com.informatica.telas.TelaSaida.pst;
 
 import java.awt.Color;
@@ -18,9 +17,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,32 +29,15 @@ import net.proteanit.sql.DbUtils;
  *
  * @author edilson
  */
-public class TelaLogin extends javax.swing.JFrame {
+public class TelaLogin1 extends javax.swing.JFrame {
 
-    static boolean admin = false;
-    public static String loginVemDoBanco;
-    static String datafinal;
-    static String dataFinalFormatada;
-    static String diaVenc, mesVenc, anoVenc, diaAtual, mesAtual, anoAtual;
-  
-
-//    public static String getLoginVemDoBanco() {
-//        return loginVemDoBanco;
-//    }
     PreparedStatement pst = null;
     ResultSet rs = null;
     Connection conexao = null;
-    public static String perfil;
 
-   //  String PerfildoUsuario = getPerfil();
-     
-
-    public TelaLogin() {
+    public TelaLogin1() {
 
         initComponents();
-       
-       
-        //verificaValidadeSistema();
         //esse codigo deve ser colocado dentro do construtor depois do initComponentes para fazer o butão login funcionar com enter
         getRootPane().setDefaultButton(btnLoginLogar);
         //conexao = ConexaoBanco.conector;
@@ -70,7 +50,7 @@ public class TelaLogin extends javax.swing.JFrame {
         }
 
     }
- 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -99,12 +79,6 @@ public class TelaLogin extends javax.swing.JFrame {
         btnLoginLogar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginLogarActionPerformed(evt);
-            }
-        });
-
-        txtLoginUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLoginUsuarioActionPerformed(evt);
             }
         });
 
@@ -159,10 +133,6 @@ public class TelaLogin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnLoginLogarActionPerformed
 
-    private void txtLoginUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtLoginUsuarioActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -180,20 +150,21 @@ public class TelaLogin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaLogin1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaLogin1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaLogin1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaLogin1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaLogin().setVisible(true);
+                new TelaLogin1().setVisible(true);
             }
         });
     }
@@ -207,7 +178,7 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JTextField txtLoginUsuario;
     // End of variables declaration//GEN-END:variables
 public void logar() {
-
+    
         System.out.println("Conexao status3: " + conexao);
         String sql = "select * from usuarios where login=? and senha=?";
         String SenhaCampo = txtLoginSenha.getText();
@@ -225,37 +196,26 @@ public void logar() {
             if (rs.next()) {
                 //a linha abaixo obtem o conteudo do campo perfil da tabela usuario
                 //o numero 6 corresponde a 6° coluna da tabela usuario
-                loginVemDoBanco = rs.getString(4);
-                System.out.println("login vemd o banco: " + loginVemDoBanco);
+                String loginVemDoBanco = rs.getString(4);
+                System.out.println("login vemd o banco: "+loginVemDoBanco);
                 String senhaVemDoBanco = rs.getString(5);
-                System.out.println("senha vemd o banco: " + senhaVemDoBanco);
-                perfil = rs.getString(6);
-                System.out.println("Perfilllll: " + perfil);
+                System.out.println("senha vemd o banco: "+senhaVemDoBanco);
+                String perfil = rs.getString(6);
+                System.out.println("Perfil: "+perfil);
 
                 //  if (loginVemDoBanco.equals(txtLoginUsuario.getText()) && senhaVemDoBanco.equals(txtLoginSenha.getText())) {
-                //  if (loginVemDoBanco.equals(loginCampo) && senhaVemDoBanco.equals(SenhaCampo)) {
+              //  if (loginVemDoBanco.equals(loginCampo) && senhaVemDoBanco.equals(SenhaCampo)) {
                 if (loginVemDoBanco.equals(loginCampo) && senhaVemDoBanco.equals(SenhaCampo)) {
-                    if (perfil.equals("Admin") || (perfil.equals("Super"))) { 
-                     
-                        TelaUsuarios1 usuarios = new TelaUsuarios1();
-                        //  usuarios.jBtLiberarSistema.setVisible(true);
-                       
-                        usuarios.jBtLiberarSistema.setEnabled(true);
-
+                    if (perfil.equals("Admin")) {
                         TelaPrincipal principal = new TelaPrincipal();
                         principal.setVisible(true);
-                        //   principal.menuLiberarSistema.setIcon("/br/com/jsinformatica/telas/dberror.png");
-                        //  principal.menuLiberarSistema.setEnabled(true
                         principal.menuRelatorio.setEnabled(true);
                         principal.menuUsuarios.setEnabled(true);
                         principal.menuCaixa.setEnabled(true);
                         principal.menuAgenda.setEnabled(true);
-                        ////////////////////////////////////////////////////////
 
-                        ////////////////////////////////////////////////////////
                         TelaEntrada telaEntrada = new TelaEntrada();
                         telaEntrada.txtPesquisaEntrada.setEditable(true);
-                     //    JOptionPane.showMessageDialog(null, getPerfil(),"Perfil mtd logar TelaLogin",0);
 
 //                    telaEntrada.tblEntrada.setEnabled(true);
 //                    telaEntrada.panelAlteraEntrada.setEnabled(true);
@@ -263,9 +223,7 @@ public void logar() {
                         //o numero 2 corresponde a 2° coluna da tabela usuario
                         principal.lblUsuario.setText("<html><font color=red><u>" + rs.getString(2));
                         //linha abaixo fecha a tela de login
-
                         this.dispose();
-
                     } else {
 
                         TelaPrincipal principal = new TelaPrincipal();
@@ -288,8 +246,6 @@ public void logar() {
             JOptionPane.showMessageDialog(null, "um 'X' vermeho significa que você está sem conexão com o Banco");
         }
         System.out.println("Conexao status5: " + conexao);
-     //   verificaValidadeSistema();
-   //  verificaPerfil();
     }
 
     private void verificaRotinasDeAgendamento() {
@@ -318,9 +274,5 @@ public void logar() {
         String STATUS = status;
         new TelaVerificarRotinasDeAgendamento().cboMudarStatus.setSelectedItem(STATUS);
     }
-
-
-
-   
 
 }
