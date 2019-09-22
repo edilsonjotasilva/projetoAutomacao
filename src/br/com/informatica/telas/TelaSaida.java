@@ -802,8 +802,10 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         txtIdSaida.setText(tblSaida.getModel().getValueAt(setar, 0).toString());
         //   txtDataSaida.setText(tblSaida.getModel().getValueAt(setar, 1).toString());
         String dataSaida = (tblSaida.getModel().getValueAt(setar, 1).toString());
+        JOptionPane.showMessageDialog(null, "dataSaida",dataSaida,1);
         try {
             Date vaiProJava = new SimpleDateFormat("yyyy-MM-dd").parse(dataSaida);
+            JOptionPane.showMessageDialog(null, "vaiProJava",vaiProJava.toString(),1);
             jDateChooserSaida.setDate(vaiProJava);
         } catch (ParseException ex) {
             Logger.getLogger(TelaSaida.class.getName()).log(Level.SEVERE, null, ex);

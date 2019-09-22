@@ -7,8 +7,12 @@ package br.com.informatica.telas;
 
 import br.com.informatica.dal.Conexao;
 import static br.com.informatica.telas.TelaLogin.anoAtual;
-import br.com.informatica.util.TelaDeTeste;
+import br.com.informatica.util.TelaDeTestes;
+//import br.com.informatica.util.TelaDeTestes;
+
 import br.com.informatica.util.TelaLbSy;
+import br.com.informatica.util.Teste2;
+import br.com.informatica.util.Teste4;
 import static java.lang.Thread.sleep;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -124,7 +128,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         menuBoleto = new javax.swing.JMenu();
-        menuBoletoGerar = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuGerarBoleto = new javax.swing.JMenuItem();
+        jMenuRecalcular = new javax.swing.JMenuItem();
+        jMenuAdcionarFeriados = new javax.swing.JMenuItem();
         menuSobre = new javax.swing.JMenu();
         menuLogout = new javax.swing.JMenu();
         menuLogoutFechar = new javax.swing.JMenuItem();
@@ -175,7 +183,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         getContentPane().add(DesktopPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 970, -1));
 
-        menuInicio.setText("Inicio");
+        menuInicio.setText("Cadastro");
         menuInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuInicioActionPerformed(evt);
@@ -216,6 +224,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menuInicio.add(menuCaixa);
 
+        menuUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
         menuUsuarios.setText("Usuarios");
         menuUsuarios.setEnabled(false);
         menuUsuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -315,13 +324,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menuBoleto.setText("Boleto");
 
-        menuBoletoGerar.setText("Gerar");
-        menuBoletoGerar.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem3.setText("Buscar");
+        menuBoleto.add(jMenuItem3);
+
+        jMenu1.setText("Manutencao");
+
+        jMenuGerarBoleto.setText("Gerar Boleto");
+        jMenuGerarBoleto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuBoletoGerarActionPerformed(evt);
+                jMenuGerarBoletoActionPerformed(evt);
             }
         });
-        menuBoleto.add(menuBoletoGerar);
+        jMenu1.add(jMenuGerarBoleto);
+
+        jMenuRecalcular.setText("Recalcular");
+        jMenuRecalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuRecalcularActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuRecalcular);
+
+        jMenuAdcionarFeriados.setText("Adicionar Feriados");
+        jMenuAdcionarFeriados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuAdcionarFeriadosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuAdcionarFeriados);
+
+        menuBoleto.add(jMenu1);
 
         jMenuBar1.add(menuBoleto);
 
@@ -466,16 +498,30 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jMenuTestesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuTestesActionPerformed
 
-        TelaDeTeste teste = new TelaDeTeste();
-        teste.setVisible(true);
-        cadastrarImovel();
+//            TelaDeTestes teste = new TelaDeTestes();
+//    teste.setVisible(true);
+//        Teste2 teste2 = new Teste2();
+//        teste2.setVisible(true);
+        Teste4 teste4 = new Teste4();
+        teste4.setVisible(true);
+        //   cadastrarImovel();
 
     }//GEN-LAST:event_jMenuTestesActionPerformed
 
-    private void menuBoletoGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBoletoGerarActionPerformed
+    private void jMenuGerarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGerarBoletoActionPerformed
         new GerarBoleto().setVisible(true);
         gerarBoleto();
-    }//GEN-LAST:event_menuBoletoGerarActionPerformed
+    }//GEN-LAST:event_jMenuGerarBoletoActionPerformed
+
+    private void jMenuRecalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuRecalcularActionPerformed
+        new RecalcularBoleto().setVisible(true);
+        RecalcularBoleto();
+    }//GEN-LAST:event_jMenuRecalcularActionPerformed
+
+    private void jMenuAdcionarFeriadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAdcionarFeriadosActionPerformed
+        new TelaFeriados().setVisible(true);
+        AdicionaFeriados();
+    }//GEN-LAST:event_jMenuAdcionarFeriadosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -495,16 +541,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private com.toedter.calendar.JCalendar jCalendar2;
     private javax.swing.JDialog jDialog1;
     public static javax.swing.JLabel jLNotificaoDeBloqueio;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuAdcionarFeriados;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuGerarBoleto;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuRecalcular;
     private javax.swing.JMenuItem jMenuTestes;
     protected javax.swing.JLabel lblUsuario;
     protected javax.swing.JMenu menuAgenda;
     private javax.swing.JMenuItem menuAgendaAgendamento;
     private javax.swing.JMenuItem menuAgendaRotinas;
     private javax.swing.JMenu menuBoleto;
-    private javax.swing.JMenuItem menuBoletoGerar;
     protected javax.swing.JMenu menuCaixa;
     private javax.swing.JMenuItem menuCaixaCategoria;
     private javax.swing.JMenuItem menuCaixaEntrada;
@@ -628,6 +678,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         try {
             String sql2 = "SELECT * from lbsy";
             Date dataAtual = new Date();
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("ddMMyyyy");
 
@@ -677,13 +728,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
                 long quantDias = Math.abs(dataFinalDate2.getTime() - dataInicialDate2.getTime());
                 long quantTotalDias = TimeUnit.DAYS.convert(quantDias, TimeUnit.MILLISECONDS);
-                JOptionPane.showMessageDialog(null, quantTotalDias);
+                //  JOptionPane.showMessageDialog(null,quantTotalDias,"Quantidade de dias de validação do Sistema" ,1);
                 String perfil = login.perfil;
+
                 if (quantTotalDias > 70) {
                     if (!perfil.equals("Super")) {
                         do {
                             JOptionPane.showMessageDialog(null, "<html><font color=red ><font size=18 >Sistema Bloqueado!", "", 0);
-                             jLNotificaoDeBloqueio.setText("<html><font color=red >Sua licença para uso do sistema está vencida, Ligue (62)98188-7881");
+                            jLNotificaoDeBloqueio.setText("<html><font color=red >Sua licença para uso do sistema está vencida, Ligue (62)98188-7881");
                             Conexao.fechaConexao();
                             perfil = "Super";
                         } while (!perfil.equals("Super"));
@@ -742,4 +794,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
 //    private void chamaThread() {
 //
 //    }
+    private void RecalcularBoleto() {
+        RecalcularBoleto recalBoleto = new RecalcularBoleto();
+        recalBoleto.atualizaVencimentos();
+        recalBoleto.setarVencidos();
+        recalBoleto.setVisible(true);
+        DesktopPrincipal.add(recalBoleto);
+    }
+
+    private void AdicionaFeriados() {
+        TelaFeriados feriados = new TelaFeriados();
+        feriados.setVisible(true);
+        DesktopPrincipal.add(feriados);
+    }
 }

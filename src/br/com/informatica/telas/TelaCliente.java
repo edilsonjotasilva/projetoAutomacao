@@ -374,6 +374,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
         jLabel19.setText("Pesquisar Cliente");
 
+        txtPesquisarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPesquisarClienteActionPerformed(evt);
+            }
+        });
         txtPesquisarCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPesquisarClienteKeyReleased(evt);
@@ -556,6 +561,10 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     private void txtNumeroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNumeroClienteActionPerformed
+
+    private void txtPesquisarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisarClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPesquisarClienteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

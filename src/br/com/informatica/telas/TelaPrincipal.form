@@ -21,7 +21,7 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="menuInicio">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Inicio"/>
+            <Property name="text" type="java.lang.String" value="Cadastro"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuInicioActionPerformed"/>
@@ -67,6 +67,9 @@
             </Menu>
             <MenuItem class="javax.swing.JMenuItem" name="menuUsuarios">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+U"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Usuarios"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
@@ -198,14 +201,42 @@
             <Property name="text" type="java.lang.String" value="Boleto"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="menuBoletoGerar">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Gerar"/>
+                <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuBoletoGerarActionPerformed"/>
-              </Events>
             </MenuItem>
+            <Menu class="javax.swing.JMenu" name="jMenu1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Manutencao"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuGerarBoleto">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Gerar Boleto"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuGerarBoletoActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuRecalcular">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Recalcular"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuRecalcularActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuAdcionarFeriados">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Adicionar Feriados"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuAdcionarFeriadosActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuSobre">

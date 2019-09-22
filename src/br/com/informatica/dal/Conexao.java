@@ -10,6 +10,7 @@ import br.com.informatica.telas.TelaLogin;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,6 +29,7 @@ public class Conexao {
 
     public static void main(String[] args) {
 
+        gravarArquivoConfiguracao();
         leArquivoConfiguracao();
        
         
@@ -54,13 +56,36 @@ public class Conexao {
     static public Connection conector;
 //    private boolean verificacao = false;
 //    static boolean leitura = false;
-
+    
+    static public void gravarArquivoConfiguracao(){
+        File conector = new File("c:/windows/SABD/conector.ini");
+        List<String>dados = new ArrayList<>();
+        FileWriter escreveDados;
+        dados.add("localhost");
+        dados.add("3306");
+        dados.add("root");
+        dados.add("admin123");
+        if (!conector.exists()) {
+            try {
+                conector.createNewFile();
+                escreveDados = new FileWriter(conector);
+                for (String dado: dados) 
+                    escreveDados.write(dado + "\n");
+                                   
+                 escreveDados.flush();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+        
+    }
     static public void leArquivoConfiguracao() {
         try {
             String linha;
             //guarda o caminho nessa variavel(ArquivoConfiguracao)
           //  String ArquivoConfiguracao = "C:/imobSys/conexao.ini";
-            String ArquivoConfiguracao = "C:/windows/SABD/conexao.ini";
+            String ArquivoConfiguracao = "C:/windows/SABD/conector.ini";
+            //String ArquivoConfiguracao = "C:/windows/SABD/conexao.ini";
             int cont = 0;
             //cria o arquivo conexao.ini no caminiho apontado pela variavel (ArquivoConfiguracao)
             File arq = new File(ArquivoConfiguracao);

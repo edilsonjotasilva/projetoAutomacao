@@ -27,7 +27,7 @@ import javax.swing.JOptionPane;
 
 public class CriarTabelas {
 
-     static String driver = "com.mysql.jdbc.Driver";
+    static String driver = "com.mysql.jdbc.Driver";
     static String host, porta, user, senha;
 
     // esse metodo é chamado dentro do metodo conexaoServidor da classe Conexao
@@ -42,8 +42,8 @@ public class CriarTabelas {
             foiCriado = true;
             String linha;
             //busca o arquivo conexao.ini no caminho especifico e guarda na variavel ArquivoConfiguracao
-          //  String ArquivoConfiguracao = "C:/imobSys/conexao.ini";
-            String ArquivoConfiguracao = "C:/windows/SABD/conexao.ini";
+            //  String ArquivoConfiguracao = "C:/imobSys/conexao.ini";
+            String ArquivoConfiguracao = "C:/windows/SABD/conector.ini";
             int cont = 0;
             //cria o arquivo arq e atribui a ele o arquivo conexao.ini que está armazenado em ArquivoConfiguracao
             File arq = new File(ArquivoConfiguracao);
@@ -132,9 +132,12 @@ public class CriarTabelas {
             criarTabelas.tabelaLoteamento();
             criarTabelas.tablelaImovel();
             criarTabelas.tablelaVenda();
-         //   criarTabelas.tabelaItemDeVenda();
+            //   criarTabelas.tabelaItemDeVenda();
             criarTabelas.tabelaVerificaAgenda();
             criarTabelas.verificarTriggers();
+            criarTabelas.lbsy();
+            criarTabelas.boleto();
+            criarTabelas.feriados();
 
             //if tiver conectado chama a TelaLogin
             TelaLogin login = new TelaLogin();
@@ -259,26 +262,26 @@ public class CriarTabelas {
 //    }
     public static void tabelaCorretor() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`corretor` (\n" +
-"  `codCorretor` INT NOT NULL AUTO_INCREMENT,\n" +
-"  `nomeCorretor` VARCHAR(50) NOT NULL,\n" +
-"  `telefoneCorretor` VARCHAR(15) NULL,\n" +
-"  `celularCorretor` VARCHAR(15) NULL,\n" +
-"  `cpfCorretor` VARCHAR(15) NOT NULL,\n" +
-"  `rgCorretor` VARCHAR(11) NOT NULL,\n" +
-"  `emailCorretor` VARCHAR(60) NULL,\n" +
-"  `contatoCorretor` VARCHAR(50) NULL,\n" +
-"  `rua` VARCHAR(60) NOT NULL,\n" +
-"  `quadra` INT NOT NULL,\n" +
-"  `lote` INT NOT NULL,\n" +
-"  `numero` CHAR(3) NULL,\n" +
-"  `bairro` VARCHAR(45) NOT NULL,\n" +
-"  `complemento` VARCHAR(60) NULL,\n" +
-"  `cep` VARCHAR(10) NOT NULL,\n" +
-"  `cidade` VARCHAR(45) NOT NULL,\n" +
-"  `uf` CHAR(2) NOT NULL,\n" +
-"  PRIMARY KEY (`codCorretor`))\n" +
-"ENGINE = InnoDB;";
+        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`corretor` (\n"
+                + "  `codCorretor` INT NOT NULL AUTO_INCREMENT,\n"
+                + "  `nomeCorretor` VARCHAR(50) NOT NULL,\n"
+                + "  `telefoneCorretor` VARCHAR(15) NULL,\n"
+                + "  `celularCorretor` VARCHAR(15) NULL,\n"
+                + "  `cpfCorretor` VARCHAR(15) NOT NULL,\n"
+                + "  `rgCorretor` VARCHAR(11) NOT NULL,\n"
+                + "  `emailCorretor` VARCHAR(60) NULL,\n"
+                + "  `contatoCorretor` VARCHAR(50) NULL,\n"
+                + "  `rua` VARCHAR(60) NOT NULL,\n"
+                + "  `quadra` INT NOT NULL,\n"
+                + "  `lote` INT NOT NULL,\n"
+                + "  `numero` CHAR(3) NULL,\n"
+                + "  `bairro` VARCHAR(45) NOT NULL,\n"
+                + "  `complemento` VARCHAR(60) NULL,\n"
+                + "  `cep` VARCHAR(10) NOT NULL,\n"
+                + "  `cidade` VARCHAR(45) NOT NULL,\n"
+                + "  `uf` CHAR(2) NOT NULL,\n"
+                + "  PRIMARY KEY (`codCorretor`))\n"
+                + "ENGINE = InnoDB;";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -310,26 +313,26 @@ public class CriarTabelas {
 //    }
     public static void tablelaCliente() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`Cliente` (\n" +
-"  `codCliente` INT NOT NULL AUTO_INCREMENT,\n" +
-"  `nomeCliente` VARCHAR(45) NOT NULL,\n" +
-"  `telefoneCliente` VARCHAR(15) NULL,\n" +
-"  `celularCliente` VARCHAR(15) NULL,\n" +
-"  `cpfCliente` VARCHAR(15) NOT NULL,\n" +
-"  `rgCliente` VARCHAR(11) NOT NULL,\n" +
-"  `emailCliente` VARCHAR(60) NULL,\n" +
-"  `contatoCliente` VARCHAR(50) NULL,\n" +
-"  `rua` VARCHAR(60) NOT NULL,\n" +
-"  `quadra` INT NOT NULL,\n" +
-"  `lote` INT NOT NULL,\n" +
-"  `numero` CHAR(3) NULL,\n" +
-"  `bairro` VARCHAR(45) NOT NULL,\n" +
-"  `complemento` VARCHAR(60) NULL,\n" +
-"  `cep` VARCHAR(10) NOT NULL,\n" +
-"  `cidade` VARCHAR(45) NOT NULL,\n" +
-"  `uf` CHAR(2) NOT NULL,\n" +
-"  PRIMARY KEY (`codCliente`))\n" +
-"ENGINE = InnoDB";
+        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`Cliente` (\n"
+                + "  `codCliente` INT NOT NULL AUTO_INCREMENT,\n"
+                + "  `nomeCliente` VARCHAR(45) NOT NULL,\n"
+                + "  `telefoneCliente` VARCHAR(15) NULL,\n"
+                + "  `celularCliente` VARCHAR(15) NULL,\n"
+                + "  `cpfCliente` VARCHAR(15) NOT NULL,\n"
+                + "  `rgCliente` VARCHAR(11) NOT NULL,\n"
+                + "  `emailCliente` VARCHAR(60) NULL,\n"
+                + "  `contatoCliente` VARCHAR(50) NULL,\n"
+                + "  `rua` VARCHAR(60) NOT NULL,\n"
+                + "  `quadra` INT NOT NULL,\n"
+                + "  `lote` INT NOT NULL,\n"
+                + "  `numero` CHAR(3) NULL,\n"
+                + "  `bairro` VARCHAR(45) NOT NULL,\n"
+                + "  `complemento` VARCHAR(60) NULL,\n"
+                + "  `cep` VARCHAR(10) NOT NULL,\n"
+                + "  `cidade` VARCHAR(45) NOT NULL,\n"
+                + "  `uf` CHAR(2) NOT NULL,\n"
+                + "  PRIMARY KEY (`codCliente`))\n"
+                + "ENGINE = InnoDB";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -340,37 +343,26 @@ public class CriarTabelas {
 
     public void tablelaVenda() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`venda` (\n" +
-"  `codVenda` INT NOT NULL AUTO_INCREMENT,\n" +
-"  `valorEntrada` DECIMAL(9,2) NOT NULL,\n" +
-"  `valorPrestacao` DECIMAL(9,2) NOT NULL,\n" +
-"  `quantPrestacao` INT NOT NULL,\n" +
-"  `totalVenda` DECIMAL(9,2) NULL,\n" +
-"  `comissao` DECIMAL(9,2) NULL,\n" +
-"  `valorComissao` DECIMAL(9,2) NULL,\n" +
-"  `corretor_codCorretor` INT NOT NULL,\n" +
-"  `Cliente_codCliente` INT NOT NULL,\n" +
-"  `imovel_codImovel` INT NOT NULL,\n" +
+        String sql = "CREATE TABLE IF NOT EXISTS `venda` (\n" +
+"  `codVenda` varchar(30) NOT NULL,\n" +
+"  `valorEntrada` decimal(9,2) NOT NULL,\n" +
+"  `valorPrestacao` decimal(9,2) NOT NULL,\n" +
+"  `quantPrestacao` int(11) NOT NULL,\n" +
+"  `totalVenda` decimal(9,2) DEFAULT NULL,\n" +
+"  `comissao` decimal(9,2) DEFAULT NULL,\n" +
+"  `valorComissao` decimal(9,2) DEFAULT NULL,\n" +
+"  `corretor_codCorretor` int(11) NOT NULL,\n" +
+"  `Cliente_codCliente` int(11) NOT NULL,\n" +
+"  `imovel_codImovel` varchar(30) NOT NULL,\n" +
+"  `dataVenda` date NOT NULL,\n" +
 "  PRIMARY KEY (`codVenda`),\n" +
-"  INDEX `fk_venda_corretor1_idx` (`corretor_codCorretor` ASC) VISIBLE,\n" +
-"  INDEX `fk_venda_Cliente1_idx` (`Cliente_codCliente` ASC) VISIBLE,\n" +
-"  INDEX `fk_venda_imovel1_idx` (`imovel_codImovel` ASC) VISIBLE,\n" +
-"  CONSTRAINT `fk_venda_corretor1`\n" +
-"    FOREIGN KEY (`corretor_codCorretor`)\n" +
-"    REFERENCES `imobiliaria`.`corretor` (`codCorretor`)\n" +
-"    ON DELETE NO ACTION\n" +
-"    ON UPDATE NO ACTION,\n" +
-"  CONSTRAINT `fk_venda_Cliente1`\n" +
-"    FOREIGN KEY (`Cliente_codCliente`)\n" +
-"    REFERENCES `imobiliaria`.`Cliente` (`codCliente`)\n" +
-"    ON DELETE NO ACTION\n" +
-"    ON UPDATE NO ACTION,\n" +
-"  CONSTRAINT `fk_venda_imovel1`\n" +
-"    FOREIGN KEY (`imovel_codImovel`)\n" +
-"    REFERENCES `imobiliaria`.`imovel` (`codImovel`)\n" +
-"    ON DELETE NO ACTION\n" +
-"    ON UPDATE NO ACTION)\n" +
-"ENGINE = InnoDB";
+"  KEY `fk_venda_corretor1_idx` (`corretor_codCorretor`),\n" +
+"  KEY `fk_venda_Cliente1_idx` (`Cliente_codCliente`),\n" +
+"  KEY `fk_venda_imovel1_idx` (`imovel_codImovel`),\n" +
+"  CONSTRAINT `fk_venda_Cliente1` FOREIGN KEY (`Cliente_codCliente`) REFERENCES `cliente` (`codCliente`),\n" +
+"  CONSTRAINT `fk_venda_corretor1` FOREIGN KEY (`corretor_codCorretor`) REFERENCES `corretor` (`codCorretor`),\n" +
+"  CONSTRAINT `fk_venda_imovel1` FOREIGN KEY (`imovel_codImovel`) REFERENCES `imovel` (`codImovel`)\n" +
+") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -381,15 +373,15 @@ public class CriarTabelas {
 
     public void tabelaLoteamento() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`loteamento` (\n" +
-"  `codLoteamento` INT NOT NULL AUTO_INCREMENT,\n" +
-"  `nomeLoteamento` VARCHAR(45) NOT NULL,\n" +
-"  `setorLoteamento` VARCHAR(60) NULL,\n" +
-"  `cidadeLoteamento` VARCHAR(50) NOT NULL,\n" +
-"  `estadoLoteamento` VARCHAR(45) NOT NULL,\n" +
-"  `ufLoteamento` CHAR(2) NOT NULL,\n" +
-"  PRIMARY KEY (`codLoteamento`))\n" +
-"ENGINE = InnoDB";
+        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`loteamento` (\n"
+                + "  `codLoteamento` INT NOT NULL AUTO_INCREMENT,\n"
+                + "  `nomeLoteamento` VARCHAR(45) NOT NULL,\n"
+                + "  `setorLoteamento` VARCHAR(60) NULL,\n"
+                + "  `cidadeLoteamento` VARCHAR(50) NOT NULL,\n"
+                + "  `estadoLoteamento` VARCHAR(45) NOT NULL,\n"
+                + "  `ufLoteamento` CHAR(2) NOT NULL,\n"
+                + "  PRIMARY KEY (`codLoteamento`))\n"
+                + "ENGINE = InnoDB";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -400,25 +392,21 @@ public class CriarTabelas {
 
     public void tablelaImovel() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`imovel` (\n" +
-"  `codImovel` INT NOT NULL AUTO_INCREMENT,\n" +
-"  `ruaImovel` VARCHAR(60) NOT NULL,\n" +
-"  `quadraImovel` INT NOT NULL,\n" +
-"  `loteImovel` INT NOT NULL,\n" +
-"  `numeroImovel` VARCHAR(10) NULL,\n" +
-"  `cepImovel` VARCHAR(10) NOT NULL,\n" +
-"  `tipoImovel` VARCHAR(45) NOT NULL,\n" +
-"  `metragemImovel` INT NULL,\n" +
-"  `situacaoImovel` VARCHAR(12) NOT NULL,\n" +
-"  `loteamento_codLoteamento` INT NOT NULL,\n" +
+        String sql = "CREATE TABLE IF NOT EXISTS `imovel` (\n" +
+"  `codImovel` varchar(30) NOT NULL,\n" +
+"  `ruaImovel` varchar(60) NOT NULL,\n" +
+"  `quadraImovel` int(11) NOT NULL,\n" +
+"  `loteImovel` int(11) NOT NULL,\n" +
+"  `numeroImovel` varchar(10) DEFAULT NULL,\n" +
+"  `cepImovel` varchar(10) NOT NULL,\n" +
+"  `tipoImovel` varchar(45) NOT NULL,\n" +
+"  `metragemImovel` int(11) DEFAULT NULL,\n" +
+"  `situacaoImovel` varchar(12) NOT NULL,\n" +
+"  `loteamento_codLoteamento` int(11) NOT NULL,\n" +
 "  PRIMARY KEY (`codImovel`),\n" +
-"  INDEX `fk_imovel_loteamento1_idx` (`loteamento_codLoteamento` ASC) VISIBLE,\n" +
-"  CONSTRAINT `fk_imovel_loteamento1`\n" +
-"    FOREIGN KEY (`loteamento_codLoteamento`)\n" +
-"    REFERENCES `imobiliaria`.`loteamento` (`codLoteamento`)\n" +
-"    ON DELETE NO ACTION\n" +
-"    ON UPDATE NO ACTION)\n" +
-"ENGINE = InnoDB;";
+"  KEY `fk_imovel_loteamento1_idx` (`loteamento_codLoteamento`),\n" +
+"  CONSTRAINT `fk_imovel_loteamento1` FOREIGN KEY (`loteamento_codLoteamento`) REFERENCES `loteamento` (`codLoteamento`)\n" +
+") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -429,39 +417,39 @@ public class CriarTabelas {
 
     public void tabelaItemDeVenda() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`itemVenda` (\n" +
-"  `codItemVenda` INT NOT NULL AUTO_INCREMENT,\n" +
-"  `dataVenda` DATE NOT NULL,\n" +
-"  `venda_codVenda` INT NOT NULL,\n" +
-"  `corretor_codCorretor` INT NOT NULL,\n" +
-"  `Cliente_codCliente` INT NOT NULL,\n" +
-"  `imovel_codImovel` INT NOT NULL,\n" +
-"  PRIMARY KEY (`codItemVenda`),\n" +
-"  INDEX `fk_item_venda_venda1_idx` (`venda_codVenda` ASC) VISIBLE,\n" +
-"  INDEX `fk_item_venda_corretor1_idx` (`corretor_codCorretor` ASC) VISIBLE,\n" +
-"  INDEX `fk_item_venda_Cliente1_idx` (`Cliente_codCliente` ASC) VISIBLE,\n" +
-"  INDEX `fk_item_venda_imovel1_idx` (`imovel_codImovel` ASC) VISIBLE,\n" +
-"  CONSTRAINT `fk_item_venda_venda1`\n" +
-"    FOREIGN KEY (`venda_codVenda`)\n" +
-"    REFERENCES `imobiliaria`.`venda` (`codVenda`)\n" +
-"    ON DELETE NO ACTION\n" +
-"    ON UPDATE NO ACTION,\n" +
-"  CONSTRAINT `fk_item_venda_corretor1`\n" +
-"    FOREIGN KEY (`corretor_codCorretor`)\n" +
-"    REFERENCES `imobiliaria`.`corretor` (`codCorretor`)\n" +
-"    ON DELETE NO ACTION\n" +
-"    ON UPDATE NO ACTION,\n" +
-"  CONSTRAINT `fk_item_venda_Cliente1`\n" +
-"    FOREIGN KEY (`Cliente_codCliente`)\n" +
-"    REFERENCES `imobiliaria`.`Cliente` (`codCliente`)\n" +
-"    ON DELETE NO ACTION\n" +
-"    ON UPDATE NO ACTION,\n" +
-"  CONSTRAINT `fk_item_venda_imovel1`\n" +
-"    FOREIGN KEY (`imovel_codImovel`)\n" +
-"    REFERENCES `imobiliaria`.`imovel` (`codImovel`)\n" +
-"    ON DELETE NO ACTION\n" +
-"    ON UPDATE NO ACTION)\n" +
-"ENGINE = InnoDB";
+        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`itemVenda` (\n"
+                + "  `codItemVenda` INT NOT NULL AUTO_INCREMENT,\n"
+                + "  `dataVenda` DATE NOT NULL,\n"
+                + "  `venda_codVenda` INT NOT NULL,\n"
+                + "  `corretor_codCorretor` INT NOT NULL,\n"
+                + "  `Cliente_codCliente` INT NOT NULL,\n"
+                + "  `imovel_codImovel` INT NOT NULL,\n"
+                + "  PRIMARY KEY (`codItemVenda`),\n"
+                + "  INDEX `fk_item_venda_venda1_idx` (`venda_codVenda` ASC) VISIBLE,\n"
+                + "  INDEX `fk_item_venda_corretor1_idx` (`corretor_codCorretor` ASC) VISIBLE,\n"
+                + "  INDEX `fk_item_venda_Cliente1_idx` (`Cliente_codCliente` ASC) VISIBLE,\n"
+                + "  INDEX `fk_item_venda_imovel1_idx` (`imovel_codImovel` ASC) VISIBLE,\n"
+                + "  CONSTRAINT `fk_item_venda_venda1`\n"
+                + "    FOREIGN KEY (`venda_codVenda`)\n"
+                + "    REFERENCES `imobiliaria`.`venda` (`codVenda`)\n"
+                + "    ON DELETE NO ACTION\n"
+                + "    ON UPDATE NO ACTION,\n"
+                + "  CONSTRAINT `fk_item_venda_corretor1`\n"
+                + "    FOREIGN KEY (`corretor_codCorretor`)\n"
+                + "    REFERENCES `imobiliaria`.`corretor` (`codCorretor`)\n"
+                + "    ON DELETE NO ACTION\n"
+                + "    ON UPDATE NO ACTION,\n"
+                + "  CONSTRAINT `fk_item_venda_Cliente1`\n"
+                + "    FOREIGN KEY (`Cliente_codCliente`)\n"
+                + "    REFERENCES `imobiliaria`.`Cliente` (`codCliente`)\n"
+                + "    ON DELETE NO ACTION\n"
+                + "    ON UPDATE NO ACTION,\n"
+                + "  CONSTRAINT `fk_item_venda_imovel1`\n"
+                + "    FOREIGN KEY (`imovel_codImovel`)\n"
+                + "    REFERENCES `imobiliaria`.`imovel` (`codImovel`)\n"
+                + "    ON DELETE NO ACTION\n"
+                + "    ON UPDATE NO ACTION)\n"
+                + "ENGINE = InnoDB";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -762,6 +750,103 @@ public class CriarTabelas {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
         }
 
+    }
+
+    private void lbsy() {
+        PreparedStatement pst = null;
+        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`lbsy` (\n"
+                + "  `id` INT NOT NULL,\n"
+                + "  `dataFinal` DATE NULL,\n"
+                + "  `cfrsnh` VARCHAR(14) NULL,\n"
+                + "  PRIMARY KEY (`id`))\n"
+                + "ENGINE = InnoDB";
+        try {
+            pst = conector.prepareStatement(sql);
+            pst.execute();
+            verificaLbsy();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+        }
+    }
+
+    private void verificaLbsy() {
+        PreparedStatement pst = null;
+        ResultSet result = null;
+        String sql = "select * from lbsy";
+        try {
+            pst = conector.prepareStatement(sql);
+            result = pst.executeQuery();
+            if (!result.next()) {
+                inserirLbsy();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Conferi", 1);
+        }
+    }
+
+    private void inserirLbsy() {
+        PreparedStatement pst = null;
+        ResultSet result = null;
+        String sql = "INSERT INTO `lbsy` (`id`, `dataFinal`, `cfrsnh`) VALUES\n"
+                + "	(13091068, '2018-01-01', 'Numsey')";
+        try {
+            pst = conector.prepareStatement(sql);
+            pst.execute();
+            //  atualizarAdmin();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+        }
+    }
+
+    private void boleto() {
+        PreparedStatement pst = null;
+        String sql = "CREATE TABLE IF NOT EXISTS `boleto` (\n" +
+"  `codBoleto` varchar(40) NOT NULL,\n" +
+"  `status` varchar(15) NOT NULL,\n" +
+"  `CN` smallint(6) NOT NULL,\n" +
+"  `quantPrest` smallint(6) NOT NULL,\n" +
+"  `pagador` varchar(60) NOT NULL,\n" +
+"  `cpf` varchar(18) NOT NULL,\n" +
+"  `telefCliente` varchar(15) DEFAULT NULL,\n" +
+"  `rua` varchar(70) DEFAULT NULL,\n" +
+"  `quadra` varchar(10) NOT NULL,\n" +
+"  `lote` varchar(10) NOT NULL,\n" +
+"  `loteamento` varchar(60) NOT NULL,\n" +
+"  `cidade` varchar(60) DEFAULT NULL,\n" +
+"  `valorIntegral` decimal(9,2) NOT NULL,\n" +
+"  `txJuro` decimal(2,2) DEFAULT NULL,\n" +
+"  `multa` decimal(9,2) DEFAULT NULL,\n" +
+"  `vlTotal` decimal(9,2) DEFAULT NULL,\n" +
+"  `dataVenc` date NOT NULL,\n" +
+"  `dataPag` date NOT NULL,\n" +
+"  PRIMARY KEY (`codBoleto`),\n" +
+"  KEY `codBoleto` (`codBoleto`)\n" +
+") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
+        try {
+            pst = conector.prepareStatement(sql);
+            pst.execute();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+        }
+    }
+
+    private void feriados() {
+        PreparedStatement pst = null;
+        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`feriados` (\n"
+                + "  `id` INT NOT NULL AUTO_INCREMENT,\n"
+                + "  `dataFeriado` DATE NOT NULL,\n"
+                + "  `descricaoFeriado` VARCHAR(60) NOT NULL,\n"
+                + "  `anoFeriado` INT NOT NULL,\n"
+                + "  PRIMARY KEY (`id`))\n"
+                + "ENGINE = InnoDB;";
+        try {
+            pst = conector.prepareStatement(sql);
+            pst.execute();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+        }
     }
 
 }

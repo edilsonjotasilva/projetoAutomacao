@@ -5,16 +5,26 @@
  */
 package br.com.informatica.telas;
 
+import br.com.informatica.dal.Conexao;
 import static br.com.informatica.telas.TelaSaida.jDateChooserSaida;
+import br.com.informatica.util.AlterarBoletoDialog;
+import br.com.informatica.util.GerarBoletoDialog;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -22,11 +32,24 @@ import java.util.logging.Logger;
  */
 public class GerarBoleto extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form GerarBoleto
-     */
+    PreparedStatement pst = null;
+    Connection conexao = null;
+    ResultSet rs = null;
+    static String dataCompletaStr, dataContinuaStr, anoStr, mesStr, diaStr, dataStr, dataVencStr, codBoleto, quanParceStr, carneStr;
+    static int row, datasDeVenc, anoInt, mesInt, diaInt;
+
     public GerarBoleto() {
+
         initComponents();
+        final JTextField ftf = jTexPesqCodVenda;
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                ftf.requestFocusInWindow();
+            }
+        });
+
+        conexao = Conexao.conector;
+
     }
 
     /**
@@ -41,12 +64,66 @@ public class GerarBoleto extends javax.swing.JInternalFrame {
         jDateChooserCellEditor1 = new com.toedter.calendar.JDateChooserCellEditor();
         pnlGerarBoleto = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jDateDataVencimento = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
+        jTextPagador = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTextCPF = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jTextTelef = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jTextCodVenda = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jTextQuadra = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jTextLote = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jTextLoteamento = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jTextCidade = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jTextValorPrestacao = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jTextQuantPrestacao = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jTextStatus = new javax.swing.JTextField();
+        jTextCodBoleto = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jTextCarne = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        jTextRua = new javax.swing.JTextField();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel19 = new javax.swing.JLabel();
+        jTextTxJuros = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        jTextMulta = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        jTextValorTotal = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jBtCalcular = new javax.swing.JButton();
+        jDateDataPagamento = new com.toedter.calendar.JDateChooser();
+        jPanel1 = new javax.swing.JPanel();
+        jButtonAdicionarBoleto = new javax.swing.JButton();
+        jButtonAlterar = new javax.swing.JButton();
+        jButtonDeletar = new javax.swing.JButton();
+        jButtonLimpar = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        jTexPesqCodVenda = new javax.swing.JTextField();
+        jBtInserir = new javax.swing.JButton();
+        jLabel25 = new javax.swing.JLabel();
+        btnPesquisarCodVenda = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTextQuantDias = new javax.swing.JTextField();
-        jDateDataVenc = new com.toedter.calendar.JDateChooser();
-        jDateDataPag = new com.toedter.calendar.JDateChooser();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jTextPesqCodBoleto = new javax.swing.JTextField();
+        jTextPesqPagador = new javax.swing.JTextField();
+        btnPesquisarCodBoleto = new javax.swing.JButton();
+        btnPesquisarPagador = new javax.swing.JButton();
+        jLabel26 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -54,62 +131,443 @@ public class GerarBoleto extends javax.swing.JInternalFrame {
         setTitle("Gerar Boleto");
 
         pnlGerarBoleto.setBackground(new java.awt.Color(204, 240, 240));
+        pnlGerarBoleto.setForeground(new java.awt.Color(153, 153, 153));
 
         jLabel1.setText("DtVenc");
 
-        jLabel2.setText("DtPag");
+        jLabel4.setText("Pagador");
 
-        jBtCalcular.setText("Calcular");
-        jBtCalcular.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtCalcularActionPerformed(evt);
+        jTextPagador.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextPagadorKeyPressed(evt);
             }
         });
 
-        jLabel3.setText("Quanti Dias");
+        jLabel5.setText("CPF");
+
+        jLabel6.setText("Telef");
+
+        jLabel7.setText("Cod Venda");
+
+        jTextCodVenda.setEnabled(false);
+
+        jLabel8.setText("Quad");
+
+        jLabel9.setText("Lote");
+
+        jLabel10.setText("Loteamento");
+
+        jLabel11.setText("Cidade");
+
+        jLabel12.setText("Valor Prest");
+
+        jLabel16.setText("Quant Prest");
+
+        jLabel17.setText("Status");
+
+        jTextCodBoleto.setEnabled(false);
+
+        jLabel18.setText("Cod Boleto");
+
+        jLabel20.setText("CN");
+
+        jLabel21.setText("Rua");
+
+        jLabel19.setText("TxJuros");
+
+        jTextTxJuros.setEnabled(false);
+
+        jLabel23.setText("Multa");
+
+        jTextMulta.setEnabled(false);
+        jTextMulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextMultaActionPerformed(evt);
+            }
+        });
+
+        jLabel24.setText("Valor Tot");
+
+        jTextValorTotal.setEnabled(false);
+
+        jLabel2.setText("DtPag");
+
+        jDateDataPagamento.setEnabled(false);
+
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+
+        jButtonAdicionarBoleto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/create.png"))); // NOI18N
+        jButtonAdicionarBoleto.setToolTipText("Adcionar novos boletos");
+        jButtonAdicionarBoleto.setEnabled(false);
+        jButtonAdicionarBoleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAdicionarBoletoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonAdicionarBoleto);
+
+        jButtonAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/alterar_registro.png"))); // NOI18N
+        jButtonAlterar.setToolTipText("Alterar boletos");
+        jButtonAlterar.setEnabled(false);
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonAlterar);
+
+        jButtonDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/delete.png"))); // NOI18N
+        jButtonDeletar.setToolTipText("Deletar Boletos");
+        jButtonDeletar.setEnabled(false);
+        jButtonDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeletarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonDeletar);
+
+        jButtonLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/clear.png"))); // NOI18N
+        jButtonLimpar.setToolTipText("Limpar Boletos");
+        jButtonLimpar.setEnabled(false);
+        jPanel1.add(jButtonLimpar);
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora2.png"))); // NOI18N
+        jButton5.setToolTipText("Relatorio de boletos");
+        jPanel1.add(jButton5);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel22.setText("Cod Vend");
+
+        jTexPesqCodVenda.setToolTipText("Digite o código da venda para gerar um boleto ou clique na Lupa para pesquisar");
+
+        jBtInserir.setText("Inserir");
+        jBtInserir.setToolTipText("Insere os campos que dará origem ao boleto");
+        jBtInserir.setEnabled(false);
+        jBtInserir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtInserirActionPerformed(evt);
+            }
+        });
+
+        jLabel25.setText("Inserir Campos");
+
+        btnPesquisarCodVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/search_client.png"))); // NOI18N
+        btnPesquisarCodVenda.setToolTipText("Clique aqui para encontrar um Código de venda para gerar um boleto");
+        btnPesquisarCodVenda.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnPesquisarCodVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarCodVendaActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 2, 22)); // NOI18N
+        jLabel15.setText("1     Gerar Boleto");
+        jLabel15.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel25)
+                                .addGap(91, 91, 91)
+                                .addComponent(jBtInserir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel22)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTexPesqCodVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnPesquisarCodVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTexPesqCodVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel22))
+                    .addComponent(btnPesquisarCodVenda))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25)
+                    .addComponent(jBtInserir))
+                .addGap(24, 24, 24))
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setPreferredSize(new java.awt.Dimension(318, 173));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 2, 22)); // NOI18N
+        jLabel3.setText("2     Alterar Boleto");
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jLabel13.setText("Cod Boleto");
+
+        jLabel14.setText("Pagador");
+
+        jTextPesqPagador.setEnabled(false);
+        jTextPesqPagador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextPesqPagadorActionPerformed(evt);
+            }
+        });
+
+        btnPesquisarCodBoleto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/search_client.png"))); // NOI18N
+        btnPesquisarCodBoleto.setToolTipText("Digite o Código ou clique na Lupa em Pagador!");
+        btnPesquisarCodBoleto.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnPesquisarCodBoleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarCodBoletoActionPerformed(evt);
+            }
+        });
+
+        btnPesquisarPagador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/search_client.png"))); // NOI18N
+        btnPesquisarPagador.setToolTipText("Procura um boleto pelo nome do Cliente Pagador");
+        btnPesquisarPagador.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnPesquisarPagador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarPagadorActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel13))
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextPesqCodBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextPesqPagador, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnPesquisarPagador, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPesquisarCodBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel13)
+                        .addComponent(jTextPesqCodBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnPesquisarCodBoleto))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel14)
+                        .addComponent(jTextPesqPagador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnPesquisarPagador, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(24, 24, 24))
+        );
+
+        jLabel26.setFont(new java.awt.Font("Tahoma", 2, 22)); // NOI18N
+        jLabel26.setForeground(new java.awt.Color(102, 204, 255));
+        jLabel26.setText("Pesquisas para alterar ou gerar Boletos");
 
         javax.swing.GroupLayout pnlGerarBoletoLayout = new javax.swing.GroupLayout(pnlGerarBoleto);
         pnlGerarBoleto.setLayout(pnlGerarBoletoLayout);
         pnlGerarBoletoLayout.setHorizontalGroup(
             pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabel1))
+                        .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator2)
+                            .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextRua, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                                    .addComponent(jTextPagador))
+                                .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextQuadra, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                                                .addComponent(jTextLote, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel10)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                                                        .addComponent(jLabel24)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(jTextValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(41, 41, 41))
+                                                    .addComponent(jTextLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                                                .addComponent(jLabel23)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jTextMulta)
+                                                .addGap(232, 232, 232))))
+                                    .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                                        .addGap(33, 33, 33)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jTextCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextTelef, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel21)
+                                .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                                    .addComponent(jLabel18)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextCodBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel17)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jTextStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel20)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jTextCarne, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel11)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jTextCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                                    .addComponent(jLabel12)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jTextValorPrestacao, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel16)
+                                    .addGap(20, 20, 20)
+                                    .addComponent(jTextQuantPrestacao, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel19)
+                                    .addGap(18, 18, 18)
+                                    .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                                            .addComponent(jLabel7)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jTextCodVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jTextTxJuros, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap())
                     .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextQuantDias)
-                    .addComponent(jDateDataVenc, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
-                .addGap(70, 70, 70)
-                .addComponent(jLabel2)
-                .addGap(27, 27, 27)
-                .addComponent(jDateDataPag, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(77, 77, 77)
-                .addComponent(jBtCalcular)
-                .addGap(128, 128, 128))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jDateDataVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jDateDataPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                .addGap(268, 268, 268)
+                .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                .addGap(226, 226, 226)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(90, 90, 90))
         );
         pnlGerarBoletoLayout.setVerticalGroup(
             pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jBtCalcular)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel1)
-                        .addComponent(jDateDataPag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlGerarBoletoLayout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jDateDataVenc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(77, 77, 77)
-                .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextQuantDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(340, Short.MAX_VALUE))
+                        .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(jTextCodBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17)
+                            .addComponent(jTextStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel20)
+                            .addComponent(jTextCarne, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11)
+                            .addComponent(jTextCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jTextPagador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jTextCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addComponent(jTextTelef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel21)
+                            .addComponent(jTextRua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(jTextQuadra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9)
+                            .addComponent(jTextLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)
+                            .addComponent(jTextLoteamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(jTextValorPrestacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16)
+                            .addComponent(jTextQuantPrestacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel19)
+                            .addComponent(jTextTxJuros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel24)
+                            .addComponent(jTextValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextMulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23))
+                        .addGap(33, 33, 33)
+                        .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jDateDataVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(jDateDataPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(jTextCodVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel26)
+                .addGap(18, 18, 18)
+                .addGroup(pnlGerarBoletoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -120,79 +578,484 @@ public class GerarBoleto extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlGerarBoleto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(pnlGerarBoleto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setBounds(0, 0, 970, 610);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBtCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCalcularActionPerformed
-        calcularQuantDias();
-    }//GEN-LAST:event_jBtCalcularActionPerformed
+    private void jBtInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtInserirActionPerformed
 
+        buscarDadosBoleto();
+        jButtonAdicionarBoleto.setEnabled(true);
+        jButtonLimpar.setEnabled(true);
+        jTexPesqCodVenda.setText("");
+    }//GEN-LAST:event_jBtInserirActionPerformed
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBtCalcular;
-    private com.toedter.calendar.JDateChooserCellEditor jDateChooserCellEditor1;
-    private com.toedter.calendar.JDateChooser jDateDataPag;
-    private com.toedter.calendar.JDateChooser jDateDataVenc;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextQuantDias;
-    private javax.swing.JPanel pnlGerarBoleto;
-    // End of variables declaration//GEN-END:variables
+    private void jTextPagadorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPagadorKeyPressed
+        if (jTextCodVenda.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite o código imovel abaixo e \nclique em buscar para preencher os dados!", "", 1);
+        }
+    }//GEN-LAST:event_jTextPagadorKeyPressed
 
-    private void calcularQuantDias() {
+    private void jTextMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextMultaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextMultaActionPerformed
+
+    private void btnPesquisarCodVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarCodVendaActionPerformed
+        GerarBoletoDialog boletoDialog = new GerarBoletoDialog(null, true);
+        boletoDialog.setVisible(true);
+        jBtInserir.setEnabled(true);
+        jTexPesqCodVenda.setText(boletoDialog.getCodigo());
+        btnPesquisarCodVenda.setEnabled(true);
+    }//GEN-LAST:event_btnPesquisarCodVendaActionPerformed
+
+    private void jButtonAdicionarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarBoletoActionPerformed
+        if (jTextValorPrestacao.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo Valor da parcela é obrigatório!");
+        } else if (jDateDataVencimento.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "O campo data de Vencimento é obrigatório!");
+        } else if (jTextCarne.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo CN é obrigatório!");
+        } else if (jTextQuantPrestacao.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo Quantidade de prestação é obrigatório!");
+        } else if (jTextCodVenda.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite o código Imovel e clique em Buscar!");
+        } else {
+            gerarBoleto();
+        }
+    }//GEN-LAST:event_jButtonAdicionarBoletoActionPerformed
+
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        alterarBoleto();
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    private void btnPesquisarCodBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarCodBoletoActionPerformed
+        pesquisaPorCodBoleto();
+        jButtonAdicionarBoleto.setEnabled(false);
+        jButtonAlterar.setEnabled(true);
+        jButtonDeletar.setEnabled(true);
+    }//GEN-LAST:event_btnPesquisarCodBoletoActionPerformed
+
+    private void btnPesquisarPagadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarPagadorActionPerformed
         try {
-            String dataVencStr = "";
-            String dataPagStr = "";
-            //  SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-//        java.util.Date dataVenc = jDateDataVenc.getDate();
-//        dataVencStr = sdf.format(dataVenc);
-//        String anoVenc = dataVencStr.substring(0,4);
-//        String mesVenc = dataVencStr.substring(4,6);
-//        String diaVenc = dataVencStr.substring(6);
-//        ////////////////////////////////////////////////
-//        java.util.Date dataPag = jDateDataPag.getDate();
-//        dataPagStr = sdf.format(dataPag);
-//        String anoPag = dataPagStr.substring(0,4);
-//        String mesPag = dataPagStr.substring(4,6);
-//        String diaPag = dataPagStr.substring(6);
-//        ////////////////////////////////////////////////
-//        LocalDate dataVencimento = LocalDate.of(Integer.parseInt(anoVenc), Integer.parseInt(mesVenc), Integer.parseInt(diaVenc));
-//        LocalDate dataPagamento = LocalDate.of(Integer.parseInt(anoPag), Integer.parseInt(mesPag), Integer.parseInt(diaPag));
-//        
-//        Period periodo = Period.between(dataVencimento, dataPagamento);
-//        int quantDias = periodo.getDays();
-//        System.out.println("Quantidade de Dias: "+quantDias);
-//        jTextQuantDias.setText(String.valueOf(quantDias));
-//        System.out.println("Data Venc : " + dataVencStr);
-//        System.out.println("Data Pagamento : " + dataPagStr);
-            java.util.Date receDataPag = jDateDataPag.getDate();
-            System.out.println("Date da classe boleto "+ receDataPag);
-            java.util.Date receDataVenc = jDateDataVenc.getDate();
-            String dataPagStrg = "";
-            String dataVencStrg = "";
-
-            dataPagStrg = sdf.format(receDataPag);//FORMATANDO UM DATE E COLOCANDO EM UMA STRING
-            System.out.println("dataPagStrg "+dataPagStrg);
-            Date dateDataPag = sdf.parse(dataPagStrg);//PASSANDO A STRING DE VOLTA PARA DATE
-            dataVencStrg = sdf.format(receDataVenc);//FORMATANDO UM DATE E COLOCANDO EM UMA STRING
-            System.out.println("dataVencStrg "+dataVencStrg);
-            Date dateDataVenc = sdf.parse(dataVencStrg);//PASSANDO A STRING DE VOLTA PARA DATE
-            long quantDias = (dateDataPag.getTime() - dateDataVenc.getTime());
-            long quantTotalDias = TimeUnit.DAYS.convert(quantDias, TimeUnit.MILLISECONDS);
-
-            jTextQuantDias.setText(String.valueOf(quantTotalDias));
-            /////////////////////////////////////////////////
-
+            //   pesquisaPorPagador();
+            AlterarBoletoDialog boletoDialog = new AlterarBoletoDialog(null, true);
+            boletoDialog.setVisible(true);
+            jTextCodBoleto.setText(boletoDialog.getCodigo());
+            jTextStatus.setText(boletoDialog.getStatus());
+            jTextCarne.setText(boletoDialog.getCN());
+            String dataVecStr = boletoDialog.getVencimento();
+            Date dataVencDate = new SimpleDateFormat("yyyy-MM-dd").parse(dataVecStr);
+            jDateDataVencimento.setDate(dataVencDate);
+            jTextValorPrestacao.setText(boletoDialog.getPrestacao());
+            jTextQuantPrestacao.setText(boletoDialog.getQuantPrest());
+            jTextPagador.setText(boletoDialog.getPagador());
+            jTextCPF.setText(boletoDialog.getCpf());
+            jTextRua.setText(boletoDialog.getRua());
+            jTextQuadra.setText(boletoDialog.getQuad());
+            jTextLote.setText(boletoDialog.getLote());
+            jTextLoteamento.setText(boletoDialog.getLoteamento());
+            jTextCidade.setText(boletoDialog.getCidade());
+            jButtonAdicionarBoleto.setEnabled(false);
+            jButtonAlterar.setEnabled(true);
+            jButtonDeletar.setEnabled(true);
         } catch (ParseException ex) {
             Logger.getLogger(GerarBoleto.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }//GEN-LAST:event_btnPesquisarPagadorActionPerformed
+
+    private void jTextPesqPagadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextPesqPagadorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextPesqPagadorActionPerformed
+
+    private void jButtonDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeletarActionPerformed
+        deletarBoletos();
+    }//GEN-LAST:event_jButtonDeletarActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JButton btnPesquisarCodBoleto;
+    public static javax.swing.JButton btnPesquisarCodVenda;
+    public static javax.swing.JButton btnPesquisarPagador;
+    public static javax.swing.JButton jBtInserir;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButtonAdicionarBoleto;
+    private javax.swing.JButton jButtonAlterar;
+    private javax.swing.JButton jButtonDeletar;
+    private javax.swing.JButton jButtonLimpar;
+    private com.toedter.calendar.JDateChooserCellEditor jDateChooserCellEditor1;
+    private com.toedter.calendar.JDateChooser jDateDataPagamento;
+    private com.toedter.calendar.JDateChooser jDateDataVencimento;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTextField jTexPesqCodVenda;
+    private javax.swing.JTextField jTextCPF;
+    private javax.swing.JTextField jTextCarne;
+    private javax.swing.JTextField jTextCidade;
+    private javax.swing.JTextField jTextCodBoleto;
+    private javax.swing.JTextField jTextCodVenda;
+    private javax.swing.JTextField jTextLote;
+    private javax.swing.JTextField jTextLoteamento;
+    private javax.swing.JTextField jTextMulta;
+    private javax.swing.JTextField jTextPagador;
+    public static javax.swing.JTextField jTextPesqCodBoleto;
+    public static javax.swing.JTextField jTextPesqPagador;
+    private javax.swing.JTextField jTextQuadra;
+    private javax.swing.JTextField jTextQuantPrestacao;
+    private javax.swing.JTextField jTextRua;
+    private javax.swing.JTextField jTextStatus;
+    private javax.swing.JTextField jTextTelef;
+    private javax.swing.JTextField jTextTxJuros;
+    private javax.swing.JTextField jTextValorPrestacao;
+    private javax.swing.JTextField jTextValorTotal;
+    private javax.swing.JPanel pnlGerarBoleto;
+    // End of variables declaration//GEN-END:variables
+
+    private void gerarBoleto() {
+        SimpleDateFormat sdfdataAtual = new SimpleDateFormat("yyyyMMdd");
+        Date data = new Date();
+        String dataStr = sdfdataAtual.format(data);
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dataVencDate = jDateDataVencimento.getDate();
+
+        quanParceStr = jTextQuantPrestacao.getText();
+        int quanParcelas = Integer.parseInt(quanParceStr);
+
+        carneStr = jTextCarne.getText();
+
+        dataVencStr = String.valueOf(dataVencDate);
+        dataStr = sdf.format(dataVencDate);
+
+        System.out.println("Data string::: " + dataStr);
+
+        anoStr = dataStr.substring(0, 4);
+        anoInt = Integer.parseInt(anoStr);
+        System.out.println("Ano Int: " + anoInt);
+
+        mesStr = dataStr.substring(5, 7);
+        mesInt = Integer.parseInt(mesStr);
+        System.out.println("Mes Int: " + mesInt);
+
+        diaStr = dataStr.substring(8);
+        diaInt = Integer.parseInt(diaStr);
+        System.out.println("Dia Int: " + diaInt);
+
+        for (int i = 1; i <= quanParcelas; i++) {
+            codBoleto = jTextCodVenda.getText() + "-" + jTextCarne.getText() + "." + i;
+            anoStr = String.valueOf(anoInt);
+            mesStr = String.valueOf(mesInt);
+            diaStr = String.valueOf(diaInt);
+            mesInt++;
+
+            dataContinuaStr = anoStr + "-" + mesStr + "-" + diaStr;
+            ///////////////////////////***///////////////////////////////
+            String sql2 = "INSERT INTO boleto (codBoleto,status, CN, quantPrest, pagador, cpf, telefCliente, rua, quadra, lote, loteamento, cidade, valorIntegral, txJuro, multa, vlTotal, dataVenc,dataPag)VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)";
+            try {
+                pst = conexao.prepareStatement(sql2);
+                pst.setString(1, codBoleto);
+                pst.setString(2, jTextStatus.getText());
+                pst.setString(3, jTextCarne.getText());
+                pst.setString(4, jTextQuantPrestacao.getText());
+                pst.setString(5, jTextPagador.getText());
+                pst.setString(6, jTextCPF.getText());
+                pst.setString(7, jTextTelef.getText());
+                pst.setString(8, jTextRua.getText());
+                pst.setString(9, jTextQuadra.getText());
+                pst.setString(10, jTextLote.getText());
+                pst.setString(11, jTextLoteamento.getText());
+                pst.setString(12, jTextCidade.getText());
+                pst.setString(13, jTextValorPrestacao.getText());
+                pst.setString(14, null);//txJuro
+                pst.setString(15, null);//multa
+                pst.setString(16, jTextValorTotal.getText());//vlTotal
+                pst.setString(17, dataContinuaStr);//dataVencimento
+                pst.setString(18, "0000-00-00");
+
+                int rowsAffected = pst.executeUpdate();
+
+            } catch (Exception e) {
+            }
+            //////////////////////////***////////////////////////////////
+            //   System.out.println("Data continua: " + dataContinuaStr);
+            if (mesInt == 13) {
+                mesInt = 1;
+                anoInt++;
+                datasDeVenc = anoInt + mesInt + diaInt;
+                dataContinuaStr = String.valueOf(datasDeVenc);
+                //    System.out.println("Data continua: " + dataContinuaStr);
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Boleto Cadastrado com Sucesso!!");
+        //}
+
     }
+
+    private void buscarDadosBoleto() {
+
+        if (jTexPesqCodVenda.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Digite o código da venda a ser Pesquisado");
+
+        } else {
+
+            String sql = "SELECT V.codVenda,V.valorPrestacao AS Prestacao,\n"
+                    + "Cl.nomeCliente AS Cliente,Cl.telefoneCliente AS Telefone,Cl.cpfCliente AS CPF, \n"
+                    + "I.ruaImovel AS Rua, I.quadraImovel AS Quadra,I.loteImovel AS Lote,\n"
+                    + "L.nomeLoteamento AS Loteamento, L.cidadeLoteamento AS Cidade\n"
+                    + "FROM venda V\n"
+                    + "JOIN cliente Cl\n"
+                    + "ON Cl.codCliente = V.Cliente_codCliente\n"
+                    + "JOIN corretor C\n"
+                    + "ON V.corretor_codCorretor = C.codCorretor\n"
+                    + "JOIN imovel I\n"
+                    + "ON I.codImovel = V.imovel_codImovel\n"
+                    + "JOIN loteamento L\n"
+                    + "ON L.codLoteamento = I.loteamento_codLoteamento\n"
+                    + "WHERE V.codVenda = ?";
+            try {
+
+                Scanner sc = new Scanner(System.in);
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, jTexPesqCodVenda.getText());
+                rs = pst.executeQuery();
+                if (rs.next()) {
+                    jTextStatus.setText("EM ABERTO");
+                    jTextCodVenda.setText(rs.getString(1));
+                    jTextValorPrestacao.setText(rs.getString(2));
+                    jTextPagador.setText(rs.getString(3));
+                    jTextTelef.setText(rs.getString(4));
+                    jTextCPF.setText(rs.getString(5));
+                    jTextRua.setText(rs.getString(6));
+                    jTextQuadra.setText(rs.getString(7));
+                    jTextLote.setText(rs.getString(8));
+                    jTextLoteamento.setText(rs.getString(9));
+                    jTextCidade.setText(rs.getString(10));
+                    jTextValorTotal.setText(jTextValorPrestacao.getText());
+                } else {
+                    JOptionPane.showMessageDialog(null, "Esse codigo não exite!");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }
+
+    private void alterarBoleto() {
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Alteracao do Boleto ? " + jTextCodBoleto.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            Date dataVencDate = jDateDataVencimento.getDate();
+            dataVencStr = sdf.format(dataVencDate);
+            String sql = "update boleto set status=?,CN=?,quantPrest=?,pagador=?,telefCliente=?,cpf=?"
+                    + ",rua=?,quadra=?,lote=?,loteamento=?,cidade=?,valorIntegral=?,vlTotal=?,dataVenc=? where codBoleto=?";
+            try {
+
+                JOptionPane.showMessageDialog(null, "dataString", dataVencStr, 1);
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, jTextStatus.getText().toUpperCase());
+                pst.setString(2, jTextCarne.getText());
+                pst.setString(3, jTextQuantPrestacao.getText());
+                pst.setString(4, jTextPagador.getText());
+                pst.setString(5, jTextTelef.getText());
+                pst.setString(6, jTextCPF.getText());
+                pst.setString(7, jTextRua.getText().toUpperCase());
+                pst.setString(8, jTextQuadra.getText().toUpperCase());
+                pst.setString(9, jTextLote.getText().toUpperCase());
+                pst.setString(10, jTextLoteamento.getText());
+                pst.setString(11, jTextCidade.getText());
+                pst.setString(12, jTextValorPrestacao.getText());
+                pst.setString(13, jTextValorPrestacao.getText());
+                pst.setString(14, dataVencStr);
+                pst.setString(15, jTextCodBoleto.getText());
+
+                // validaçao dos campos obrigatórios
+                if (jTextStatus.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Status é Obrigatório!");
+                } else if (jTextCarne.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo CN é Obrigatório!");
+                } else if (jTextQuantPrestacao.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Quant Prestação é Obrigatório!");
+                } else if (jTextPagador.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Pagador é Obrigatório!");
+                } else if (jTextCPF.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo CPF é Obrigatório!");
+                } else if (jTextRua.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Rua é Obrigatório!");
+                } else if (jTextQuadra.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Quadra é Obrigatório!");
+                } else if (jTextLote.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Lote é Obrigatório!");
+                } else if (jTextLoteamento.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Loteamento é Obrigatório!");
+                } else if (jTextCidade.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Cidade é Obrigatório!");
+                } else if (jTextValorPrestacao.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Valor Prestação é Obrigatório!");
+                } else if (jDateDataVencimento.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Campo Data Vencimento é Obrigatório!");
+                } else if (jTextCodBoleto.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo Codigo Boleto é Obrigatório!");
+                } else {
+                    int rowsAfected = pst.executeUpdate();
+
+                    if (rowsAfected > 0) {
+                        JOptionPane.showMessageDialog(null, "Boleto Alterado com Sucesso!");
+//                        btnCadastraCliente.setEnabled(true);
+//                        btnAlteraCliente.setEnabled(false);
+//                        btnExcluirCliente.setEnabled(false);
+
+                        jTextStatus.setText("");
+                        jTextCarne.setText("");
+                        jTextQuantPrestacao.setText("");
+                        jTextPagador.setText("");
+                        jTextCPF.setText("");
+                        jTextRua.setText("");
+                        jTextQuadra.setText("");
+                        jTextLote.setText("");
+                        jTextLoteamento.setText("");
+                        jTextCidade.setText("");
+                        jTextValorPrestacao.setText("");
+                        jDateDataVencimento.setDate(null);
+                        jTextCodBoleto.setText("");
+
+                    }
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }
+
+    private void pesquisaPorCodBoleto() {
+        String sql = "select * from boleto where codBoleto = ? ";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, jTextPesqCodBoleto.getText());
+            rs = pst.executeQuery();
+            if (rs.next()) {
+
+                dataVencStr = rs.getString(17);
+                Date dataVencDate = new SimpleDateFormat("yyyy-MM-dd").parse(dataVencStr);
+                jTextCodBoleto.setText(rs.getString(1));
+                jTextStatus.setText(rs.getString(2));
+                jTextCarne.setText(rs.getString(3));
+                jTextQuantPrestacao.setText(rs.getString(4));
+                jTextPagador.setText(rs.getString(5));
+                jTextTelef.setText(rs.getString(6));
+                jTextCPF.setText(rs.getString(7));
+                jTextRua.setText(rs.getString(8));
+                jTextQuadra.setText(rs.getString(9));
+                jTextLote.setText(rs.getString(10));
+                jTextLoteamento.setText(rs.getString(11));
+                jTextCidade.setText(rs.getString(12));
+                jTextValorPrestacao.setText(rs.getString(13));
+                jDateDataVencimento.setDate(dataVencDate);
+                jTextValorTotal.setText(jTextValorPrestacao.getText());
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Código Inválido, clique na LUPA em Pagador e procure o nome do cliente para encotrar o código!");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void pesquisaPorPagador() {
+        String sql = "select * from boleto where pagador like ? ";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, "%" + jTextPesqCodBoleto.getText() + "%");
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                dataVencStr = rs.getString(17);
+                Date dataVencDate = new SimpleDateFormat("yyyy-MM-dd").parse(dataVencStr);
+                jTextCodBoleto.setText(rs.getString(1));
+                jTextStatus.setText(rs.getString(2));
+                jTextCarne.setText(rs.getString(3));
+                jTextQuantPrestacao.setText(rs.getString(4));
+                jTextPagador.setText(rs.getString(5));
+                jTextTelef.setText(rs.getString(6));
+                jTextCPF.setText(rs.getString(7));
+                jTextRua.setText(rs.getString(8));
+                jTextQuadra.setText(rs.getString(9));
+                jTextLote.setText(rs.getString(10));
+                jTextLoteamento.setText(rs.getString(11));
+                jTextCidade.setText(rs.getString(12));
+                jTextValorPrestacao.setText(rs.getString(13));
+                jDateDataVencimento.setDate(dataVencDate);
+                jTextValorTotal.setText(jTextValorPrestacao.getText());
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void deletarBoletos() {
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a remoção do Boelto? " + jTextCodBoleto.getText(), "Atenção", JOptionPane.YES_NO_OPTION,0);
+        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+        //for Empty significa que não ha usuario com esse ID
+        if (confirma == JOptionPane.YES_OPTION) {
+            String sql = "delete from boleto where codBoleto = ?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, jTextCodBoleto.getText());
+                int rowsAffected = pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Boleto removido com Sucesso!");
+                jButtonAdicionarBoleto.setEnabled(false);
+                jButtonAlterar.setEnabled(false);
+                jButtonDeletar.setEnabled(false);
+                jTextStatus.setText("");
+                jTextCarne.setText("");
+                jTextQuantPrestacao.setText("");
+                jTextPagador.setText("");
+                jTextCPF.setText("");
+                jTextRua.setText("");
+                jTextQuadra.setText("");
+                jTextLote.setText("");
+                jTextLoteamento.setText("");
+                jTextCidade.setText("");
+                jTextValorPrestacao.setText("");
+                jDateDataVencimento.setDate(null);
+                jTextCodBoleto.setText("");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }
+
 }

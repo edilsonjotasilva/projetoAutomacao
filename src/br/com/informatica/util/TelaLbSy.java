@@ -35,6 +35,7 @@ public class TelaLbSy extends javax.swing.JFrame {
         System.out.println("Data Atual : "+ dataAtualFormatada);
         jTdataAtual.setText(dataAtualFormatada);
         jTdataFinal.setText(dataAtualFormatada);
+        //os codigos abaixo cria uma tecla de atalho Alt_L e torna o butao invisivel 
         jBtUpdateLbSy.setMnemonic(KeyEvent.VK_L);
         jBtUpdateLbSy.setOpaque(false);
         jBtUpdateLbSy.setContentAreaFilled(false);

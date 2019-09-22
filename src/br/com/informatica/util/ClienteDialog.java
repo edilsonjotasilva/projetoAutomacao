@@ -8,7 +8,7 @@ package br.com.informatica.util;
 //import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
 import br.com.informatica.telas.TelaCliente;
-import br.com.informatica.telas.TelaLoteamento;
+//import br.com.informatica.telas.TelaLoteamento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

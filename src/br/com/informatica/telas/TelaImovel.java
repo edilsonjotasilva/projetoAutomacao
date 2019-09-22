@@ -489,6 +489,12 @@ public class TelaImovel extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblImovelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblImovelMouseClicked
+        if (jCbSituacaoImovel.getSelectedItem().equals("DISPONIVEL")) {
+            JOptionPane.showMessageDialog(null, "Mude a Situação do Imóvel Se Quiser Torna-lo VENDIDO!","Atenção",0);
+        }else{
+             JOptionPane.showMessageDialog(null, "Mude a Situação do Imóvel Se Quiser Torna-lo DISPONIVEL!","Atenção",0);
+        }
+        
         btnCadastrarImovel.setEnabled(false);
         btnAlterarImovel.setEnabled(true);
         btnExcluirImovel.setEnabled(true);
@@ -596,10 +602,12 @@ public class TelaImovel extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtLoteImovelActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jCbSituacaoImovel.setSelectedItem("DISPONIVEL");
         pesquisarDisponivel();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        jCbSituacaoImovel.setSelectedItem("VENDIDO");
         pesquisarVendidos();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -616,7 +624,7 @@ public class TelaImovel extends javax.swing.JInternalFrame {
             cadastrarDinamico();
             btnCadastrarImovel.setEnabled(false);
             btnCadastrarDinamico.setEnabled(true);
-            limparImovel();
+            
         }
     }//GEN-LAST:event_btnCadastrarDinamicoActionPerformed
 
@@ -660,7 +668,7 @@ public class TelaImovel extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlPrincipalImovel;
     private javax.swing.JTable tblImovel;
     private javax.swing.JFormattedTextField txtCEPImovel;
-    private javax.swing.JTextField txtCodImovel;
+    public javax.swing.JTextField txtCodImovel;
     public javax.swing.JTextField txtCodLoteamentoImovel;
     private javax.swing.JTextField txtLoteImovel;
     private javax.swing.JTextField txtMetragemImovel;
@@ -731,26 +739,33 @@ public class TelaImovel extends javax.swing.JInternalFrame {
         //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
         //for Empty significa que não ha usuario com esse ID
         if (confirma == JOptionPane.YES_OPTION) {
-
+            Integer lote = Integer.parseInt(txtLoteImovel.getText());
+            Integer loteUltimo = Integer.parseInt(jTfLoteFinal.getText());
+            lote--;
             for (int i = loteInicial; i <= loteFinal; i++) {
-
                 String loteInseriStr = String.valueOf(loteInseri);
-                String sql = "INSERT INTO imovel (ruaImovel,quadraImovel,loteImovel,numeroImovel,cepImovel,tipoImovel"
-                        + ",metragemImovel,situacaoImovel,loteamento_codLoteamento ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                
+//                String codImovel = txtCodLoteamentoImovel.getText()+"."+txtQuadraImovel.getText()+"-" +( lote + i);
+                String codImovel = txtCodLoteamentoImovel.getText()+"."+txtQuadraImovel.getText()+"-" +loteInseriStr;
+
+                
+                String sql = "INSERT INTO imovel (codImovel,ruaImovel,quadraImovel,loteImovel,numeroImovel,cepImovel,tipoImovel"
+                        + ",metragemImovel,situacaoImovel,loteamento_codLoteamento ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try {
                     pst = conexao.prepareStatement(sql);
-                    pst.setString(1, txtRuaImovel.getText().toUpperCase());
-                    pst.setString(2, txtQuadraImovel.getText().toUpperCase());
+                    pst.setString(1, codImovel);
+                    pst.setString(2, txtRuaImovel.getText().toUpperCase());
+                    pst.setString(3, txtQuadraImovel.getText().toUpperCase());
                     // pst.setString(3, txtLoteImovel.getText().toUpperCase());
-                    pst.setString(3, loteInseriStr);
-                    pst.setString(4, txtNumeroImovel.getText().toUpperCase());
-                    pst.setString(5, txtCEPImovel.getText().toUpperCase());
-                    pst.setString(6, cboTipoImovel.getSelectedItem().toString());
-                    pst.setString(7, txtMetragemImovel.getText().toUpperCase());
-                    pst.setString(8, jCbSituacaoImovel.getSelectedItem().toString());
-                    pst.setString(9, txtCodLoteamentoImovel.getText().toUpperCase());
+                    pst.setString(4, loteInseriStr);
+                    pst.setString(5, txtNumeroImovel.getText().toUpperCase());
+                    pst.setString(6, txtCEPImovel.getText().toUpperCase());
+                    pst.setString(7, cboTipoImovel.getSelectedItem().toString());
+                    pst.setString(8, txtMetragemImovel.getText().toUpperCase());
+                    pst.setString(9, jCbSituacaoImovel.getSelectedItem().toString());
+                    pst.setString(10, txtCodLoteamentoImovel.getText().toUpperCase());
 
-                    if (txtRuaImovel.getText().isEmpty()) {
+                     if (txtRuaImovel.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Campo Rua é Obrigatório!");
                     } else if (txtQuadraImovel.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Campo Quadra é Obrigatório!");
@@ -771,7 +786,8 @@ public class TelaImovel extends javax.swing.JInternalFrame {
 
                             if (loteInseri >= loteFinal) {
                                 JOptionPane.showMessageDialog(null, "Imovis cadastrados com sucesso!", "Cadastros", 1);
-                            }
+                                break;
+                          }
 
                         }
                     }
@@ -780,8 +796,9 @@ public class TelaImovel extends javax.swing.JInternalFrame {
                 }
                 loteInseri++;
             }
-
+           
         }
+        limparImovel();
     }
 
     public void recebendoCodLoteamento(String recebe) {
@@ -952,6 +969,7 @@ public class TelaImovel extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+        txtCodImovel.setText("");
         txtRuaImovel.setText("");
         txtQuadraImovel.setText("");
         txtLoteImovel.setText("");

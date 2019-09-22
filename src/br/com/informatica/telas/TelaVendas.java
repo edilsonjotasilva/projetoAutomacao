@@ -18,6 +18,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
@@ -39,6 +41,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
     PreparedStatement pst = null;
     Connection conexao = null;
     ResultSet rs = null;
+    static String ano;
 
     public TelaVendas() {
         initComponents();
@@ -92,6 +95,8 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         txtCodImovel = new javax.swing.JTextField();
         btnPesquisariCodImovel = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jDtDataVenda = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
         setIconifiable(true);
@@ -253,6 +258,8 @@ public class TelaVendas extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel12.setText("Data");
+
         javax.swing.GroupLayout pnlPrincipalVendasLayout = new javax.swing.GroupLayout(pnlPrincipalVendas);
         pnlPrincipalVendas.setLayout(pnlPrincipalVendasLayout);
         pnlPrincipalVendasLayout.setHorizontalGroup(
@@ -266,55 +273,65 @@ public class TelaVendas extends javax.swing.JInternalFrame {
                 .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
                         .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtCodVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(35, 35, 35)
-                                    .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtValorPrestacaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtQntPrestacaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel7)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel6)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(cboComissaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtValorComissaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addGap(28, 28, 28)
-                                    .addComponent(txtCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnPesquisarCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(83, 83, 83)
-                                    .addComponent(jLabel10)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnPesquisarCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(109, 109, 109)
-                                    .addComponent(jLabel11)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnPesquisariCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1)
+                            .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
+                                .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalVendasLayout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtCodVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtValorPrestacaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(28, 28, 28)
+                                        .addComponent(txtCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnPesquisarCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel10)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnPesquisarCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(44, 44, 44)))
+                                .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnPesquisariCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(49, 49, 49)
+                                        .addComponent(jLabel12)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jDtDataVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(93, 93, 93))
+                                    .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtQntPrestacaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cboComissaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtValorComissaoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(25, 25, 25)))))
+                        .addGap(0, 10, Short.MAX_VALUE))
                     .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -341,28 +358,33 @@ public class TelaVendas extends javax.swing.JInternalFrame {
                     .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(btnPesquisarCodCorretor))
-                    .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalVendasLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnPesquisarCodCliente)
-                            .addComponent(btnPesquisariCodImovel)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jDtDataVenda, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
+                        .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlPrincipalVendasLayout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(31, 31, 31)
+                                .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnPesquisarCodCorretor)
+                                    .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel5)
+                                        .addComponent(txtCodCorretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel10)
                                         .addComponent(txtCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnPesquisarCodCliente)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalVendasLayout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnPesquisariCodImovel)
                                     .addGroup(pnlPrincipalVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel11)
-                                        .addComponent(txtCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                        .addComponent(txtCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(4, 4, 4)))
+                        .addGap(0, 4, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
@@ -395,10 +417,27 @@ public class TelaVendas extends javax.swing.JInternalFrame {
 
         calcularComissaoVenda();
         calcularValorTotal();
-        cadastrarVenda();
-        cboComissaoVenda.setSelectedItem("5");
-        alteraSituacaoImovel();
-        limparVenda();
+        //verificando se o imovel ja foi vendido
+        String sql2 = "select * from venda where imovel_codImovel = ? ";
+        try {
+            pst = conexao.prepareStatement(sql2);
+            pst.setString(1, txtCodImovel.getText());
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Esse Imovel já foi Vendido!", "Atenção", 0);
+
+            } else {
+                cadastrarVenda();
+                cboComissaoVenda.setSelectedItem("5");
+                alteraSituacaoImovel();
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+        //   limparVenda();
 
     }//GEN-LAST:event_btnCadastrarVendaActionPerformed
 
@@ -481,9 +520,11 @@ public class TelaVendas extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnPesquisarCodCorretor;
     private javax.swing.JButton btnPesquisariCodImovel;
     private javax.swing.JComboBox<String> cboComissaoVenda;
+    private com.toedter.calendar.JDateChooser jDtDataVenda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -509,24 +550,38 @@ public class TelaVendas extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void cadastrarVenda() {
+        String codVenda = txtCodImovel.getText() + "/" + txtCodCorretor.getText() + "." + txtCodCliente.getText();                     
         Formatador formatador = new Formatador();
-        String sql = "INSERT INTO venda (valorEntrada,valorPrestacao,quantPrestacao,totalVenda,comissao,valorComissao,corretor_codCorretor,cliente_codCliente,imovel_codImovel"
-                + " ) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
+        String sql = "INSERT INTO venda (codVenda,valorEntrada,valorPrestacao,quantPrestacao,totalVenda,comissao,valorComissao,corretor_codCorretor,cliente_codCliente,imovel_codImovel,dataVenda"
+                + " ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?,?,?)";
         try {   //31450,00
             pst = conexao.prepareStatement(sql);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+            Date recebeDataCampo = jDtDataVenda.getDate();
+            if (recebeDataCampo == null) {
+                JOptionPane.showMessageDialog(null, "Campo Data Venda é Obrigatório!");
+            }
+            String DataInsirNoBanco = sdf.format(recebeDataCampo);
+            ano = DataInsirNoBanco.substring(0, 4);
+            String mes = DataInsirNoBanco.substring(4, 6);
+            String dia = DataInsirNoBanco.substring(6);
+            String dataMysql = ano + "-" + mes + "-" + dia;
 
             String totalVenda = txtTotalVenda.getText();//22.456,90
             Double valorTotalF = formatador.convertVirgulaParaPonto(txtTotalVenda.getText());
             Double valorComissaoF = formatador.convertVirgulaParaPonto(txtValorComissaoVenda.getText());
-            pst.setString(1, txtValorEntrada.getText());
-            pst.setString(2, txtValorPrestacaoVenda.getText());
-            pst.setString(3, txtQntPrestacaoVenda.getText());
-            pst.setString(4, valorTotalF.toString());
-            pst.setString(5, cboComissaoVenda.getSelectedItem().toString());
-            pst.setString(6, valorComissaoF.toString());
-            pst.setString(7, txtCodCorretor.getText());
-            pst.setString(8, txtCodCliente.getText());
-            pst.setString(9, txtCodImovel.getText());
+            pst.setString(1, codVenda);
+            pst.setString(2, txtValorEntrada.getText());
+            pst.setString(3, txtValorPrestacaoVenda.getText());
+            pst.setString(4, txtQntPrestacaoVenda.getText());
+            pst.setString(5, valorTotalF.toString());
+            pst.setString(6, cboComissaoVenda.getSelectedItem().toString());
+            pst.setString(7, valorComissaoF.toString());
+            pst.setString(8, txtCodCorretor.getText());
+            pst.setString(9, txtCodCliente.getText());
+            pst.setString(10, txtCodImovel.getText());
+            pst.setString(11, dataMysql);
             if (txtValorEntrada.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo Valor Entrada é Obrigatório!");
             } else if (txtValorPrestacaoVenda.getText().isEmpty()) {
@@ -547,14 +602,6 @@ public class TelaVendas extends javax.swing.JInternalFrame {
                 int rowsAfected = pst.executeUpdate();
                 if (rowsAfected > 0) {
                     JOptionPane.showMessageDialog(null, "Venda cadastrada com sucesso!", "Cadastro", 1);
-//                    txtValorEntrada.setText("");
-//                    txtValorPrestacaoVenda.setText("");
-//                    txtQntPrestacaoVenda.setText("");
-//                    txtTotalVenda.setText("");
-//                    txtValorComissaoVenda.setText("");
-//                    txtCodCorretor.setText("");
-//                    txtCodCliente.setText("");
-                    //   txtCodImovel.setText("");
 
                 }
             }
@@ -585,7 +632,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         String sql = "select * from venda where codVenda like ? order by codVenda desc";
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1,  txtPesquisarVenda.getText()+"%");            
+            pst.setString(1, txtPesquisarVenda.getText() + "%");
             rs = pst.executeQuery();
             tblVendas.setModel(DbUtils.resultSetToTableModel(rs));
             tblVendas.isValid();
@@ -602,6 +649,15 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
         //for Empty significa que não ha usuario com esse ID
         if (confirma == JOptionPane.YES_OPTION) {
+            TelaImovel imovel = new TelaImovel();
+
+            String sqlImovel = "update imovel set situacaoImovel = 'DISPONIVEL' WHERE codImovel = ? ";
+            try {
+                pst = conexao.prepareStatement(sqlImovel);
+                pst.setString(1, imovel.txtCodImovel.getText());
+                pst.executeUpdate();
+            } catch (Exception e) {
+            }
 
             String sql = "DELETE FROM venda WHERE codVenda = ?";
             try {
@@ -718,6 +774,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
     }
 
     private void limparVendas() {
+        btnCadastrarVenda.setEnabled(true);
         String sql2 = "select * from cliente where nomeCliente = 'XXXX' ";
         try {
             pst = conexao.prepareStatement(sql2);
@@ -752,8 +809,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
- 
-
+        limparVenda();
     }
 
     private void imprimeRelatorioVendas() {
@@ -768,7 +824,7 @@ public class TelaVendas extends javax.swing.JInternalFrame {
     }
 
     private void limparVenda() {
-          String sql2 = "select * from venda where codVenda = 999999 ";
+        String sql2 = "select * from venda where codVenda = 999999 ";
         try {
             pst = conexao.prepareStatement(sql2);
             rs = pst.executeQuery();
@@ -786,5 +842,23 @@ public class TelaVendas extends javax.swing.JInternalFrame {
         txtCodCorretor.setText("");
         txtCodCliente.setText("");
         txtCodImovel.setText("");
+        jDtDataVenda.setDate(null);
+    }
+
+    private void verificaVenda() {
+        String sql2 = "select * from venda where imovel_codImovel = ? ";
+        try {
+            pst = conexao.prepareStatement(sql2);
+            pst.setString(1, txtCodImovel.getText());
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Esse Imovel já foi Vendido!", "Atenção", 0);
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 }
