@@ -779,7 +779,7 @@ public class GerarBoleto extends javax.swing.JInternalFrame {
 
             dataContinuaStr = anoStr + "-" + mesStr + "-" + diaStr;
             ///////////////////////////***///////////////////////////////
-            String sql2 = "INSERT INTO boleto (codBoleto,status, CN, quantPrest, pagador, cpf, telefCliente, rua, quadra, lote, loteamento, cidade, valorIntegral, txJuro, multa, vlTotal, dataVenc,dataPag)VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)";
+            String sql2 = "INSERT INTO boleto (codBoleto,status, CN, quantPrest, pagador, cpf, telefCliente, rua, quadra, lote, loteamento, cidade, valorIntegral, txJuro, multa, vlTotal, dataVenc,dataAtual, dataPag)VALUES (?, ?, ?, ?, ?,?, ?,?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)";
             try {
                 pst = conexao.prepareStatement(sql2);
                 pst.setString(1, codBoleto);
@@ -799,11 +799,13 @@ public class GerarBoleto extends javax.swing.JInternalFrame {
                 pst.setString(15, null);//multa
                 pst.setString(16, jTextValorTotal.getText());//vlTotal
                 pst.setString(17, dataContinuaStr);//dataVencimento
-                pst.setString(18, "0000-00-00");
+                pst.setString(18, "0000-00-00");//dataAtual
+                pst.setString(19, "0000-00-00");//dataPagamento
 
                 int rowsAffected = pst.executeUpdate();
 
             } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
             }
             //////////////////////////***////////////////////////////////
             //   System.out.println("Data continua: " + dataContinuaStr);

@@ -818,6 +818,7 @@ public class CriarTabelas {
 "  `multa` decimal(9,2) DEFAULT NULL,\n" +
 "  `vlTotal` decimal(9,2) DEFAULT NULL,\n" +
 "  `dataVenc` date NOT NULL,\n" +
+"  `dataAtual` date NOT NULL,\n" +
 "  `dataPag` date NOT NULL,\n" +
 "  PRIMARY KEY (`codBoleto`),\n" +
 "  KEY `codBoleto` (`codBoleto`)\n" +
