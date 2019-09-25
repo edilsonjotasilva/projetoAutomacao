@@ -20,6 +20,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -225,6 +228,7 @@ public class CriarTabelas {
                 + " dataAgenda DATE NOT NULL,"
                 + " situacaoAgenda VARCHAR(50) NOT NULL,"
                 + " PRIMARY KEY (codAgenda)"
+                //  + ")ENGINE=InnoDB";
                 + ")COLLATE='utf8mb4_0900_ai_ci'";
         try {
             pst = conector.prepareStatement(sql);
@@ -343,26 +347,27 @@ public class CriarTabelas {
 
     public void tablelaVenda() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `venda` (\n" +
-"  `codVenda` varchar(30) NOT NULL,\n" +
-"  `valorEntrada` decimal(9,2) NOT NULL,\n" +
-"  `valorPrestacao` decimal(9,2) NOT NULL,\n" +
-"  `quantPrestacao` int(11) NOT NULL,\n" +
-"  `totalVenda` decimal(9,2) DEFAULT NULL,\n" +
-"  `comissao` decimal(9,2) DEFAULT NULL,\n" +
-"  `valorComissao` decimal(9,2) DEFAULT NULL,\n" +
-"  `corretor_codCorretor` int(11) NOT NULL,\n" +
-"  `Cliente_codCliente` int(11) NOT NULL,\n" +
-"  `imovel_codImovel` varchar(30) NOT NULL,\n" +
-"  `dataVenda` date NOT NULL,\n" +
-"  PRIMARY KEY (`codVenda`),\n" +
-"  KEY `fk_venda_corretor1_idx` (`corretor_codCorretor`),\n" +
-"  KEY `fk_venda_Cliente1_idx` (`Cliente_codCliente`),\n" +
-"  KEY `fk_venda_imovel1_idx` (`imovel_codImovel`),\n" +
-"  CONSTRAINT `fk_venda_Cliente1` FOREIGN KEY (`Cliente_codCliente`) REFERENCES `cliente` (`codCliente`),\n" +
-"  CONSTRAINT `fk_venda_corretor1` FOREIGN KEY (`corretor_codCorretor`) REFERENCES `corretor` (`codCorretor`),\n" +
-"  CONSTRAINT `fk_venda_imovel1` FOREIGN KEY (`imovel_codImovel`) REFERENCES `imovel` (`codImovel`)\n" +
-") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
+        String sql = "CREATE TABLE IF NOT EXISTS `venda` (\n"
+                + "  `codVenda` varchar(30) NOT NULL,\n"
+                + "  `valorEntrada` decimal(9,2) NOT NULL,\n"
+                + "  `valorPrestacao` decimal(9,2) NOT NULL,\n"
+                + "  `quantPrestacao` int(11) NOT NULL,\n"
+                + "  `totalVenda` decimal(9,2) DEFAULT NULL,\n"
+                + "  `comissao` decimal(9,2) DEFAULT NULL,\n"
+                + "  `valorComissao` decimal(9,2) DEFAULT NULL,\n"
+                + "  `corretor_codCorretor` int(11) NOT NULL,\n"
+                + "  `Cliente_codCliente` int(11) NOT NULL,\n"
+                + "  `imovel_codImovel` varchar(30) NOT NULL,\n"
+                + "  `dataVenda` date NOT NULL,\n"
+                + "  PRIMARY KEY (`codVenda`),\n"
+                + "  KEY `fk_venda_corretor1_idx` (`corretor_codCorretor`),\n"
+                + "  KEY `fk_venda_Cliente1_idx` (`Cliente_codCliente`),\n"
+                + "  KEY `fk_venda_imovel1_idx` (`imovel_codImovel`),\n"
+                + "  CONSTRAINT `fk_venda_Cliente1` FOREIGN KEY (`Cliente_codCliente`) REFERENCES `cliente` (`codCliente`),\n"
+                + "  CONSTRAINT `fk_venda_corretor1` FOREIGN KEY (`corretor_codCorretor`) REFERENCES `corretor` (`codCorretor`),\n"
+                + "  CONSTRAINT `fk_venda_imovel1` FOREIGN KEY (`imovel_codImovel`) REFERENCES `imovel` (`codImovel`)\n"
+                + //") ENGINE=InnoDB";
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -392,21 +397,22 @@ public class CriarTabelas {
 
     public void tablelaImovel() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `imovel` (\n" +
-"  `codImovel` varchar(30) NOT NULL,\n" +
-"  `ruaImovel` varchar(60) NOT NULL,\n" +
-"  `quadraImovel` int(11) NOT NULL,\n" +
-"  `loteImovel` int(11) NOT NULL,\n" +
-"  `numeroImovel` varchar(10) DEFAULT NULL,\n" +
-"  `cepImovel` varchar(10) NOT NULL,\n" +
-"  `tipoImovel` varchar(45) NOT NULL,\n" +
-"  `metragemImovel` int(11) DEFAULT NULL,\n" +
-"  `situacaoImovel` varchar(12) NOT NULL,\n" +
-"  `loteamento_codLoteamento` int(11) NOT NULL,\n" +
-"  PRIMARY KEY (`codImovel`),\n" +
-"  KEY `fk_imovel_loteamento1_idx` (`loteamento_codLoteamento`),\n" +
-"  CONSTRAINT `fk_imovel_loteamento1` FOREIGN KEY (`loteamento_codLoteamento`) REFERENCES `loteamento` (`codLoteamento`)\n" +
-") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
+        String sql = "CREATE TABLE IF NOT EXISTS `imovel` (\n"
+                + "  `codImovel` varchar(30) NOT NULL,\n"
+                + "  `ruaImovel` varchar(60) NOT NULL,\n"
+                + "  `quadraImovel` int(11) NOT NULL,\n"
+                + "  `loteImovel` int(11) NOT NULL,\n"
+                + "  `numeroImovel` varchar(10) DEFAULT NULL,\n"
+                + "  `cepImovel` varchar(10) NOT NULL,\n"
+                + "  `tipoImovel` varchar(45) NOT NULL,\n"
+                + "  `metragemImovel` int(11) DEFAULT NULL,\n"
+                + "  `situacaoImovel` varchar(12) NOT NULL,\n"
+                + "  `loteamento_codLoteamento` int(11) NOT NULL,\n"
+                + "  PRIMARY KEY (`codImovel`),\n"
+                + "  KEY `fk_imovel_loteamento1_idx` (`loteamento_codLoteamento`),\n"
+                + "  CONSTRAINT `fk_imovel_loteamento1` FOREIGN KEY (`loteamento_codLoteamento`) REFERENCES `loteamento` (`codLoteamento`)\n"
+                + //") ENGINE=InnoDB";
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -563,7 +569,7 @@ public class CriarTabelas {
     ////////////////////////////////////////////////////////////
     static public void inserirAdmin() {
         PreparedStatement pst = null;
-        String sql = "insert into `usuarios`(`nomeUsu`,`telefone`,`login`,`senha`,`perfil`)VALUES('Administrador',99999999,'admin','admin','Admin')";
+        String sql = "insert into `usuarios`(`nomeUsu`,`telefone`,`login`,`senha`,`perfil`)VALUES('Administrador',99999999,'admin','admin','Admin'),('Super Usuario',99999999,'super','super','Super')";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -629,6 +635,7 @@ public class CriarTabelas {
                 + "  codVerificaAgenda int(11) NOT NULL,"
                 + "  statusVerificaAgenda varchar(5) NOT NULL,"
                 + "  PRIMARY KEY (codVerificaAgenda)"
+                //                + ") ENGINE=InnoDB";
                 + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
         try {
             pst = conector.prepareStatement(sql);
@@ -785,44 +792,104 @@ public class CriarTabelas {
     }
 
     private void inserirLbsy() {
+        String dataValidadeCompletaStr = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+//        Date dataAtual = new Date();
+//        String dataVencStr = sdf.format(dataAtual);
+
+        String dataVencStr = ("20190831");
+        String ano = dataVencStr.substring(0, 4);
+        String mes = dataVencStr.substring(4, 6);
+        String dia = dataVencStr.substring(6);
+        int anoInt = Integer.parseInt(ano);
+        int mesInt = Integer.parseInt(mes);
+        int diaInt = Integer.parseInt(dia);
+        if (mesInt > 0 && mesInt < 11 && (mesInt == 7) && diaInt < 31) {
+            mesInt = mesInt + 2;
+            String anoStr = String.valueOf(anoInt);
+            String mesStr = String.valueOf(mesInt);
+            String diaStr = String.valueOf(diaInt);
+            dataValidadeCompletaStr = anoStr + "-" + mesStr + "-" + diaStr;
+        } else if (mesInt > 0 && mesInt < 11 && (mesInt == 7) && diaInt == 31) {
+            mesInt = mesInt + 2;
+            diaInt = 30;
+            String anoStr = String.valueOf(anoInt);
+            String mesStr = String.valueOf(mesInt);
+            String diaStr = String.valueOf(diaInt);
+            dataValidadeCompletaStr = anoStr + "-" + mesStr + "-" + diaStr;
+        } else if (mesInt > 0 && mesInt < 11 && (mesInt != 7) ) {
+            mesInt = mesInt + 2;
+            diaInt = 30;
+            String anoStr = String.valueOf(anoInt);
+            String mesStr = String.valueOf(mesInt);
+            String diaStr = String.valueOf(diaInt);
+            dataValidadeCompletaStr = anoStr + "-" + mesStr + "-" + diaStr;
+        } else if (mesInt == 11) {
+            mesInt = 01;
+            anoInt = anoInt + 1;
+            String anoStr = String.valueOf(anoInt);
+            String mesStr = String.valueOf(mesInt);
+            String diaStr = String.valueOf(diaInt);
+            dataValidadeCompletaStr = anoStr + "-" + mesStr + "-" + diaStr;
+        } else if (mesInt == 12 && diaInt > 28) {
+            mesInt = 2;
+            diaInt = 28;
+            anoInt = anoInt + 1;
+            String anoStr = String.valueOf(anoInt);
+            String mesStr = String.valueOf(mesInt);
+            String diaStr = String.valueOf(diaInt);
+            dataValidadeCompletaStr = anoStr + "-" + mesStr + "-" + diaStr;
+        } else if (mesInt == 12 && diaInt <= 28) {
+            mesInt = 02;
+            anoInt = anoInt + 1;
+            String anoStr = String.valueOf(anoInt);
+            String mesStr = String.valueOf(mesInt);
+            String diaStr = String.valueOf(diaInt);
+            dataValidadeCompletaStr = anoStr + "-" + mesStr + "-" + diaStr;
+        }
+
         PreparedStatement pst = null;
         ResultSet result = null;
         String sql = "INSERT INTO `lbsy` (`id`, `dataFinal`, `cfrsnh`) VALUES\n"
-                + "	(13091068, '2018-01-01', 'Numsey')";
+                + "	(13091068, ?, 'Numsey')";
         try {
             pst = conector.prepareStatement(sql);
+            pst.setString(1, dataValidadeCompletaStr);
             pst.execute();
             //  atualizarAdmin();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
+
         }
+
     }
 
     private void boleto() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `boleto` (\n" +
-"  `codBoleto` varchar(40) NOT NULL,\n" +
-"  `status` varchar(15) NOT NULL,\n" +
-"  `CN` smallint(6) NOT NULL,\n" +
-"  `quantPrest` smallint(6) NOT NULL,\n" +
-"  `pagador` varchar(60) NOT NULL,\n" +
-"  `cpf` varchar(18) NOT NULL,\n" +
-"  `telefCliente` varchar(15) DEFAULT NULL,\n" +
-"  `rua` varchar(70) DEFAULT NULL,\n" +
-"  `quadra` varchar(10) NOT NULL,\n" +
-"  `lote` varchar(10) NOT NULL,\n" +
-"  `loteamento` varchar(60) NOT NULL,\n" +
-"  `cidade` varchar(60) DEFAULT NULL,\n" +
-"  `valorIntegral` decimal(9,2) NOT NULL,\n" +
-"  `txJuro` decimal(2,2) DEFAULT NULL,\n" +
-"  `multa` decimal(9,2) DEFAULT NULL,\n" +
-"  `vlTotal` decimal(9,2) DEFAULT NULL,\n" +
-"  `dataVenc` date NOT NULL,\n" +
-"  `dataAtual` date NOT NULL,\n" +
-"  `dataPag` date NOT NULL,\n" +
-"  PRIMARY KEY (`codBoleto`),\n" +
-"  KEY `codBoleto` (`codBoleto`)\n" +
-") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
+        String sql = "CREATE TABLE IF NOT EXISTS `boleto` (\n"
+                + "  `codBoleto` varchar(40) NOT NULL,\n"
+                + "  `status` varchar(15) NOT NULL,\n"
+                + "  `CN` smallint(6) NOT NULL,\n"
+                + "  `quantPrest` smallint(6) NOT NULL,\n"
+                + "  `pagador` varchar(60) NOT NULL,\n"
+                + "  `cpf` varchar(18) NOT NULL,\n"
+                + "  `telefCliente` varchar(15) DEFAULT NULL,\n"
+                + "  `rua` varchar(70) DEFAULT NULL,\n"
+                + "  `quadra` varchar(10) NOT NULL,\n"
+                + "  `lote` varchar(10) NOT NULL,\n"
+                + "  `loteamento` varchar(60) NOT NULL,\n"
+                + "  `cidade` varchar(60) DEFAULT NULL,\n"
+                + "  `valorIntegral` decimal(9,2) NOT NULL,\n"
+                + "  `txJuro` decimal(2,2) DEFAULT NULL,\n"
+                + "  `multa` decimal(9,2) DEFAULT NULL,\n"
+                + "  `vlTotal` decimal(9,2) DEFAULT NULL,\n"
+                + "  `dataVenc` date NOT NULL,\n"
+                + "  `dataAtual` date NOT NULL,\n"
+                + "  `dataPag` date NOT NULL,\n"
+                + "  PRIMARY KEY (`codBoleto`),\n"
+                + "  KEY `codBoleto` (`codBoleto`)\n"
+                + //") ENGINE=InnoDB";
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();

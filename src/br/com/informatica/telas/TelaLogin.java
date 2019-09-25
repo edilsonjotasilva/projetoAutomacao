@@ -60,12 +60,12 @@ public class TelaLogin extends javax.swing.JFrame {
         getRootPane().setDefaultButton(btnLoginLogar);
         //conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
-        if (conector != (null)) {
-
-            lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/dbconnect.png")));
-        } else {
-            lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/dberror.png")));
-        }
+//        if (conector != (null)) {
+//
+//            lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/dbconnect.png")));
+//        } else {
+//            lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/dberror.png")));
+//        }
 
     }
 

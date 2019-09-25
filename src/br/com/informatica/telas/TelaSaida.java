@@ -25,7 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
-import sun.awt.image.PixelConverter;
+//import sun.awt.image.PixelConverter;
 
 /**
  *

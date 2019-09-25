@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.informatica.dal;
-
 import br.com.informatica.fabrica.CriarTabelas;
 import br.com.informatica.telas.TelaLogin;
 import java.io.BufferedReader;
@@ -26,14 +20,9 @@ import javax.swing.JOptionPane;
  */
 public class Conexao {
         int cont =0;
-
     public static void main(String[] args) {
-
         gravarArquivoConfiguracao();
-        leArquivoConfiguracao();
-       
-        
-
+        leArquivoConfiguracao();              
      }
     public Conexao(){
         if (cont == 0) {
@@ -44,13 +33,8 @@ public class Conexao {
             } else {
                 login.lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/jsinformatica/telas/dberror.png")));
             } 
-        }
-       
-        
-         
-    }
-    
-
+        }                        
+    }    
     static String host, porta, user, senha;
     static private String driver = "com.mysql.jdbc.Driver";
     static public Connection conector;
@@ -70,51 +54,41 @@ public class Conexao {
                 conector.createNewFile();
                 escreveDados = new FileWriter(conector);
                 for (String dado: dados) 
-                    escreveDados.write(dado + "\n");
-                                   
+                    escreveDados.write(dado + "\n");                                   
                  escreveDados.flush();
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
+//                JOptionPane.showMessageDialog(null, e);
+                e.printStackTrace();
             }
-        }
-        
+        }        
     }
     static public void leArquivoConfiguracao() {
         try {
             String linha;
-            //guarda o caminho nessa variavel(ArquivoConfiguracao)
-          //  String ArquivoConfiguracao = "C:/imobSys/conexao.ini";
-            String ArquivoConfiguracao = "C:/windows/SABD/conector.ini";
-            //String ArquivoConfiguracao = "C:/windows/SABD/conexao.ini";
-            int cont = 0;
+              String ArquivoConfiguracao = "C:/windows/SABD/conector.ini";
+             int cont = 0;
             //cria o arquivo conexao.ini no caminiho apontado pela variavel (ArquivoConfiguracao)
             File arq = new File(ArquivoConfiguracao);
             // se o arquivo exite é porque o arquivo foi criado no cominho determindo
             if (arq.exists()) {
                 // se o arquivo exite ele será lido e guardado na variavel (reader)
                 FileReader reader = new FileReader(ArquivoConfiguracao);
-
                 //agora ele sera colocado em uma variavel do tip buffer
                 BufferedReader leitor = new BufferedReader(reader);
-
                 while (true) {
                     // o metodo readLine(), busca sempre a proxima linha
                     linha = leitor.readLine();
                     if (cont == 0) {
                         host = (linha);
-
                     }
                     if (cont == 1) {
                         porta = (linha);
-
                     }
                     if (cont == 2) {
                         user = (linha);
-
                     }
                     if (cont >= 3) {
                         senha = (linha);
-
                         break;
                     }
                     System.out.println(linha + "\n");
@@ -128,60 +102,47 @@ public class Conexao {
             System.out.println("Dados: " + host + " " + porta + " " + user + " " + senha + " ");
 
         } catch (Exception erro) {
-
+            erro.printStackTrace();
         }
-
     }
-
     static protected boolean conexaoServidor(String Servidor, String Porta, String usuario, String Senha) {
-
-        // int cont = 0;
         boolean conectar = false;
         String SERVIDOR = Servidor;
         String PORTA_CONEXAO = Porta;
         String USUARIO = usuario;
         String SENHA = Senha;
-
         //  compara as variaveis acima com as variaveis que estão dentro do mysql descrito no caminho abaixo
         try {
             Class.forName(driver);
             conector = DriverManager.getConnection("jdbc:mysql://" + SERVIDOR + ":" + PORTA_CONEXAO + "",
                     USUARIO, SENHA);
+            
             conectar = true;
         } catch (ClassNotFoundException Fonte) {
             JOptionPane.showMessageDialog(null, "Driver nao localizado");
         } catch (SQLException e) {
-            // JOptionPane.showMessageDialog(null, e);
+//             JOptionPane.showMessageDialog(null, e);
+             e.printStackTrace();
         }
         if (conectar) {
-        //  verificaStatus();
-            System.out.println("conexao bem sucedida");
-          
-
+                    System.out.println("conexao bem sucedida");         
             CriarTabelas criarTabelas = new CriarTabelas();
-            criarTabelas.criarBanco();
-
+            CriarTabelas.criarBanco();
             //  conectarDataBase();
         } else {
             System.out.println("conexao MAL suceddida");
             JOptionPane.showMessageDialog(null, "Não Houve Conexao com o Banco", "Erro", 0);
             JOptionPane.showMessageDialog(null, "1-Verifique usuario e senha, \n2-Verifique se o Servidor Mysql está ligado \n3-Verifique a Conexao de rede", "Mensagem", 1);
             new TelaLogin().setVisible(true);
-        }
+            }
         return conectar;
-
     }
-     private void verificaStatus(){
-       
-        
-    }
-
     static public void fechaConexao() {
         try {
             conector.close();
         } catch (SQLException fech) {
-            JOptionPane.showMessageDialog(null, "Erro ao fechar conexao com o banco de dados" + fech);
+//            JOptionPane.showMessageDialog(null, "Erro ao fechar conexao com o banco de dados" + fech);
+          fech.printStackTrace();
         }
-    }
-    
+    }    
 }
