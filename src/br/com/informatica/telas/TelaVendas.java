@@ -428,9 +428,15 @@ public class TelaVendas extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Esse Imovel já foi Vendido!", "Atenção", 0);
 
             } else {
-                cadastrarVenda();
-                cboComissaoVenda.setSelectedItem("5");
-                alteraSituacaoImovel();
+                int confirma = JOptionPane.showConfirmDialog(null, "Confirma O Cadastro da venda : " + txtCodImovel.getText() + "/" + txtCodCorretor.getText() + "." + txtCodCliente.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
+                //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+                //for Empty significa que não ha usuario com esse ID
+                if (confirma == JOptionPane.YES_OPTION) {
+                    cadastrarVenda();
+                    cboComissaoVenda.setSelectedItem("5");
+                    alteraSituacaoImovel();
+                }
+
             }
 
         } catch (Exception e) {
@@ -550,7 +556,8 @@ public class TelaVendas extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void cadastrarVenda() {
-        String codVenda = txtCodImovel.getText() + "/" + txtCodCorretor.getText() + "." + txtCodCliente.getText();                     
+
+        String codVenda = txtCodImovel.getText() + "/" + txtCodCorretor.getText() + "." + txtCodCliente.getText();
         Formatador formatador = new Formatador();
         String sql = "INSERT INTO venda (codVenda,valorEntrada,valorPrestacao,quantPrestacao,totalVenda,comissao,valorComissao,corretor_codCorretor,cliente_codCliente,imovel_codImovel,dataVenda"
                 + " ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?,?,?)";

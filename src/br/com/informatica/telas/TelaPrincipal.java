@@ -796,8 +796,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 //    }
     private void RecalcularBoleto() {
         RecalcularBoleto recalBoleto = new RecalcularBoleto();
-        recalBoleto.atualizaVencimentos();
-        recalBoleto.setarVencidos();
+        recalBoleto.atualizaVencimentos();// INSER A DATA ATUAL NA TABELA
+        recalBoleto.setarVencidos();// SE A DATA ATUAL FOR > QUE DATA VENCIMENTO SETAR (VENCIDO)
         recalBoleto.setVisible(true);
         DesktopPrincipal.add(recalBoleto);
     }

@@ -39,23 +39,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     private JFormattedTextField.AbstractFormatterFactory aff;
 
     public TelaSaida() {
-//          try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//              //  if ("Nimbus".equals(info.getName())) {
-//                if ("Windows".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
+
         initComponents();
         // conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
@@ -616,34 +600,19 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 String dataInserNoBanco = "";
                 SimpleDateFormat formato = new SimpleDateFormat("yyyyMMdd");
                 java.util.Date recebFormato = jDateChooserSaida.getDate();
-                System.out.println("Formato que vem do jDateChosser: " + recebFormato);
-                dataInserNoBanco = formato.format(recebFormato);
-                System.out.println("dataInserNoBanco: --> " + dataInserNoBanco);
-
+                dataInserNoBanco = formato.format(recebFormato);            
                 String anoAtual = dataAtualFormatada.substring(0, 4);
-                System.out.println("anoAtual: " + anoAtual);
                 String anoInserido = dataInserNoBanco.substring(0, 4);
-                System.out.println("anoInserido: " + anoInserido);
-                System.out.println("###################//######################");
-
                 String mesAtual = dataAtualFormatada.substring(4, 6);
-                System.out.println("mesAtual: " + mesAtual);
                 String mesInserido = dataInserNoBanco.substring(4, 6);
-                System.out.println("mesInserido: " + mesInserido);
-                System.out.println("###################//######################");
-
                 String diaAtual = dataAtualFormatada.substring(6);
-                System.out.println("diaAtual: " + diaAtual);
                 String diaInserido = dataInserNoBanco.substring(6);
-                System.out.println("diaInserido: " + diaInserido);
-                System.out.println("###################//######################");
 
                 if (Integer.parseInt(anoInserido) != Integer.parseInt(anoAtual) || Integer.parseInt(mesInserido) != Integer.parseInt(mesAtual)) {
                     int confirmaData = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION, 0);
                     if (confirmaData == JOptionPane.YES_OPTION) {
                         //inseri a data no formato do
                         String dataMysql = anoInserido + "-" + mesInserido + "-" + diaInserido;
-                        System.out.println("DataMysql : " + dataMysql);
                         pst.setString(1, dataMysql);
                         pst.setString(2, txtDescSaida.getText());
                         pst.setString(3, txtValorSaida.getText());

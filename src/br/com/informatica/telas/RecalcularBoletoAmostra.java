@@ -8,7 +8,6 @@ package br.com.informatica.telas;
 import br.com.informatica.dal.Conexao;
 import br.com.informatica.util.CalcularBoletoDialog;
 import br.com.informatica.util.Feriado;
-import br.com.informatica.util.ListaBoleto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,14 +23,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.eclipse.jdt.internal.compiler.ast.ForeachStatement;
 import org.omg.CORBA.TIMEOUT;
 
 /**
  *
  * @author edilson
  */
-public class RecalcularBoleto extends javax.swing.JInternalFrame {
+public class RecalcularBoletoAmostra extends javax.swing.JInternalFrame {
 
     PreparedStatement pst = null;
     Connection conexao = null;
@@ -41,9 +39,8 @@ public class RecalcularBoleto extends javax.swing.JInternalFrame {
     static List<Feriado> feriados = new ArrayList();
     static Date dataVencDate;
     static double multa, valTaxa;
-    static String taxaJuroStr, multaStr, valorTotalGeralStr, codigoBoleto;
 
-    public RecalcularBoleto() {
+    public RecalcularBoletoAmostra() {
         //    setarVencidos();
         initComponents();
 
@@ -934,130 +931,75 @@ public class RecalcularBoleto extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.toString());
         }
-        setarVencidos();
+        //  calculaVencidos();
     }
 
     public void calculaVencidos() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        DecimalFormat df = new DecimalFormat("#.00");
         try {
-            ResultSet result = null;
 
-            List<ListaBoleto> listaBoleto = new ArrayList();
-
-            //    listaBoleto.add(title);
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            DecimalFormat df = new DecimalFormat("#.00");
-
-            String sqlVerifVencidos = "SELECT codBoleto, valorIntegral, dataVenc, dataAtual FROM boleto where status = 'VENCIDO'";
+            String sqlVerifVencidos = "SELECT valorIntegral, dataVenc, dataAtual FROM boleto where status = 'VENCIDO'";
             pst = conexao.prepareStatement(sqlVerifVencidos);
-            result = pst.executeQuery();
-
-            while (result.next()) {
-                ListaBoleto listaObjeto = new ListaBoleto();
-                listaObjeto.setCodBoleto(result.getString(1));
-                listaObjeto.setValorParcela(result.getDouble(2));
-                listaObjeto.setDataVencimentoBoleto(result.getString(3));
-                listaObjeto.setDataAtualBoleto(result.getString(4));
-
-                listaBoleto.add(listaObjeto);
-
-            }
-            for (ListaBoleto boleto : listaBoleto) {
-                codigoBoleto = boleto.getCodBoleto();
-                String dataVencTipoStr = boleto.getDataVencimentoBoleto();
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                String dataVencTipoStr = rs.getString(2);
                 String anoVenc = dataVencTipoStr.substring(0, 4);
                 String mesVenc = dataVencTipoStr.substring(5, 7);
                 String diaVenc = dataVencTipoStr.substring(8);
                 String dataVencCompletaStr = diaVenc + "/" + mesVenc + "/" + anoVenc;
                 //  JOptionPane.showMessageDialog(null, "Data Vencimento completa", dataVencCompletaStr, 1);
 
-                String dataAtualTipoStr = boleto.getDataAtualBoleto();
+                String dataAtualTipoStr = rs.getString(3);
                 String anoAtual = dataAtualTipoStr.substring(0, 4);
                 String mesAtual = dataAtualTipoStr.substring(5, 7);
                 String diaAtual = dataAtualTipoStr.substring(8);
                 String dataAtualCompletaStr = diaAtual + "/" + mesAtual + "/" + anoAtual;
 
-                String valorIntegralStr = boleto.getValorParcela().toString();
-
-                ///////////////////////////////////////////////////////////////////////
-                Date dataAtualDate = null;
-
+                String valorIntegralStr = rs.getString(1);
                 try {
-                    dataAtualDate = sdf.parse(dataAtualCompletaStr);
-                } catch (ParseException ex) {
-                    Logger.getLogger(RecalcularBoleto.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    ///////////////////////////////////////////////////////////////////////
+                    Date dataAtualDate = sdf.parse(dataAtualCompletaStr);
+                    Date dataVencDate = sdf.parse(dataVencCompletaStr);
+                    long quantDias = dataAtualDate.getTime() - dataVencDate.getTime();
+                    long quantDiasAtraso = TimeUnit.DAYS.convert(quantDias, TimeUnit.MILLISECONDS);
+                    String quantDiasAtrosoStr = String.valueOf(quantDiasAtraso);
+                    JOptionPane.showMessageDialog(null, "dias de atraso", quantDiasAtrosoStr, 1);
+                    valTaxa = 0.034;
+                    double valorIntegral = Double.parseDouble(valorIntegralStr);
+                    System.out.println("Valor integral do tipo double: "+valorIntegral);
+                    multa = valorIntegral * 2 / 100;//lancar no banco
+                    System.out.println("Valor da multa do tipo double "+multa);
+                    String multaStr = String.valueOf(multa);
+                  
+                    double valorTotal = (valorIntegral * Math.pow((1 + valTaxa / 100), quantDiasAtraso));// lançar no banco
+                    System.out.println("valor total do tipo double "+ valorTotal);
+                    String valorTotalStr = String.valueOf(df.format (valorTotal));
 
-                Date dataVencDate = null;
-
-                try {
-                    dataVencDate = sdf.parse(dataVencCompletaStr);
-                } catch (ParseException ex) {
-                    Logger.getLogger(RecalcularBoleto.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                long quantDias = dataAtualDate.getTime() - dataVencDate.getTime();
-                long quantDiasAtraso = TimeUnit.DAYS.convert(quantDias, TimeUnit.MILLISECONDS);
-
-                int quantDiasAtrasoInteiro = (int) quantDiasAtraso;
-                String quantDiasAtrosoStr = String.valueOf(quantDiasAtraso);
-                JOptionPane.showMessageDialog(null, "dias de atraso", quantDiasAtrosoStr, 1);
-                double valorIntegral = Double.parseDouble(valorIntegralStr);
-                System.out.println("Valor integral do tipo double: " + valorIntegral);
-                double multa = valorIntegral * 2 / 100;//lancar no banco
-                valTaxa = 0.034;
-                System.out.println("Valor da multa do tipo double " + multa);
-                multaStr = String.valueOf(multa);// INSERE NO BANCO
-
-                double valorAcumulado = (valorIntegral * Math.pow((1 + valTaxa / 100), quantDiasAtrasoInteiro));// lançar no banco
-                System.out.println("valor total do tipo double " + valorAcumulado);
-                String valorTotalStr = String.valueOf(df.format(valorAcumulado));
-
-                double taxaJuro = (valorAcumulado - valorIntegral);//lançar no banco
-                System.out.println("Valor da taxa de juros do tipo double : " + taxaJuro);
-                taxaJuroStr = String.valueOf(taxaJuro);
-                double valorTotalGeral = valorIntegral + multa + taxaJuro;
-                valorTotalGeralStr = String.valueOf(valorTotalGeral);
-
-//                    System.out.println("Codigo do boleto: " + boleto.getCodBoleto());
-//                    System.out.println("Valor da parcela: " + boleto.getValorParcela());
-//                    System.out.println("DataAtual: " + boleto.getDataAtualBoleto());
-//                    System.out.println("DataVencimento: " + boleto.getDataVencimentoBoleto());
-//                    System.out.println("-------------------xxxxxxxxxxxxx-------------------");
-                try {
-                    String sqlUpdate = "UPDATE boleto set txJuro=?, multa=?, vlTotal=? where codBoleto = ? ";
+                    double taxaJuro = (valorTotal - valorIntegral);//lançar no banco
+                    System.out.println("Valor da taxa de juros do tipo double : "+taxaJuro);
+                    String taxaJurostr = String.valueOf(taxaJuro);
+                    double valorTotalGeral = valorIntegral+multa+taxaJuro;
+                    String valorTotalGeralStr = String.valueOf(df.format(valorTotalGeral));
+                    String sqlUpdate = "UPDATE boleto set txJuro=?, multa=?, vlTotal=? where status = 'VENCIDO'";
                     pst = conexao.prepareStatement(sqlUpdate);
-
-                    pst.setString(1, taxaJuroStr);
+                    pst.setString(1, taxaJurostr);
                     pst.setString(2, multaStr);
                     pst.setString(3, valorTotalGeralStr);
-                    pst.setString(4, codigoBoleto);
                     pst.executeUpdate();
-                } catch (SQLException ex) {
-                    Logger.getLogger(RecalcularBoleto.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(RecalcularBoleto.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                    
 
+                } catch (ParseException ex) {
+                    Logger.getLogger(RecalcularBoletoAmostra.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RecalcularBoletoAmostra.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-//    public void atualizaValoresBoleto() {
-//
-//        try {
-//            String sqlUpdate = "UPDATE boleto set txJuro=?, multa=?, vlTotal=? where codBoleto = ? ";
-//            pst = conexao.prepareStatement(sqlUpdate);
-//
-//            pst.setString(1, taxaJuroStr);
-//            pst.setString(2, multaStr);
-//            pst.setString(3, valorTotalGeralStr);
-//             pst.setString(4, codigoBoleto);
-//            pst.executeUpdate();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(RecalcularBoleto.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//    }
     //////////////////////SETA O STATUS //////////////////////////////////////////////////
     public void setarVencidos() {
         List<String> listaCodVencidos = new ArrayList<>();
@@ -1103,18 +1045,18 @@ public class RecalcularBoleto extends javax.swing.JInternalFrame {
                                 pst.setString(1, vencido);
                                 pst.executeUpdate();
                             } catch (SQLException ex) {
-                                Logger.getLogger(RecalcularBoleto.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(RecalcularBoletoAmostra.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                     }
 
                 } catch (ParseException ex) {
-                    Logger.getLogger(RecalcularBoleto.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(RecalcularBoletoAmostra.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(RecalcularBoleto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecalcularBoletoAmostra.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         //    JOptionPane.showMessageDialog(null, "Qauntidade de vencidos", contVencidoStr, 1);
@@ -1167,19 +1109,21 @@ public class RecalcularBoleto extends javax.swing.JInternalFrame {
                                 pst.setString(1, aberto);
                                 pst.executeUpdate();
                             } catch (SQLException ex) {
-                                Logger.getLogger(RecalcularBoleto.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(RecalcularBoletoAmostra.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                     }
 
                 } catch (ParseException ex) {
-                    Logger.getLogger(RecalcularBoleto.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(RecalcularBoletoAmostra.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(RecalcularBoleto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecalcularBoletoAmostra.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        //    JOptionPane.showMessageDialog(null, "Qauntidade de vencidos", contVencidoStr, 1);
 
         //    JOptionPane.showMessageDialog(null, "Qauntidade de vencidos", contVencidoStr, 1);
     }

@@ -52,6 +52,7 @@ public class CriarTabelas {
             File arq = new File(ArquivoConfiguracao);
             // se o arquivo exite é porque o arquivo foi criado no cominho determindo
             if (arq.exists()) {
+              
                 // se o arquivo exite ele será lido e guardado na variavel (reader)
                 FileReader reader = new FileReader(ArquivoConfiguracao);
 
@@ -92,6 +93,7 @@ public class CriarTabelas {
 
         }
         if (foiCriado) {
+       //       JOptionPane.showMessageDialog(null, "Banco Imobiliaria criado com sucesso!");
             //    chama o metodo conectarDataBase passndo os parametros que foram extraidos do arquivo conexao.ini atraves do laço de repetição while
             conectarDataBase(host, porta, user, senha);
         }
@@ -170,6 +172,7 @@ public class CriarTabelas {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
         }
         if (foiCriado) {
+      //        JOptionPane.showMessageDialog(null, "Tabela Categoria criada com sucesso criado com sucesso!");
             //chama a tabela verificaCategoria()
             verificaCategoria();
         }
@@ -189,6 +192,7 @@ public class CriarTabelas {
             result = pst.executeQuery();
             //se não encontrou registros chama o metodo inserirCategoria()
             if (!result.next()) {
+         //         JOptionPane.showMessageDialog(null, "Tabela categoria verificada!");
                 inserirCategoria();
             }
         } catch (Exception e) {
@@ -208,6 +212,8 @@ public class CriarTabelas {
                 + ", ('500', 'Supermercado', 'SAIDA')"
                 + ", ('600', 'Gastos Extras', 'SAIDA')"
                 + ", ('700', 'Sangria', 'SAIDA')";
+     //     JOptionPane.showMessageDialog(null, "Categoria de Pagamentos inseridas com sucesso");
+   
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -230,6 +236,7 @@ public class CriarTabelas {
                 + " PRIMARY KEY (codAgenda)"
                 //  + ")ENGINE=InnoDB";
                 + ")COLLATE='utf8mb4_0900_ai_ci'";
+      //    JOptionPane.showMessageDialog(null, "Agenda de compromisso criado com sucesso!");
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -243,27 +250,7 @@ public class CriarTabelas {
         return foiCriado;
     }
 
-//    public void tabelaEnderecoCorretor() {
-//        PreparedStatement pst = null;
-//        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`endereco_corretor` (\n"
-//                + "  `cod_endereco_corretor` INT NOT NULL AUTO_INCREMENT,\n"
-//                + "  `rua` VARCHAR(60) NULL,\n"
-//                + "  `quadra` INT NULL,\n"
-//                + "  `lote` INT NULL,\n"
-//                + "  `numero` INT NULL,\n"
-//                + "  `bairro` VARCHAR(50) NULL,\n"
-//                + "  `cep` VARCHAR(10) NULL,\n"
-//                + "  `cidade` VARCHAR(45) NULL,\n"
-//                + "  `uf` CHAR(2) NULL,\n"
-//                + "  PRIMARY KEY (`cod_endereco_corretor`))\n"
-//                + "ENGINE = InnoDB;";
-//        try {
-//            pst = conexao.prepareStatement(sql);
-//            pst.execute();
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
-//        }
-//    }
+
     public static void tabelaCorretor() {
         PreparedStatement pst = null;
         String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`corretor` (\n"
@@ -294,27 +281,6 @@ public class CriarTabelas {
         }
     }
 
-//    public static void tablelaEnderecoCliente() {
-//        PreparedStatement pst = null;
-//        String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`enderecoCliente` (\n"
-//                + "  `idenderecoCliente` INT NOT NULL AUTO_INCREMENT,\n"
-//                + "  `rua` VARCHAR(60) NOT NULL,\n"
-//                + "  `quadra` INT NOT NULL,\n"
-//                + "  `lote` INT(4) NULL,\n"
-//                + "  `numero` INT NULL,\n"
-//                + "  `bairro` VARCHAR(45) NOT NULL,\n"
-//                + "  `cep` VARCHAR(10) NOT NULL,\n"
-//                + "  `cidade` VARCHAR(30) NOT NULL,\n"
-//                + "  `uf` CHAR(2) NULL,\n"
-//                + "  PRIMARY KEY (`idenderecoCliente`))\n"
-//                + "ENGINE = InnoDB";
-//        try {
-//            pst = conexao.prepareStatement(sql);
-//            pst.execute();
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
-//        }
-//    }
     public static void tablelaCliente() {
         PreparedStatement pst = null;
         String sql = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`Cliente` (\n"
@@ -474,7 +440,7 @@ public class CriarTabelas {
                 + " idEntrada int(11) NOT NULL AUTO_INCREMENT , "
                 + " dataEntrada date NOT NULL , "
                 + " descEntrada varchar(45) NOT NULL , "
-                + " valorEntrada int(11) NOT NULL ,"
+                + " valorEntrada decimal(10,2) NOT NULL ,"
                 + " categoria_codCategoria int(11) NOT NULL , "
                 + " PRIMARY KEY (idEntrada) , "
                 + " KEY fk_entrada_categoria_idx (categoria_codCategoria) , "
@@ -794,10 +760,8 @@ public class CriarTabelas {
     private void inserirLbsy() {
         String dataValidadeCompletaStr = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-//        Date dataAtual = new Date();
-//        String dataVencStr = sdf.format(dataAtual);
-
-        String dataVencStr = ("20190831");
+        Date dataAtual = new Date();
+        String dataVencStr = sdf.format(dataAtual);
         String ano = dataVencStr.substring(0, 4);
         String mes = dataVencStr.substring(4, 6);
         String dia = dataVencStr.substring(6);
@@ -805,26 +769,37 @@ public class CriarTabelas {
         int mesInt = Integer.parseInt(mes);
         int diaInt = Integer.parseInt(dia);
         if (mesInt > 0 && mesInt < 11 && (mesInt == 7) && diaInt < 31) {
+//            JOptionPane.showMessageDialog(null, "Entrou na Primeira opção");
             mesInt = mesInt + 2;
             String anoStr = String.valueOf(anoInt);
             String mesStr = String.valueOf(mesInt);
             String diaStr = String.valueOf(diaInt);
             dataValidadeCompletaStr = anoStr + "-" + mesStr + "-" + diaStr;
         } else if (mesInt > 0 && mesInt < 11 && (mesInt == 7) && diaInt == 31) {
+//             JOptionPane.showMessageDialog(null, "Entrou na segunda opção");
             mesInt = mesInt + 2;
             diaInt = 30;
             String anoStr = String.valueOf(anoInt);
             String mesStr = String.valueOf(mesInt);
             String diaStr = String.valueOf(diaInt);
             dataValidadeCompletaStr = anoStr + "-" + mesStr + "-" + diaStr;
-        } else if (mesInt > 0 && mesInt < 11 && (mesInt != 7) ) {
+        } else if (mesInt > 0 && mesInt < 11 && (mesInt != 7) && diaInt > 30) {
+//             JOptionPane.showMessageDialog(null, "Entrou na terceira opção");
             mesInt = mesInt + 2;
             diaInt = 30;
             String anoStr = String.valueOf(anoInt);
             String mesStr = String.valueOf(mesInt);
             String diaStr = String.valueOf(diaInt);
             dataValidadeCompletaStr = anoStr + "-" + mesStr + "-" + diaStr;
-        } else if (mesInt == 11) {
+        } else if (mesInt > 0 && mesInt < 11 && (mesInt != 7) && diaInt <=30) {
+//             JOptionPane.showMessageDialog(null, "Entrou na quarta opção");
+            mesInt = mesInt + 2;
+            String anoStr = String.valueOf(anoInt);
+            String mesStr = String.valueOf(mesInt);
+            String diaStr = String.valueOf(diaInt);
+            dataValidadeCompletaStr = anoStr + "-" + mesStr + "-" + diaStr;
+        }else if (mesInt == 11) {
+//             JOptionPane.showMessageDialog(null, "Entrou na Quinta opção");
             mesInt = 01;
             anoInt = anoInt + 1;
             String anoStr = String.valueOf(anoInt);
@@ -832,6 +807,7 @@ public class CriarTabelas {
             String diaStr = String.valueOf(diaInt);
             dataValidadeCompletaStr = anoStr + "-" + mesStr + "-" + diaStr;
         } else if (mesInt == 12 && diaInt > 28) {
+//             JOptionPane.showMessageDialog(null, "Entrou na Sexta opção");
             mesInt = 2;
             diaInt = 28;
             anoInt = anoInt + 1;
@@ -840,6 +816,7 @@ public class CriarTabelas {
             String diaStr = String.valueOf(diaInt);
             dataValidadeCompletaStr = anoStr + "-" + mesStr + "-" + diaStr;
         } else if (mesInt == 12 && diaInt <= 28) {
+//             JOptionPane.showMessageDialog(null, "Entrou na Setima opção");
             mesInt = 02;
             anoInt = anoInt + 1;
             String anoStr = String.valueOf(anoInt);

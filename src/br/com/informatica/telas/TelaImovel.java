@@ -22,7 +22,7 @@ import net.proteanit.sql.DbUtils;
  * @author edilson
  */
 public class TelaImovel extends javax.swing.JInternalFrame {
-    
+
     static String situacaoAtual;
     static String situacaoNova;
     private static TelaImovel telaImovel;
@@ -377,27 +377,27 @@ public class TelaImovel extends javax.swing.JInternalFrame {
                             .addComponent(pnlMenuVendas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlPrincipalImovelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtRuaImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addGap(10, 10, 10)
-                        .addComponent(txtQuadraImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtLoteImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNumeroImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlPrincipalImovelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(pnlPrincipalImovelLayout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtCodImovel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtRuaImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel2)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtQuadraImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel4)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtLoteImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtNumeroImovel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPrincipalImovelLayout.createSequentialGroup()
                             .addComponent(jLabel6)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -426,19 +426,17 @@ public class TelaImovel extends javax.swing.JInternalFrame {
             pnlPrincipalImovelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrincipalImovelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlPrincipalImovelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlPrincipalImovelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7)
-                        .addComponent(txtRuaImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2))
-                    .addGroup(pnlPrincipalImovelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel4)
-                        .addComponent(txtCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtLoteImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)
-                        .addComponent(txtNumeroImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtQuadraImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(pnlPrincipalImovelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4)
+                    .addComponent(txtCodImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLoteImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtNumeroImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtQuadraImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtRuaImovel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlPrincipalImovelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -490,11 +488,11 @@ public class TelaImovel extends javax.swing.JInternalFrame {
 
     private void tblImovelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblImovelMouseClicked
         if (jCbSituacaoImovel.getSelectedItem().equals("DISPONIVEL")) {
-            JOptionPane.showMessageDialog(null, "Mude a Situação do Imóvel Se Quiser Torna-lo VENDIDO!","Atenção",0);
-        }else{
-             JOptionPane.showMessageDialog(null, "Mude a Situação do Imóvel Se Quiser Torna-lo DISPONIVEL!","Atenção",0);
+            JOptionPane.showMessageDialog(null, "Mude a Situação do Imóvel Se Quiser Torna-lo VENDIDO!", "Atenção", 0);
+        } else {
+            JOptionPane.showMessageDialog(null, "Mude a Situação do Imóvel Se Quiser Torna-lo DISPONIVEL!", "Atenção", 0);
         }
-        
+
         btnCadastrarImovel.setEnabled(false);
         btnAlterarImovel.setEnabled(true);
         btnExcluirImovel.setEnabled(true);
@@ -554,19 +552,19 @@ public class TelaImovel extends javax.swing.JInternalFrame {
 
     private void btnAlterarImovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarImovelActionPerformed
 
-        setSituacaoNova(jCbSituacaoImovel.getSelectedItem().toString()) ;
+        setSituacaoNova(jCbSituacaoImovel.getSelectedItem().toString());
         if (getSituacaoAtual().equals("VENDIDO") && situacaoNova.equals("DISPONIVEL")) {
             int confirma = JOptionPane.showConfirmDialog(null, "Esse Imovel consta como Vendido, deseja torna-lo DISPONIVEL? " + txtCodImovel.getText(), "Atenção", JOptionPane.YES_NO_OPTION, 0);
             //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
             //for Empty significa que não ha usuario com esse ID
             if (confirma == JOptionPane.YES_OPTION) {
-               String sql = "DELETE from venda where imovel_codImovel=?";
+                String sql = "DELETE from venda where imovel_codImovel=?";
                 try {
-                pst = conexao.prepareStatement(sql);
-                pst.setString(1, txtCodImovel.getText());
-                int rowsAffected = pst.executeUpdate();
-                if (rowsAffected > 0) {
-                    JOptionPane.showMessageDialog(null, "Venda Removida com Sucesso!");
+                    pst = conexao.prepareStatement(sql);
+                    pst.setString(1, txtCodImovel.getText());
+                    int rowsAffected = pst.executeUpdate();
+                    if (rowsAffected > 0) {
+                        JOptionPane.showMessageDialog(null, "Venda Removida com Sucesso!");
 //                    txtRuaImovel.setText("");
 //                    txtQuadraImovel.setText("");
 //                    txtLoteImovel.setText("");
@@ -576,10 +574,10 @@ public class TelaImovel extends javax.swing.JInternalFrame {
 //                    txtMetragemImovel.setText("");
 //                    jCbSituacaoImovel.setSelectedItem("DISPONIVEL");
 //                    txtCodLoteamentoImovel.setText("");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
-            }
                 alterarImovel();
                 btnCadastrarImovel.setEnabled(false);
                 limparImovel();
@@ -624,7 +622,7 @@ public class TelaImovel extends javax.swing.JInternalFrame {
             cadastrarDinamico();
             btnCadastrarImovel.setEnabled(false);
             btnCadastrarDinamico.setEnabled(true);
-            
+
         }
     }//GEN-LAST:event_btnCadastrarDinamicoActionPerformed
 
@@ -678,21 +676,30 @@ public class TelaImovel extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void cadastrarImovel() {
-        String sql = "INSERT INTO imovel (ruaImovel,quadraImovel,loteImovel,numeroImovel,cepImovel,tipoImovel"
-                + ",metragemImovel,situacaoImovel,loteamento_codLoteamento ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//        int loteInicial = Integer.parseInt(jTfLoteInicial.getText());
+//        int loteFinal = Integer.parseInt(jTfLoteFinal.getText());
+//        int loteInseri = loteInicial;
+//        String codImovel = "";
+     //   String loteInseriStr = String.valueOf(loteInseri);
+        String sql = "INSERT INTO imovel (codImovel,ruaImovel,quadraImovel,loteImovel,numeroImovel,cepImovel,tipoImovel"
+                + ",metragemImovel,situacaoImovel,loteamento_codLoteamento ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String codImovel = txtCodLoteamentoImovel.getText() + "." + txtQuadraImovel.getText() + "-" + txtLoteImovel.getText();
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtRuaImovel.getText().toUpperCase());
-            pst.setString(2, txtQuadraImovel.getText().toUpperCase());
-            pst.setString(3, txtLoteImovel.getText().toUpperCase());
-            pst.setString(4, txtNumeroImovel.getText().toUpperCase());
-            pst.setString(5, txtCEPImovel.getText().toUpperCase());
-            pst.setString(6, cboTipoImovel.getSelectedItem().toString());
-            pst.setString(7, txtMetragemImovel.getText().toUpperCase());
-            pst.setString(8, jCbSituacaoImovel.getSelectedItem().toString());
-            pst.setString(9, txtCodLoteamentoImovel.getText().toUpperCase());
+            pst.setString(1, codImovel);
+            pst.setString(2, txtRuaImovel.getText().toUpperCase());
+            pst.setString(3, txtQuadraImovel.getText().toUpperCase());
+            pst.setString(4, txtLoteImovel.getText().toUpperCase());
+            pst.setString(5, txtNumeroImovel.getText().toUpperCase());
+            pst.setString(6, txtCEPImovel.getText().toUpperCase());
+            pst.setString(7, cboTipoImovel.getSelectedItem().toString());
+            pst.setString(8, txtMetragemImovel.getText().toUpperCase());
+            pst.setString(9, jCbSituacaoImovel.getSelectedItem().toString());
+            pst.setString(10, txtCodLoteamentoImovel.getText().toUpperCase());
 
             if (txtRuaImovel.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Campo Cod é Obrigatório!");
+            } else if (txtRuaImovel.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo Rua é Obrigatório!");
             } else if (txtQuadraImovel.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo Quadra é Obrigatório!");
@@ -733,7 +740,6 @@ public class TelaImovel extends javax.swing.JInternalFrame {
         int loteInicial = Integer.parseInt(jTfLoteInicial.getText());
         int loteFinal = Integer.parseInt(jTfLoteFinal.getText());
         int loteInseri = loteInicial;
-        
 
         int confirma = JOptionPane.showConfirmDialog(null, "Confirma o Cadastro de imoveis no intervalo de: " + loteInicial + " A " + loteFinal, "Atenção", JOptionPane.YES_NO_OPTION, 0);
         //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
@@ -744,11 +750,10 @@ public class TelaImovel extends javax.swing.JInternalFrame {
             lote--;
             for (int i = loteInicial; i <= loteFinal; i++) {
                 String loteInseriStr = String.valueOf(loteInseri);
-                
-//                String codImovel = txtCodLoteamentoImovel.getText()+"."+txtQuadraImovel.getText()+"-" +( lote + i);
-                String codImovel = txtCodLoteamentoImovel.getText()+"."+txtQuadraImovel.getText()+"-" +loteInseriStr;
 
-                
+//                String codImovel = txtCodLoteamentoImovel.getText()+"."+txtQuadraImovel.getText()+"-" +( lote + i);
+                String codImovel = txtCodLoteamentoImovel.getText() + "." + txtQuadraImovel.getText() + "-" + loteInseriStr;
+
                 String sql = "INSERT INTO imovel (codImovel,ruaImovel,quadraImovel,loteImovel,numeroImovel,cepImovel,tipoImovel"
                         + ",metragemImovel,situacaoImovel,loteamento_codLoteamento ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try {
@@ -765,7 +770,7 @@ public class TelaImovel extends javax.swing.JInternalFrame {
                     pst.setString(9, jCbSituacaoImovel.getSelectedItem().toString());
                     pst.setString(10, txtCodLoteamentoImovel.getText().toUpperCase());
 
-                     if (txtRuaImovel.getText().isEmpty()) {
+                    if (txtRuaImovel.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Campo Rua é Obrigatório!");
                     } else if (txtQuadraImovel.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Campo Quadra é Obrigatório!");
@@ -785,9 +790,9 @@ public class TelaImovel extends javax.swing.JInternalFrame {
                         if (rowsAfected > 0) {
 
                             if (loteInseri >= loteFinal) {
-                                JOptionPane.showMessageDialog(null, "Imovis cadastrados com sucesso!", "Cadastros", 1);
+                                JOptionPane.showMessageDialog(null, "Imoveis cadastrados com sucesso!", "Cadastros", 1);
                                 break;
-                          }
+                            }
 
                         }
                     }
@@ -796,7 +801,7 @@ public class TelaImovel extends javax.swing.JInternalFrame {
                 }
                 loteInseri++;
             }
-           
+
         }
         limparImovel();
     }
@@ -850,7 +855,7 @@ public class TelaImovel extends javax.swing.JInternalFrame {
         txtMetragemImovel.setText(tblImovel.getModel().getValueAt(setar, 7).toString());
         jCbSituacaoImovel.setSelectedItem(tblImovel.getModel().getValueAt(setar, 8).toString());
         txtCodLoteamentoImovel.setText(tblImovel.getModel().getValueAt(setar, 9).toString());
-        
+
         setSituacaoAtual(jCbSituacaoImovel.getSelectedItem().toString());
 
     }
@@ -985,7 +990,7 @@ public class TelaImovel extends javax.swing.JInternalFrame {
     }
 
     private void pesquisarDisponivel() {
-        String sql = "select * from imovel where situacaoImovel = 'DISPONIVEL' order by codImovel desc";
+        String sql = "select * from imovel where situacaoImovel = 'DISPONIVEL' order by codImovel ";
         try {
             pst = conexao.prepareStatement(sql);
             rs = pst.executeQuery();

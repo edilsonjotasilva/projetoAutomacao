@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -51,7 +52,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
 //            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
         initComponents();
-       // conexao = ConexaoBanco.conector;
+        // conexao = ConexaoBanco.conector;
         conexao = Conexao.conector;
     }
 
@@ -76,16 +77,11 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtIdEntrada = new javax.swing.JTextField();
-        txtValorEntrada = new javax.swing.JTextField();
         txtDataEntrada = new javax.swing.JTextField();
-        txtDescEntrada = new javax.swing.JTextField();
         txtCodigoEntrada = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         btnImprimeEntrada = new javax.swing.JButton();
-        btnDeletaEntrada = new javax.swing.JButton();
         btnLimparEntrada = new javax.swing.JButton();
-        btnAlterarEntrada = new javax.swing.JButton();
-        btnAdicionaEntrada = new javax.swing.JButton();
         lblFormatoData = new javax.swing.JLabel();
         pnlCadastroEntrada = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -93,6 +89,11 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtPesqDescEntrada = new javax.swing.JTextField();
+        btnAdicionaEntrada = new javax.swing.JButton();
+        btnAlterarEntrada = new javax.swing.JButton();
+        btnDeletaEntrada = new javax.swing.JButton();
+        txtDescEntrada = new javax.swing.JTextField();
+        txtValorEntrada = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -175,34 +176,10 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         btnImprimeEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/impressora.png"))); // NOI18N
         btnImprimeEntrada.setToolTipText("Imprimir");
 
-        btnDeletaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/delete.png"))); // NOI18N
-        btnDeletaEntrada.setToolTipText("Deletar");
-        btnDeletaEntrada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeletaEntradaActionPerformed(evt);
-            }
-        });
-
         btnLimparEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/clear.png"))); // NOI18N
         btnLimparEntrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimparEntradaActionPerformed(evt);
-            }
-        });
-
-        btnAlterarEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/update.png"))); // NOI18N
-        btnAlterarEntrada.setToolTipText("Alterar");
-        btnAlterarEntrada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAlterarEntradaActionPerformed(evt);
-            }
-        });
-
-        btnAdicionaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/create.png"))); // NOI18N
-        btnAdicionaEntrada.setToolTipText("Adicionar");
-        btnAdicionaEntrada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdicionaEntradaActionPerformed(evt);
             }
         });
 
@@ -211,25 +188,17 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(btnImprimeEntrada)
-                .addGap(0, 0, 0)
-                .addComponent(btnDeletaEntrada)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLimparEntrada)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAlterarEntrada)
-                .addGap(0, 0, 0)
-                .addComponent(btnAdicionaEntrada))
+                .addComponent(btnImprimeEntrada)
+                .addGap(400, 400, 400))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnImprimeEntrada)
-                    .addComponent(btnDeletaEntrada)
-                    .addComponent(btnLimparEntrada)
-                    .addComponent(btnAlterarEntrada)
-                    .addComponent(btnAdicionaEntrada))
+                    .addComponent(btnLimparEntrada))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
@@ -303,6 +272,30 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnAdicionaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/create.png"))); // NOI18N
+        btnAdicionaEntrada.setToolTipText("Adicionar");
+        btnAdicionaEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionaEntradaActionPerformed(evt);
+            }
+        });
+
+        btnAlterarEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/update.png"))); // NOI18N
+        btnAlterarEntrada.setToolTipText("Alterar");
+        btnAlterarEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarEntradaActionPerformed(evt);
+            }
+        });
+
+        btnDeletaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/delete.png"))); // NOI18N
+        btnDeletaEntrada.setToolTipText("Deletar");
+        btnDeletaEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletaEntradaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -327,18 +320,25 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtIdEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDataEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtDescEntrada, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtIdEntrada, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDataEntrada, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblFormatoData, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtValorEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDescEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCodigoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtValorEntrada, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtCodigoEntrada, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(83, 83, 83)
+                        .addComponent(btnAdicionaEntrada)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAlterarEntrada)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDeletaEntrada)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 374, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,7 +370,11 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7)
                     .addComponent(txtCodigoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdicionaEntrada)
+                    .addComponent(btnAlterarEntrada)
+                    .addComponent(btnDeletaEntrada))
                 .addGap(15, 15, 15))
         );
 
@@ -381,7 +385,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         Color selecionado = new Color(200, 90, 40);
         pnlAlteraEntrada.setBackground(selecionado);
         Color naoSelecionado = new Color(204, 240, 240);
-        pnlCadastroEntrada.setBackground (naoSelecionado);
+        pnlCadastroEntrada.setBackground(naoSelecionado);
         btnAdicionaEntrada.setEnabled(false);
         btnAlterarEntrada.setEnabled(true);
         btnDeletaEntrada.setEnabled(true);
@@ -393,7 +397,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         lblFormatoData.setText("<html><font color=orange ><b>Formato Data: Ano-Mes-Dia: Ex. 2019-01-01");
         btnAdicionaEntrada.setEnabled(false);
         btnAlterarEntrada.setEnabled(true);
-      
+
         setarCamposEntrada();
     }//GEN-LAST:event_tblEntradaMouseClicked
 
@@ -406,7 +410,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         Color selecionado = new Color(200, 90, 40);
         pnlCadastroEntrada.setBackground(selecionado);
         Color naoSelecionado = new Color(204, 240, 240);
-        pnlAlteraEntrada.setBackground (naoSelecionado);
+        pnlAlteraEntrada.setBackground(naoSelecionado);
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         btnAdicionaEntrada.setEnabled(true);
         btnAlterarEntrada.setEnabled(false);
@@ -423,16 +427,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtPesqDescEntradaKeyReleased
 
     private void btnAdicionaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionaEntradaActionPerformed
-        Integer valor = Integer.parseInt(txtValorEntrada.getText());
-        if (txtValorEntrada.getText().isEmpty() ) {
-            JOptionPane.showMessageDialog(null, "O Valor da Entrada não pode ser  igual a ZERO");
-           
-        }else if(valor == 0){
-            JOptionPane.showMessageDialog(null, "O Valor da Entrada não pode ser Nulo ");
-        }else{
-            adicionarEntrada();
-        
-        }
+        adicionarEntrada();
     }//GEN-LAST:event_btnAdicionaEntradaActionPerformed
 
     private void btnDeletaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletaEntradaActionPerformed
@@ -441,11 +436,11 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
 
     private void btnLimparEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparEntradaActionPerformed
         Color naoSelecionado = new Color(204, 240, 240);
-        pnlCadastroEntrada.setBackground (naoSelecionado);
-        pnlAlteraEntrada.setBackground (naoSelecionado);
+        pnlCadastroEntrada.setBackground(naoSelecionado);
+        pnlAlteraEntrada.setBackground(naoSelecionado);
         Date data = new Date();
-       SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-       String dataAtual = sdf.format(data);
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+        String dataAtual = sdf.format(data);
         btnAdicionaEntrada.setEnabled(true);
         btnAlterarEntrada.setEnabled(false);
         btnDeletaEntrada.setEnabled(false);
@@ -453,7 +448,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         txtDataEntrada.setText(dataAtual);
         txtCodigoEntrada.setText(null);
         lblFormatoData.setText("Formato Data: Ex.:01042019");
-       
+
     }//GEN-LAST:event_btnLimparEntradaActionPerformed
 
 
@@ -507,7 +502,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
         int setar = tblEntrada.getSelectedRow();
         txtIdEntrada.setText(tblEntrada.getModel().getValueAt(setar, 0).toString());
         txtDataEntrada.setText(tblEntrada.getModel().getValueAt(setar, 1).toString());
-        txtDescEntrada.setText(tblEntrada.getModel().getValueAt(setar, 2).toString());
+        txtValorEntrada.setText(tblEntrada.getModel().getValueAt(setar, 2).toString());
         txtValorEntrada.setText(tblEntrada.getModel().getValueAt(setar, 3).toString());
         txtCodigoEntrada.setText(tblEntrada.getModel().getValueAt(setar, 4).toString());
         txtPesquisaEntrada.requestFocus();
@@ -525,13 +520,13 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
             try {
                 pst = conexao.prepareStatement(sql);//---- 13091968
                 pst.setString(1, txtDataEntrada.getText());
-                pst.setString(2, txtDescEntrada.getText());
+                pst.setString(2, txtValorEntrada.getText());
                 pst.setString(3, txtValorEntrada.getText());
                 pst.setString(4, txtCodigoEntrada.getText());
                 pst.setString(5, txtIdEntrada.getText());
 
                 // validaçao dos campos obrigatórios
-                if (txtDescEntrada.getText().isEmpty()) {
+                if (txtValorEntrada.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
                 } else if (txtValorEntrada.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo Valor Entrada é Obrigatório!");
@@ -544,7 +539,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
                         JOptionPane.showMessageDialog(null, "Entrada Alterado com sucesso!", "Entrada", 1);
                         txtIdEntrada.setText(null);
                         txtDataEntrada.setText(null);
-                        txtDescEntrada.setText(null);
+                        txtValorEntrada.setText(null);
                         txtValorEntrada.setText(null);
                         txtCodigoEntrada.setText(null);
 
@@ -556,8 +551,6 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
             }
         }
     }
-
- 
 
     private void limparTabelaEntrada() {
         String sql = "select * from entrada where descEntrada = 'xx'";
@@ -583,15 +576,15 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-      private void setarCamposCategoria() {
+
+    private void setarCamposCategoria() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-         int setar = tblCategoria_Entrada.getSelectedRow();
-      
+        int setar = tblCategoria_Entrada.getSelectedRow();
+
         txtCodigoEntrada.setText(tblCategoria_Entrada.getModel().getValueAt(setar, 0).toString());
-        txtDescEntrada.setText(tblCategoria_Entrada.getModel().getValueAt(setar, 1).toString());
-       
-      //  txtPesquisaEntrada.requestFocus();
-        
+        txtValorEntrada.setText(tblCategoria_Entrada.getModel().getValueAt(setar, 1).toString());
+
+        //  txtPesquisaEntrada.requestFocus();
     }
 
     private void limparTabelaCategoria() {
@@ -607,85 +600,110 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
     }
 
     private void adicionarEntrada() {
-        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Adição da Entrada? " + txtValorEntrada.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
-        //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
-        //for Empty significa que não ha usuario com esse ID
-        if (confirma == JOptionPane.YES_OPTION) {
-        try {
-            Date anoCorrente = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-            String dataFormatada = sdf.format(anoCorrente);
-            String sql = "INSERT INTO Entrada (dataEntrada,descEntrada,valorEntrada,categoria_codCategoria) VALUES (?, ?, ?, ?)";
 
-            pst = conexao.prepareStatement(sql);//---- 13091968
-            String dia = txtDataEntrada.getText().substring(0, 2);
-            String diaAtual = dataFormatada.substring(0, 2);
-            String mes = txtDataEntrada.getText().substring(2, 4);
-            String mesAtual = dataFormatada.substring(2, 4);
-            String ano = txtDataEntrada.getText().substring(4);
-            String anoAtual = dataFormatada.substring(4);
-            if (Integer.parseInt(ano) != Integer.parseInt(anoAtual) || Integer.parseInt(mes) != Integer.parseInt(mesAtual)) {
-                int confirmaData = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION);
-                if (confirmaData == JOptionPane.YES_OPTION) {
-                    String dataMysql = ano + "-" + mes + "-" + dia;
-                    pst.setString(1, dataMysql);
-                    pst.setString(2, txtDescEntrada.getText());
-                    pst.setString(3, txtValorEntrada.getText());
-                    pst.setString(4, txtCodigoEntrada.getText());
-                    // validaçao dos campos obrigatórios
-                    if (txtDescEntrada.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
-                    } else if (txtValorEntrada.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Campo Valor Entrada é Obrigatório!");
-                    } else if (txtCodigoEntrada.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Campo Codigo Entrada Valor (10) é Obrigatório!");
-                    } else {
-                        int rowsAfected = pst.executeUpdate();
+        if (txtValorEntrada.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O Valor da Entrada não pode ser  igual a ZERO ou NULO");
 
-                        if (rowsAfected > 0) {
-                            JOptionPane.showMessageDialog(null, "Entrada cadastrada com sucesso!", "Produto", 1);
-                            txtIdEntrada.setText(null);
-                            txtDataEntrada.setText(null);
-                            txtDescEntrada.setText(null);
-                            txtValorEntrada.setText(null);
-                            txtCodigoEntrada.setText(null);
-
-                        }
-                    }
-                }
-            } else {
-                String dataMysql = ano + "-" + mes + "-" + dia;
-                pst.setString(1, dataMysql);
-                pst.setString(2, txtDescEntrada.getText());
-                pst.setString(3, txtValorEntrada.getText());
-                pst.setString(4, txtCodigoEntrada.getText());
-                // validaçao dos campos obrigatórios
-                if (txtDescEntrada.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
-                } else if (txtValorEntrada.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo Valor Compra é Obrigatório!");
-                } else if (txtCodigoEntrada.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo Codigo Entrada Valor (10) é Obrigatório!");
+        } else {
+            String decimal = "00";
+            String decimalVazio = "";
+            String decimalInsere = null;
+            String virgula = null;
+            String valor = txtValorEntrada.getText();
+            int tamanhoString = valor.length();
+            for (int i = 0; i < tamanhoString; i++) {
+                if (valor.charAt(i) == '.') {
+                    decimalInsere = decimalVazio;
+                    virgula = "";
+                    break;
                 } else {
-                    int rowsAfected = pst.executeUpdate();
-
-                    if (rowsAfected > 0) {
-                        JOptionPane.showMessageDialog(null, "Entrada cadastrada com sucesso!", "Produto", 1);
-                        txtIdEntrada.setText(null);
-                        txtDataEntrada.setText(null);
-                        txtDescEntrada.setText(null);
-                        txtValorEntrada.setText(null);
-                        txtCodigoEntrada.setText(null);
-
-                    }
+                    decimalInsere = decimal;
+                    virgula = ",";
                 }
             }
+            int confirma = JOptionPane.showConfirmDialog(null, "Confirma a Adição de R$: " + txtValorEntrada.getText() + virgula + decimalInsere + " Na Etrada de Caixa ? ", "Atençao ", JOptionPane.YES_NO_OPTION);
+            //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
+            //for Empty significa que não ha usuario com esse ID
+            if (confirma == JOptionPane.YES_OPTION) {
+                try {
+                    Date anoCorrente = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+                    String dataFormatada = sdf.format(anoCorrente);
+                    String sql = "INSERT INTO Entrada (dataEntrada,descEntrada,valorEntrada,categoria_codCategoria) VALUES (?, ?, ?, ?)";
+                    pst = conexao.prepareStatement(sql);//---- 13091968
+                    String dia = txtDataEntrada.getText().substring(0, 2);
+                    String diaAtual = dataFormatada.substring(0, 2);
+                    String mes = txtDataEntrada.getText().substring(2, 4);
+                    String mesAtual = dataFormatada.substring(2, 4);
+                    String ano = txtDataEntrada.getText().substring(4);
+                    String anoAtual = dataFormatada.substring(4);
+                    if (Integer.parseInt(ano) != Integer.parseInt(anoAtual) || Integer.parseInt(mes) != Integer.parseInt(mesAtual)) {
+                        int confirmaData = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION);
+                        if (confirmaData == JOptionPane.YES_OPTION) {
+                            String dataMysql = ano + "-" + mes + "-" + dia;
+                            pst.setString(1, dataMysql);
+                            pst.setString(2, txtDescEntrada.getText());
+                            pst.setString(3, txtValorEntrada.getText());
+                            pst.setString(4, txtCodigoEntrada.getText());
+                            // validaçao dos campos obrigatórios
+                            if (txtDataEntrada.getText().isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Campo Data é Obrigatório!");
+                            }else if (txtValorEntrada.getText().isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
+                            } else if (txtValorEntrada.getText().isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Campo Valor Entrada é Obrigatório!");
+                            } else if (txtCodigoEntrada.getText().isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Campo Codigo Entrada Valor (10) é Obrigatório!");
+                            } else {
+                                int rowsAfected = pst.executeUpdate();
 
-        } catch (SQLException ex) {
-            Logger.getLogger(TelaEntrada.class.getName()).log(Level.SEVERE, null, ex);
+                                if (rowsAfected > 0) {
+                                    JOptionPane.showMessageDialog(null, "Entrada cadastrada com sucesso!", "Produto", 1);
+                                    txtIdEntrada.setText(null);
+                                    txtDataEntrada.setText(null);
+                                    txtValorEntrada.setText(null);
+                                    txtValorEntrada.setText(null);
+                                    txtCodigoEntrada.setText(null);
+
+                                }
+                            }
+                        }
+                    } else {
+                        String dataMysql = ano + "-" + mes + "-" + dia;
+                        pst.setString(1, dataMysql);
+                        pst.setString(2, txtValorEntrada.getText());
+                        pst.setString(3, txtValorEntrada.getText());
+                        pst.setString(4, txtCodigoEntrada.getText());
+                        // validaçao dos campos obrigatórios
+                        if (txtValorEntrada.getText().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Campo Descrição é Obrigatório!");
+                        } else if (txtValorEntrada.getText().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Campo Valor Compra é Obrigatório!");
+                        } else if (txtCodigoEntrada.getText().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Campo Codigo Entrada Valor (10) é Obrigatório!");
+                        } else {
+                            int rowsAfected = pst.executeUpdate();
+
+                            if (rowsAfected > 0) {
+                                JOptionPane.showMessageDialog(null, "Entrada cadastrada com sucesso!", "Produto", 1);
+                                txtIdEntrada.setText(null);
+                                txtDataEntrada.setText(null);
+                                txtValorEntrada.setText(null);
+                                txtValorEntrada.setText(null);
+                                txtCodigoEntrada.setText(null);
+
+                            }
+                        }
+                    }
+
+                } catch (SQLException ex) {
+                   // Logger.getLogger(TelaEntrada.class.getName()).log(Level.SEVERE, null, ex);
+                   JOptionPane.showMessageDialog(null, "<html><font color =red, font size=28>Atenção!</font></html>\n<html><font color=black>  <font size=12>Separe casas Decimais com ponto(.) ao invés de vírgula</font></html>","Aleta",0);
+                }
+            }
         }
     }
-    }
+
     private void deletarEntrada() {
         int confirma = JOptionPane.showConfirmDialog(null, "Confirma a remoção da Entrada? " + txtValorEntrada.getText(), "Atenção", JOptionPane.YES_NO_OPTION);
         //se confirmar for = YES_OPTION, o comando sql será executado, se txtUsuNom.getText(),
@@ -700,7 +718,7 @@ public class TelaEntrada extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Entrada Excluida com Sucesso!");
                     txtIdEntrada.setText(null);
                     txtDataEntrada.setText(null);
-                    txtDescEntrada.setText(null);
+                    txtValorEntrada.setText(null);
                     txtValorEntrada.setText(null);
                     txtCodigoEntrada.setText(null);
                     btnAdicionaEntrada.setEnabled(true);
