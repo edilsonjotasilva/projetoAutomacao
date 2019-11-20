@@ -7,11 +7,8 @@ package br.com.informatica.telas;
 
 //import br.com.informatica.dal.ConexaoBanco;
 import br.com.informatica.dal.Conexao;
-import com.lowagie.text.pdf.CMYKColor;
-import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
@@ -36,6 +32,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     static PreparedStatement pst = null;
     static ResultSet rs = null;
     Connection conexao = null;
+
     private JFormattedTextField.AbstractFormatterFactory aff;
 
     public TelaSaida() {
@@ -219,6 +216,11 @@ public class TelaSaida extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Pesquisar Saidas");
 
+        txtPesquisaSaida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPesquisaSaidaActionPerformed(evt);
+            }
+        });
         txtPesquisaSaida.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPesquisaSaidaKeyReleased(evt);
@@ -372,15 +374,16 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                                         .addComponent(jLabel3)
                                         .addGap(18, 18, 18)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtValorSaida, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtCodCategoriaSaida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txtDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtIdSaida)
-                                        .addComponent(jDateChooserSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(jDateChooserSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(txtValorSaida, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtCodCategoriaSaida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtDescSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(135, 135, 135)
                         .addComponent(lblFormatoData)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -438,7 +441,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
 
         btnAdicionarSaida.setEnabled(true);
         btnAlterarSaida.setEnabled(false);
-        //   lblFormatoData.setText("Data: DDMMAAAA - Ex. 01012019");
+        //   lblFormatodata.setText("data: DDMMAAAA - Ex. 01012019");
         setarCampos();
     }//GEN-LAST:event_tblCategoriaSaidaMouseClicked
 
@@ -510,6 +513,10 @@ public class TelaSaida extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnImprimirSaidaActionPerformed
 
+    private void txtPesquisaSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisaSaidaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPesquisaSaidaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarSaida;
@@ -572,11 +579,11 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         String valor = txtValorSaida.getText();
         int tamanhoString = valor.length();
         for (int i = 0; i < tamanhoString; i++) {
-            if (valor.charAt(i)== '.') {
+            if (valor.charAt(i) == '.') {
                 decimalInsere = decimalVazio;
                 virgula = "";
                 break;
-            }else{
+            } else {
                 decimalInsere = decimal;
                 virgula = ",";
             }
@@ -590,17 +597,17 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 Date dataCorrente = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                 String dataAtualFormatada = sdf.format(dataCorrente);
-                System.out.println("Data formatada:::" + dataAtualFormatada);
+                System.out.println("data formatada:::" + dataAtualFormatada);
                 String sql = "INSERT INTO saida (dataSaida,descSaida,valorSaida,categoria_codCategoria) VALUES (?, ?, ?, ?)";
 
                 pst = conexao.prepareStatement(sql);//---- 13091968
-                //pega o dia que está no campo txtDAtaSaida
+                //pega o dia que está no campo txtdataSaida
                 //  String dia = jDateChooserSaida.getText().substring(0, 2);
                 ///////////////////////////////////////////////////////////////////
                 String dataInserNoBanco = "";
                 SimpleDateFormat formato = new SimpleDateFormat("yyyyMMdd");
                 java.util.Date recebFormato = jDateChooserSaida.getDate();
-                dataInserNoBanco = formato.format(recebFormato);            
+                dataInserNoBanco = formato.format(recebFormato);
                 String anoAtual = dataAtualFormatada.substring(0, 4);
                 String anoInserido = dataInserNoBanco.substring(0, 4);
                 String mesAtual = dataAtualFormatada.substring(4, 6);
@@ -609,8 +616,8 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 String diaInserido = dataInserNoBanco.substring(6);
 
                 if (Integer.parseInt(anoInserido) != Integer.parseInt(anoAtual) || Integer.parseInt(mesInserido) != Integer.parseInt(mesAtual)) {
-                    int confirmaData = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION, 0);
-                    if (confirmaData == JOptionPane.YES_OPTION) {
+                    int confirmadata = JOptionPane.showConfirmDialog(null, "Ano/Mes digitado DIFERE do Ano/Mes Atual, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION, 0);
+                    if (confirmadata == JOptionPane.YES_OPTION) {
                         //inseri a data no formato do
                         String dataMysql = anoInserido + "-" + mesInserido + "-" + diaInserido;
                         pst.setString(1, dataMysql);
@@ -639,10 +646,10 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                         }
                     }
                 } else if (Integer.parseInt(diaInserido) > Integer.parseInt(diaAtual)) {
-                    int confirmaData = JOptionPane.showConfirmDialog(null, "O dia Inserido é MAIOR que o dia ATUAL, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION, 0);
-                    if (confirmaData == JOptionPane.YES_OPTION) {
+                    int confirmadata = JOptionPane.showConfirmDialog(null, "O dia Inserido é MAIOR que o dia ATUAL, deseja inserir assim mesmo ? ", "Atenção", JOptionPane.YES_NO_OPTION, 0);
+                    if (confirmadata == JOptionPane.YES_OPTION) {
                         String dataMysql = anoInserido + "-" + mesInserido + "-" + diaInserido;
-                        System.out.println("DataMysql : " + dataMysql);
+                        System.out.println("dataMysql : " + dataMysql);
                         pst.setString(1, dataMysql);
                         pst.setString(2, txtDescSaida.getText());
                         pst.setString(3, txtValorSaida.getText());
@@ -769,12 +776,12 @@ public class TelaSaida extends javax.swing.JInternalFrame {
     private void setarCamposSaida() {
         int setar = tblSaida.getSelectedRow();
         txtIdSaida.setText(tblSaida.getModel().getValueAt(setar, 0).toString());
-        //   txtDataSaida.setText(tblSaida.getModel().getValueAt(setar, 1).toString());
+        //   txtdataSaida.setText(tblSaida.getModel().getValueAt(setar, 1).toString());
         String dataSaida = (tblSaida.getModel().getValueAt(setar, 1).toString());
-        JOptionPane.showMessageDialog(null, "dataSaida",dataSaida,1);
+        JOptionPane.showMessageDialog(null, "dataSaida", dataSaida, 1);
         try {
             Date vaiProJava = new SimpleDateFormat("yyyy-MM-dd").parse(dataSaida);
-            JOptionPane.showMessageDialog(null, "vaiProJava",vaiProJava.toString(),1);
+            JOptionPane.showMessageDialog(null, "vaiProJava", vaiProJava.toString(), 1);
             jDateChooserSaida.setDate(vaiProJava);
         } catch (ParseException ex) {
             Logger.getLogger(TelaSaida.class.getName()).log(Level.SEVERE, null, ex);
@@ -783,7 +790,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
         txtValorSaida.setText(tblSaida.getModel().getValueAt(setar, 3).toString());
         txtCodCategoriaSaida.setText(tblSaida.getModel().getValueAt(setar, 4).toString());
         txtPesquisaSaida.requestFocus();
-        lblFormatoData.setText("Formato Data: Ano-Mes-Dia: Ex." + tblSaida.getModel().getValueAt(setar, 1));
+        lblFormatoData.setText("Formato data: Ano-Mes-Dia: Ex." + tblSaida.getModel().getValueAt(setar, 1));
     }
 
     private void limparTabelaCategoria() {
@@ -821,7 +828,7 @@ public class TelaSaida extends javax.swing.JInternalFrame {
                 pst = conexao.prepareStatement(sql);
                 pst.setString(1, txtIdSaida.getText());
                 int rowsAffected = pst.executeUpdate();
-                System.out.println("Quantidade de linhas : " + rowsAffected);
+                System.out.println("Quantidade de filas : " + rowsAffected);
                 if (rowsAffected > 0) {
                     JOptionPane.showMessageDialog(null, "Saida Removido com Sucesso!");
                     txtIdSaida.setText(null);

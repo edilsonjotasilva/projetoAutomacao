@@ -6,6 +6,8 @@
 package br.com.informatica.util;
 
 import br.com.informatica.dal.Conexao;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +21,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sourceforge.barbecue.Barcode;
+import net.sourceforge.barbecue.BarcodeException;
+import net.sourceforge.barbecue.BarcodeFactory;
 
 /**
  *
@@ -34,10 +39,10 @@ public class Teste2 extends javax.swing.JFrame {
     static int datasDeVenc, anoInt, mesInt, diaInt;
 
     public Teste2() {
-        AlterarStatus();
+      
         initComponents();
         
-        conexao = Conexao.conector;
+     //   conexao = Conexao.conector;
     }
 
     /**
@@ -49,21 +54,100 @@ public class Teste2 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jBGerarCodigo = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTextCodigo = new javax.swing.JTextField();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jTextField1.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
+        jTextField1.setForeground(new java.awt.Color(255, 102, 102));
+        jTextField1.setText("Gerando codigo de barras");
+
+        jTextField2.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
+        jTextField2.setForeground(new java.awt.Color(255, 102, 102));
+        jTextField2.setText("Boleto bancário");
+
+        jBGerarCodigo.setText("Gerar");
+        jBGerarCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBGerarCodigoActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("codigo");
+
+        jTextCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextCodigoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(159, 159, 159)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(253, 253, 253)
+                        .addComponent(jBGerarCodigo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(226, 226, 226)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addComponent(jBGerarCodigo)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBGerarCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGerarCodigoActionPerformed
+        try {
+            String num = jTextCodigo.getText();
+            Barcode barcode = BarcodeFactory.createEAN13(num);
+            PrinterJob printerJob = PrinterJob.getPrinterJob();
+            printerJob.setPrintable(barcode);
+            if (printerJob.printDialog()) {
+                try {
+                    printerJob.print();
+                } catch (PrinterException ex) {
+                    Logger.getLogger(Teste2.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (BarcodeException ex) {
+           JOptionPane.showMessageDialog(null, "Quantidade de digitos invalida");
+        }
+              
+    }//GEN-LAST:event_jBGerarCodigoActionPerformed
+
+    private void jTextCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextCodigoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -101,39 +185,12 @@ public class Teste2 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBGerarCodigo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField jTextCodigo;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
-public void AlterarStatus() {
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 
-        String sql = "select * from boleto where codBoleto = '2.1-10/2.5-1.1'";
-        try {
-           pst = conexao.prepareStatement(sql);
-           rs = pst.executeQuery();
-            while (rs.next()) {
-                String dataVenc = sdf.format(rs.getString(17));
-                String dataAtual = sdf.format(rs.getString(18));
-                JOptionPane.showMessageDialog(null, "Data atual ", dataAtual, 1);
-//                try {
-//                    Date dataAtualDate = sdf.parse(dataAtual);
-//                    Date dataVencDate = sdf.parse(dataVenc);
-//                    long quantDias = dataAtualDate.getTime()-dataVencDate.getTime();
-//                    long quantDiasAtraso = TimeUnit.DAYS.convert(quantDias, TimeUnit.MILLISECONDS);
-//                    if (quantDiasAtraso > 0) {
-//                        JOptionPane.showMessageDialog(null, "Atrasado ");
-//                        System.out.println("Dias de atraso: "+quantDiasAtraso);
-//                    }else{
-//                        JOptionPane.showMessageDialog(null, "em dias ");
-//                        System.out.println("Dias de atraso: "+quantDiasAtraso);
-//                    }
-//                    
-//                } catch (ParseException ex) {
-//                    Logger.getLogger(Teste2.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-            }
-
-        } catch (SQLException ex) {
-
-        }
-    }
 
 }

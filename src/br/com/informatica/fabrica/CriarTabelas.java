@@ -130,19 +130,20 @@ public class CriarTabelas {
             criarTabelas.tabelaUsuario();
             criarTabelas.tabelaCaixa();
             criarTabelas.tabelaAgendaCompromisso();
-            //  criarTabelas.tabelaEnderecoCorretor();
+            
             criarTabelas.tabelaCorretor();
-            //      criarTabelas.tablelaEnderecoCliente();
+            
             criarTabelas.tablelaCliente();
             criarTabelas.tabelaLoteamento();
             criarTabelas.tablelaImovel();
-            criarTabelas.tablelaVenda();
-            //   criarTabelas.tabelaItemDeVenda();
+           criarTabelas.tablelaVenda();
+         
             criarTabelas.tabelaVerificaAgenda();
             criarTabelas.verificarTriggers();
             criarTabelas.lbsy();
             criarTabelas.boleto();
             criarTabelas.feriados();
+           
 
             //if tiver conectado chama a TelaLogin
             TelaLogin login = new TelaLogin();
@@ -162,7 +163,7 @@ public class CriarTabelas {
                 + " descricao varchar(60) NOT NULL , "
                 + " operacao varchar(45) DEFAULT NULL , "
                 + " PRIMARY KEY (codCategoria) "
-                + " ) ENGINE=InnoDB";
+                + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
 
         try {
             pst = conector.prepareStatement(sql);
@@ -234,8 +235,8 @@ public class CriarTabelas {
                 + " dataAgenda DATE NOT NULL,"
                 + " situacaoAgenda VARCHAR(50) NOT NULL,"
                 + " PRIMARY KEY (codAgenda)"
-                //  + ")ENGINE=InnoDB";
-                + ")COLLATE='utf8mb4_0900_ai_ci'";
+               //  + ")ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+                + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
       //    JOptionPane.showMessageDialog(null, "Agenda de compromisso criado com sucesso!");
         try {
             pst = conector.prepareStatement(sql);
@@ -272,7 +273,7 @@ public class CriarTabelas {
                 + "  `cidade` VARCHAR(45) NOT NULL,\n"
                 + "  `uf` CHAR(2) NOT NULL,\n"
                 + "  PRIMARY KEY (`codCorretor`))\n"
-                + "ENGINE = InnoDB;";
+                + "ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -302,7 +303,7 @@ public class CriarTabelas {
                 + "  `cidade` VARCHAR(45) NOT NULL,\n"
                 + "  `uf` CHAR(2) NOT NULL,\n"
                 + "  PRIMARY KEY (`codCliente`))\n"
-                + "ENGINE = InnoDB";
+                + "ENGINE = InnoDB DEFAULT CHARSET=utf8mb4";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -313,7 +314,7 @@ public class CriarTabelas {
 
     public void tablelaVenda() {
         PreparedStatement pst = null;
-        String sql = "CREATE TABLE IF NOT EXISTS `venda` (\n"
+        String sql2 = "CREATE TABLE IF NOT EXISTS `imobiliaria`.`venda` (\n"
                 + "  `codVenda` varchar(30) NOT NULL,\n"
                 + "  `valorEntrada` decimal(9,2) NOT NULL,\n"
                 + "  `valorPrestacao` decimal(9,2) NOT NULL,\n"
@@ -326,16 +327,22 @@ public class CriarTabelas {
                 + "  `imovel_codImovel` varchar(30) NOT NULL,\n"
                 + "  `dataVenda` date NOT NULL,\n"
                 + "  PRIMARY KEY (`codVenda`),\n"
-                + "  KEY `fk_venda_corretor1_idx` (`corretor_codCorretor`),\n"
-                + "  KEY `fk_venda_Cliente1_idx` (`Cliente_codCliente`),\n"
-                + "  KEY `fk_venda_imovel1_idx` (`imovel_codImovel`),\n"
-                + "  CONSTRAINT `fk_venda_Cliente1` FOREIGN KEY (`Cliente_codCliente`) REFERENCES `cliente` (`codCliente`),\n"
-                + "  CONSTRAINT `fk_venda_corretor1` FOREIGN KEY (`corretor_codCorretor`) REFERENCES `corretor` (`codCorretor`),\n"
-                + "  CONSTRAINT `fk_venda_imovel1` FOREIGN KEY (`imovel_codImovel`) REFERENCES `imovel` (`codImovel`)\n"
-                + //") ENGINE=InnoDB";
-                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
+                + "  KEY `fk_venda_corretor_idx` (`corretor_codCorretor`),\n"
+                + "  KEY `fk_venda_Cliente_idx` (`Cliente_codCliente`),\n"
+                + "  KEY `fk_venda_imovel_idx` (`imovel_codImovel`),\n"
+//                + "  KEY `fk_venda_corretor1_idx` (`corretor_codCorretor`),\n"
+//                + "  KEY `fk_venda_Cliente1_idx` (`Cliente_codCliente`),\n"
+//                + "  KEY `fk_venda_imovel1_idx` (`imovel_codImovel`),\n"
+                + "  CONSTRAINT `fk_venda_Cliente` FOREIGN KEY (`Cliente_codCliente`) REFERENCES `cliente` (`codCliente`),\n"
+                + "  CONSTRAINT `fk_venda_corretor` FOREIGN KEY (`corretor_codCorretor`) REFERENCES `corretor` (`codCorretor`),\n"
+                + "  CONSTRAINT `fk_venda_imovel` FOREIGN KEY (`imovel_codImovel`) REFERENCES `imovel` (`codImovel`)\n"
+//                + "  CONSTRAINT `fk_venda_Cliente1` FOREIGN KEY (`Cliente_codCliente`) REFERENCES `cliente` (`codCliente`),\n"
+//                + "  CONSTRAINT `fk_venda_corretor1` FOREIGN KEY (`corretor_codCorretor`) REFERENCES `corretor` (`codCorretor`),\n"
+//                + "  CONSTRAINT `fk_venda_imovel1` FOREIGN KEY (`imovel_codImovel`) REFERENCES `imovel` (`codImovel`)\n"
+                + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+              //  ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
         try {
-            pst = conector.prepareStatement(sql);
+            pst = conector.prepareStatement(sql2);
             pst.execute();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", 0);
@@ -352,7 +359,7 @@ public class CriarTabelas {
                 + "  `estadoLoteamento` VARCHAR(45) NOT NULL,\n"
                 + "  `ufLoteamento` CHAR(2) NOT NULL,\n"
                 + "  PRIMARY KEY (`codLoteamento`))\n"
-                + "ENGINE = InnoDB";
+                + "ENGINE = InnoDB DEFAULT CHARSET=utf8mb4";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -377,8 +384,8 @@ public class CriarTabelas {
                 + "  PRIMARY KEY (`codImovel`),\n"
                 + "  KEY `fk_imovel_loteamento1_idx` (`loteamento_codLoteamento`),\n"
                 + "  CONSTRAINT `fk_imovel_loteamento1` FOREIGN KEY (`loteamento_codLoteamento`) REFERENCES `loteamento` (`codLoteamento`)\n"
-                + //") ENGINE=InnoDB";
-                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
+                + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+               // ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -421,7 +428,7 @@ public class CriarTabelas {
                 + "    REFERENCES `imobiliaria`.`imovel` (`codImovel`)\n"
                 + "    ON DELETE NO ACTION\n"
                 + "    ON UPDATE NO ACTION)\n"
-                + "ENGINE = InnoDB";
+                + "ENGINE = InnoDB DEFAULT CHARSET=utf8mb4";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -445,7 +452,7 @@ public class CriarTabelas {
                 + " PRIMARY KEY (idEntrada) , "
                 + " KEY fk_entrada_categoria_idx (categoria_codCategoria) , "
                 + " CONSTRAINT `fk_entrada_categoria` FOREIGN KEY (categoria_codCategoria) REFERENCES categoria (codCategoria) "
-                + " ) ENGINE=InnoDB";
+                + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
 
         try {
             pst = conector.prepareStatement(sql);
@@ -472,7 +479,7 @@ public class CriarTabelas {
                 + " PRIMARY KEY (idSaida), "
                 + " KEY fk_saida_categoria1_idx (categoria_codCategoria), "
                 + " CONSTRAINT fk_saida_categoria1 FOREIGN KEY (categoria_codCategoria) REFERENCES categoria (codCategoria) "
-                + " ) ENGINE=InnoDB";
+                + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -497,7 +504,7 @@ public class CriarTabelas {
                 + " senha VARCHAR( 12 ) NOT NULL , "
                 + " perfil VARCHAR( 5 ) NOT NULL , "
                 + " PRIMARY KEY ( idUsuario ) "
-                + " )ENGINE=InnoDB";
+                + " )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -554,7 +561,7 @@ public class CriarTabelas {
                 + "  totalSaida decimal(10,2) DEFAULT NULL, "
                 + "  saldo decimal(10,2) DEFAULT NULL, "
                 + "  PRIMARY KEY (idCaixa) "
-                + ") ENGINE=InnoDB";
+                + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -601,8 +608,8 @@ public class CriarTabelas {
                 + "  codVerificaAgenda int(11) NOT NULL,"
                 + "  statusVerificaAgenda varchar(5) NOT NULL,"
                 + "  PRIMARY KEY (codVerificaAgenda)"
-                //                + ") ENGINE=InnoDB";
-                + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
+                                + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+               // + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -732,7 +739,7 @@ public class CriarTabelas {
                 + "  `dataFinal` DATE NULL,\n"
                 + "  `cfrsnh` VARCHAR(14) NULL,\n"
                 + "  PRIMARY KEY (`id`))\n"
-                + "ENGINE = InnoDB";
+                + "ENGINE = InnoDB DEFAULT CHARSET=utf8mb4";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -857,7 +864,7 @@ public class CriarTabelas {
                 + "  `loteamento` varchar(60) NOT NULL,\n"
                 + "  `cidade` varchar(60) DEFAULT NULL,\n"
                 + "  `valorIntegral` decimal(9,2) NOT NULL,\n"
-                + "  `txJuro` decimal(2,2) DEFAULT NULL,\n"
+                + "  `txJuro` decimal(9,2) DEFAULT NULL,\n"
                 + "  `multa` decimal(9,2) DEFAULT NULL,\n"
                 + "  `vlTotal` decimal(9,2) DEFAULT NULL,\n"
                 + "  `dataVenc` date NOT NULL,\n"
@@ -865,8 +872,8 @@ public class CriarTabelas {
                 + "  `dataPag` date NOT NULL,\n"
                 + "  PRIMARY KEY (`codBoleto`),\n"
                 + "  KEY `codBoleto` (`codBoleto`)\n"
-                + //") ENGINE=InnoDB";
-                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
+                + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+             //   ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();
@@ -884,7 +891,7 @@ public class CriarTabelas {
                 + "  `descricaoFeriado` VARCHAR(60) NOT NULL,\n"
                 + "  `anoFeriado` INT NOT NULL,\n"
                 + "  PRIMARY KEY (`id`))\n"
-                + "ENGINE = InnoDB;";
+                + "ENGINE = InnoDB DEFAULT CHARSET=utf8mb4";
         try {
             pst = conector.prepareStatement(sql);
             pst.execute();

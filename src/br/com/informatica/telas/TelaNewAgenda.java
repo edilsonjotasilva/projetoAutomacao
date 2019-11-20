@@ -49,10 +49,13 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         String dataAtual = sdf.format(data);
         initComponents();
+      
+        cboPesquisaAgenda.getItemListeners();
         txtDataAgenda.setText(dataAtual);
         lblEstiloData.setText("Formato Data: Ex.: " + dataAtual);
         //conexao = CoexaoBanco.conector;
         conexao = Conexao.conector;
+         setarAgendado();
     }
 
     /**
@@ -66,10 +69,10 @@ public class TelaNewAgenda extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtPesquisaAgenda = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAgendaCompromisso = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        cboPesquisaAgenda = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -92,6 +95,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         lblEstiloData = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(980, 617));
@@ -100,12 +104,6 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel1.setText("pesquisa Agenda");
-
-        txtPesquisaAgenda.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtPesquisaAgendaKeyReleased(evt);
-            }
-        });
 
         tblAgendaCompromisso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -134,6 +132,13 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
         jLabel2.setText("Agenda de Compromissos");
 
+        cboPesquisaAgenda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AGENDADO", "VENCIDO", "VENCENDO", "REALIZADO", "CANCELADO" }));
+        cboPesquisaAgenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboPesquisaAgendaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -149,8 +154,8 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addGap(45, 45, 45)
-                                .addComponent(txtPesquisaAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(42, 42, 42)
+                                .addComponent(cboPesquisaAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(124, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -161,7 +166,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtPesquisaAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboPesquisaAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
                 .addContainerGap())
@@ -184,7 +189,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
 
         jLabel10.setText("Cancelar");
 
-        cboSituacaoAgenda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AGENDADO\t", "ADIADO", "VENCIDO", "VENCENDO", "REALIZADO", "CANCELADO" }));
+        cboSituacaoAgenda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AGENDADO", "ADIADO", "VENCIDO", "VENCENDO", "REALIZADO", "CANCELADO" }));
 
         jPanel2.setBackground(new java.awt.Color(204, 240, 240));
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
@@ -238,6 +243,13 @@ public class TelaNewAgenda extends javax.swing.JFrame {
 
         lblEstiloData.setForeground(new java.awt.Color(255, 0, 102));
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -251,34 +263,37 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                         .addComponent(txtDataAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblEstiloData, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(50, 50, 50)
-                            .addComponent(btnAgendar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnAlterarAgenda)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnLimparAgenda)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(76, 76, 76)
-                            .addComponent(btnVerificar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel5))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtCodigoAgenda)
-                                .addComponent(txtValorAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(69, 69, 69)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(26, 26, 26)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtDescricaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cboSituacaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(btnAgendar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAlterarAgenda)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLimparAgenda)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(76, 76, 76)
+                                .addComponent(btnVerificar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtCodigoAgenda)
+                                    .addComponent(txtValorAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(69, 69, 69)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDescricaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cboSituacaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(78, 78, 78)
+                        .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(79, 79, 79)
                         .addComponent(jLabel8)
@@ -310,19 +325,24 @@ public class TelaNewAgenda extends javax.swing.JFrame {
                     .addComponent(txtValorAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(cboSituacaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtDataAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblEstiloData))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAlterarAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLimparAgenda))
-                    .addComponent(btnVerificar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtDataAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblEstiloData))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAlterarAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAgendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnLimparAgenda))
+                            .addComponent(btnVerificar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jButton1)))
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
@@ -336,10 +356,6 @@ public class TelaNewAgenda extends javax.swing.JFrame {
 
         setBounds(5, 50, 980, 617);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtPesquisaAgendaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaAgendaKeyReleased
-        pesquisaAgenda();
-    }//GEN-LAST:event_txtPesquisaAgendaKeyReleased
 
     private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
        
@@ -395,6 +411,14 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         excluirAgendamento();
     }//GEN-LAST:event_btnCancelarAgendaActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       setarAgendado();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cboPesquisaAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPesquisaAgendaActionPerformed
+       pesquisaAgenda();
+    }//GEN-LAST:event_cboPesquisaAgendaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -420,7 +444,9 @@ public class TelaNewAgenda extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelarAgenda;
     private javax.swing.JButton btnLimparAgenda;
     private javax.swing.JButton btnVerificar;
+    private javax.swing.JComboBox<String> cboPesquisaAgenda;
     private javax.swing.JComboBox<String> cboSituacaoAgenda;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -441,18 +467,31 @@ public class TelaNewAgenda extends javax.swing.JFrame {
     private javax.swing.JTextField txtCodigoAgenda;
     private javax.swing.JTextField txtDataAgenda;
     private javax.swing.JTextField txtDescricaoAgenda;
-    private javax.swing.JTextField txtPesquisaAgenda;
     private javax.swing.JTextField txtValorAgenda;
     // End of variables declaration//GEN-END:variables
 //preenche o Jtable tblAgendaCompromisso com os os valores retornados do comando SQL na tabela agendacompromisso
     private void pesquisaAgenda() {
-        String sql = "SELECT * FROM agendacompromisso WHERE situacaoAgenda LIKE ? ORDER BY dataAgenda";
+        String sql = "SELECT * FROM agendacompromisso WHERE situacaoAgenda = ?";
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, "%" + txtPesquisaAgenda.getText() + "%");
+            pst.setString(1, cboPesquisaAgenda.getSelectedItem().toString());
             rs = pst.executeQuery();
             tblAgendaCompromisso.setModel(DbUtils.resultSetToTableModel(rs));
             tblAgendaCompromisso.isValid();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+ private void setarAgendado() { 
+
+        String sql = "select * from agendacompromisso  where situacaoAgenda = 'AGENDADO' order by dataAgenda";
+       
+        try {
+            pst = conexao.prepareStatement(sql);
+          //  pst.setString(1, "%" + cboPesquisaAgenda.getSelectedItem().toString() + "%");
+          //  pst.setString(1, "%" + situa + "%");
+            rs = pst.executeQuery();
+            tblAgendaCompromisso.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -551,7 +590,7 @@ public class TelaNewAgenda extends javax.swing.JFrame {
         // lblEstiloData.setText("<html><font color=orange><b>Formato Data: Ex.: 2019-01-10");
         lblEstiloData.setText("<html><font color=orange><b>Formato Data: Ex.: " + tblAgendaCompromisso.getModel().getValueAt(setar, 3).toString());
 
-        txtPesquisaAgenda.requestFocus();
+        
     }
 
     private void alterarAgendaCompromisso() {

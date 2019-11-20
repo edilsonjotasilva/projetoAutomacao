@@ -221,6 +221,7 @@ public void logar() {
             // a linha abaixo executa a pesquisa(query)
             rs = pst.executeQuery();
             if (rs.next()) {
+               
                 //a linha abaixo obtem o conteudo do campo perfil da tabela usuario
                 //o numero 6 corresponde a 6° coluna da tabela usuario
                 loginVemDoBanco = rs.getString(4);
@@ -273,6 +274,7 @@ public void logar() {
 
                     }
                 } else {
+                     
                     JOptionPane.showMessageDialog(null, "Usuario ou Senha inválido");
                 }
                 // a estrutura (if,else) abaixo faz o tratamento do perfil do usuario, se o perfil for 'Admin' será exibido a tela principal e o menu relatorio será habilitado; e a label lblUsario mostrará o nome do usuario em vermelho. senão for admin, será exibido a tela principal e a label lblUsario mostrará o nome do usuario na cor preta, o menu relatorio não será habilitado
@@ -280,6 +282,7 @@ public void logar() {
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario ou Senha inválido");
             }
+    
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);

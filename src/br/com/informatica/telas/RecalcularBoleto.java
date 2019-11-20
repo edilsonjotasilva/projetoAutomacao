@@ -39,7 +39,7 @@ public class RecalcularBoleto extends javax.swing.JInternalFrame {
     static String dataStr, dataNovaStr, dataPagStr, dataVencStr, diaDaSemanaStr, dataCompletaStr, dataNova;
     static long a, b, quantDiasAtraso;
     static List<Feriado> feriados = new ArrayList();
-    static Date dataVencDate;
+  //  static Date dataVencDate;
     static double multa, valTaxa;
     static String taxaJuroStr, multaStr, valorTotalGeralStr, codigoBoleto;
 
@@ -707,6 +707,7 @@ public class RecalcularBoleto extends javax.swing.JInternalFrame {
     }
 
     private void calcularQuantDias() {
+        Date dataVencDate;
 
         DecimalFormat df = new DecimalFormat("#.00");
         try {
@@ -781,7 +782,6 @@ public class RecalcularBoleto extends javax.swing.JInternalFrame {
                 feri.setData(rs.getString(2));
                 feri.setDescricao(rs.getString(3));
                 feri.setAno(rs.getString(4));
-                //apos setar o objeto agenda como todos os campos da tabela agendacompromisso,o objeto agenda e adicionado a listaAgenda
                 feriados.add(feri);
 
             }
@@ -805,6 +805,7 @@ public class RecalcularBoleto extends javax.swing.JInternalFrame {
     }
 
     public void compararVencimentos() {
+        Date dataVencDate = null;
         try {
             if (diaDaSemanaStr.equals("Sat")) {
                 //   if (diaDaSemanaStr.equals("Tue")) {
@@ -953,28 +954,40 @@ public class RecalcularBoleto extends javax.swing.JInternalFrame {
 
             while (result.next()) {
                 ListaBoleto listaObjeto = new ListaBoleto();
-                listaObjeto.setCodBoleto(result.getString(1));
-                listaObjeto.setValorParcela(result.getDouble(2));
+             //   JOptionPane.showMessageDialog(null, result.getString(1),"result String 1",1);
+                listaObjeto.setCodBoleto(result.getString(1));     
+            //    JOptionPane.showMessageDialog(null, result.getString(2),"Valor integral",1);
+                listaObjeto.setValorParcela(result.getDouble(2));//Esse é o valor integral
                 listaObjeto.setDataVencimentoBoleto(result.getString(3));
+            //    JOptionPane.showMessageDialog(null, result.getString(3),"Data vencimento",1);
                 listaObjeto.setDataAtualBoleto(result.getString(4));
+           //     JOptionPane.showMessageDialog(null, result.getString(4),"data atual 1",1);
 
                 listaBoleto.add(listaObjeto);
 
             }
             for (ListaBoleto boleto : listaBoleto) {
                 codigoBoleto = boleto.getCodBoleto();
+             //   JOptionPane.showMessageDialog(null, codigoBoleto,"Codigo boleto",1);
                 String dataVencTipoStr = boleto.getDataVencimentoBoleto();
+             //    JOptionPane.showMessageDialog(null, dataVencTipoStr,"Data venci",1);
                 String anoVenc = dataVencTipoStr.substring(0, 4);
+             //   JOptionPane.showMessageDialog(null, anoVenc,"Ano venc",1);
                 String mesVenc = dataVencTipoStr.substring(5, 7);
+             //   JOptionPane.showMessageDialog(null, mesVenc,"mes venc",1);
                 String diaVenc = dataVencTipoStr.substring(8);
+             //   JOptionPane.showMessageDialog(null, diaVenc,"dia venc",1);
                 String dataVencCompletaStr = diaVenc + "/" + mesVenc + "/" + anoVenc;
-                //  JOptionPane.showMessageDialog(null, "Data Vencimento completa", dataVencCompletaStr, 1);
+             //  JOptionPane.showMessageDialog(null, "Data Vencimento completa", dataVencCompletaStr, 1);
 
                 String dataAtualTipoStr = boleto.getDataAtualBoleto();
+             //    JOptionPane.showMessageDialog(null, dataAtualTipoStr,"Data atual",1);
                 String anoAtual = dataAtualTipoStr.substring(0, 4);
+              //  JOptionPane.showMessageDialog(null, anoAtual,"Ano atual",1);
                 String mesAtual = dataAtualTipoStr.substring(5, 7);
                 String diaAtual = dataAtualTipoStr.substring(8);
                 String dataAtualCompletaStr = diaAtual + "/" + mesAtual + "/" + anoAtual;
+            //    JOptionPane.showMessageDialog(null, dataAtualCompletaStr,"Ano atual",1);
 
                 String valorIntegralStr = boleto.getValorParcela().toString();
 
@@ -1000,7 +1013,7 @@ public class RecalcularBoleto extends javax.swing.JInternalFrame {
 
                 int quantDiasAtrasoInteiro = (int) quantDiasAtraso;
                 String quantDiasAtrosoStr = String.valueOf(quantDiasAtraso);
-                JOptionPane.showMessageDialog(null, "dias de atraso", quantDiasAtrosoStr, 1);
+              //  JOptionPane.showMessageDialog(null, "dias de atraso", quantDiasAtrosoStr, 1);
                 double valorIntegral = Double.parseDouble(valorIntegralStr);
                 System.out.println("Valor integral do tipo double: " + valorIntegral);
                 double multa = valorIntegral * 2 / 100;//lancar no banco
@@ -1039,6 +1052,7 @@ public class RecalcularBoleto extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RecalcularBoleto.class.getName()).log(Level.SEVERE, null, ex);
         }
+      //  atualizaValoresBoleto();
 
     }
 
@@ -1046,6 +1060,7 @@ public class RecalcularBoleto extends javax.swing.JInternalFrame {
 //
 //        try {
 //            String sqlUpdate = "UPDATE boleto set txJuro=?, multa=?, vlTotal=? where codBoleto = ? ";
+//       
 //            pst = conexao.prepareStatement(sqlUpdate);
 //
 //            pst.setString(1, taxaJuroStr);

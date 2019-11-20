@@ -880,7 +880,7 @@ public class GerarBoleto extends javax.swing.JInternalFrame {
             Date dataVencDate = jDateDataVencimento.getDate();
             dataVencStr = sdf.format(dataVencDate);
             String sql = "update boleto set status=?,CN=?,quantPrest=?,pagador=?,telefCliente=?,cpf=?"
-                    + ",rua=?,quadra=?,lote=?,loteamento=?,cidade=?,valorIntegral=?,vlTotal=?,dataVenc=? where codBoleto=?";
+                    + ",rua=?,quadra=?,lote=?,loteamento=?,cidade=?,valorIntegral=?,txJuro=?,multa=?,vlTotal=?,dataVenc=? where codBoleto=?";
             try {
 
                 JOptionPane.showMessageDialog(null, "dataString", dataVencStr, 1);
@@ -897,9 +897,14 @@ public class GerarBoleto extends javax.swing.JInternalFrame {
                 pst.setString(10, jTextLoteamento.getText());
                 pst.setString(11, jTextCidade.getText());
                 pst.setString(12, jTextValorPrestacao.getText());
-                pst.setString(13, jTextValorPrestacao.getText());
-                pst.setString(14, dataVencStr);
-                pst.setString(15, jTextCodBoleto.getText());
+               // pst.setString(13, jTextTxJuros.getText());
+                pst.setString(13, null);
+              //  pst.setString(14, jTextMulta.getText());
+                pst.setString(14, null);
+//                pst.setString(15, jTextValorTotal.getText());
+                pst.setString(15, jTextValorPrestacao.getText());
+                pst.setString(16, dataVencStr);
+                pst.setString(17, jTextCodBoleto.getText());
 
                 // validaçao dos campos obrigatórios
                 if (jTextStatus.getText().isEmpty()) {
@@ -928,6 +933,9 @@ public class GerarBoleto extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Campo Data Vencimento é Obrigatório!");
                 } else if (jTextCodBoleto.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo Codigo Boleto é Obrigatório!");
+                }  else if (jTextStatus.getText().equals("EM ABERTO")) {
+                    
+
                 } else {
                     int rowsAfected = pst.executeUpdate();
 

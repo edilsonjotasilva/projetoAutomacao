@@ -7,6 +7,8 @@ package br.com.informatica.telas;
 
 import br.com.informatica.dal.Conexao;
 import static br.com.informatica.telas.TelaLogin.anoAtual;
+import br.com.informatica.util.MySQLBackup;
+import br.com.informatica.util.SQLBackupAndRestore;
 import br.com.informatica.util.TelaDeTestes;
 //import br.com.informatica.util.TelaDeTestes;
 
@@ -57,6 +59,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             public void run() {
                 int x = 400;
                 int y = jLNotificaoDeBloqueio.getLocation().y;
+               
                 //   int y = jLSetaBloqueio.getLocation().y;
                 while (true) {
                     x--;
@@ -115,7 +118,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuGerarBoleto = new javax.swing.JMenuItem();
         jMenuRecalcular = new javax.swing.JMenuItem();
         jMenuAdcionarFeriados = new javax.swing.JMenuItem();
-        menuSobre = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuBackup = new javax.swing.JMenuItem();
         menuLogout = new javax.swing.JMenu();
         menuLogoutFechar = new javax.swing.JMenuItem();
         menuLogoutSair = new javax.swing.JMenuItem();
@@ -339,8 +343,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(menuBoleto);
 
-        menuSobre.setText("Sobre");
-        jMenuBar1.add(menuSobre);
+        jMenu2.setText("Backup");
+
+        jMenuBackup.setText("Backup Sistema");
+        jMenuBackup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuBackupActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuBackup);
+
+        jMenuBar1.add(jMenu2);
 
         menuLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/informatica/icones/sair.png"))); // NOI18N
         menuLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -438,6 +451,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void menuAgendaAgendamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAgendaAgendamentoActionPerformed
         new TelaNewAgenda().setVisible(true);
+        
     }//GEN-LAST:event_menuAgendaAgendamentoActionPerformed
 
     private void menuInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInicioActionPerformed
@@ -482,10 +496,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
 //            TelaDeTestes teste = new TelaDeTestes();
 //    teste.setVisible(true);
-//        Teste2 teste2 = new Teste2();
-//        teste2.setVisible(true);
-        Teste4 teste4 = new Teste4();
-        teste4.setVisible(true);
+        Teste2 teste2 = new Teste2();
+        teste2.setVisible(true);
+//        Teste4 teste4 = new Teste4();
+//        teste4.setVisible(true);
         //   cadastrarImovel();
 
     }//GEN-LAST:event_jMenuTestesActionPerformed
@@ -504,6 +518,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         new TelaFeriados().setVisible(true);
         AdicionaFeriados();
     }//GEN-LAST:event_jMenuAdcionarFeriadosActionPerformed
+
+    private void jMenuBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuBackupActionPerformed
+    SQLBackupAndRestore backup =  new SQLBackupAndRestore();
+    backup.setVisible(true);
+    }//GEN-LAST:event_jMenuBackupActionPerformed
 
     /**
      * @param args the command line arguments
@@ -542,7 +561,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JDialog jDialog1;
     public static javax.swing.JLabel jLNotificaoDeBloqueio;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuAdcionarFeriados;
+    private javax.swing.JMenuItem jMenuBackup;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuGerarBoleto;
     private javax.swing.JMenuItem jMenuItem1;
@@ -568,7 +589,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuLogoutSair;
     private javax.swing.JMenuItem menuLoteamento;
     public javax.swing.JMenu menuRelatorio;
-    private javax.swing.JMenu menuSobre;
     public javax.swing.JMenuItem menuUsuarios;
     private javax.swing.JMenuItem menuVendas;
     // End of variables declaration//GEN-END:variables
@@ -797,7 +817,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void RecalcularBoleto() {
         RecalcularBoleto recalBoleto = new RecalcularBoleto();
         recalBoleto.atualizaVencimentos();// INSER A DATA ATUAL NA TABELA
-        recalBoleto.setarVencidos();// SE A DATA ATUAL FOR > QUE DATA VENCIMENTO SETAR (VENCIDO)
+       // recalBoleto.setarVencidos();// SE A DATA ATUAL FOR > QUE DATA VENCIMENTO SETAR (VENCIDO)
         recalBoleto.setVisible(true);
         DesktopPrincipal.add(recalBoleto);
     }

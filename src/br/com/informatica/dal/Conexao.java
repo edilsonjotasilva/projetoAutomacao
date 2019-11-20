@@ -22,18 +22,21 @@ public class Conexao {
         int cont =0;
     public static void main(String[] args) {
         gravarArquivoConfiguracao();
-        leArquivoConfiguracao();              
+        
+        leArquivoConfiguracao();
+      
      }
     public Conexao(){
-        if (cont == 0) {
-           TelaLogin login = new TelaLogin();
-         if (conector != null) {
-            
-               login.lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/jsinformatica/telas/dbconnect.png")));
-            } else {
-                login.lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/jsinformatica/telas/dberror.png")));
-            } 
-        }                        
+          verificaStatus();
+      //  if (cont == 0) {
+         //  TelaLogin login = new TelaLogin();
+//         if (conector != null) {
+//            
+//               login.lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/jsinformatica/icones/dbconnect.png")));
+//            } else {
+//                login.lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/jsinformatica/icones/dberror.png")));
+//            } 
+      //  }                        
     }    
     static String host, porta, user, senha;
     static private String driver = "com.mysql.jdbc.Driver";
@@ -45,10 +48,13 @@ public class Conexao {
         File conector = new File("c:/windows/SABD/conector.ini");
         List<String>dados = new ArrayList<>();
         FileWriter escreveDados;
-        dados.add("localhost");
+    //   dados.add("localhost");
+       dados.add("192.168.1.42");
+     //  dados.add("192.168.15.6");
         dados.add("3306");
         dados.add("root");
-        dados.add("admin123");
+       dados.add("admin123");
+     //   dados.add("admin123");
         if (!conector.exists()) {
             try {
                 conector.createNewFile();
@@ -60,8 +66,17 @@ public class Conexao {
 //                JOptionPane.showMessageDialog(null, e);
                 e.printStackTrace();
             }
-        }        
+        }       
     }
+     public  void verificaStatus(){
+           TelaLogin login = new TelaLogin();
+          if (conector == null) {
+            
+               login.lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/jsinformatica/icones/dberror.png")));
+            } else {
+                login.lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/jsinformatica/icones/dbConnect.png")));
+            }
+     }
     static public void leArquivoConfiguracao() {
         try {
             String linha;
@@ -118,6 +133,7 @@ public class Conexao {
                     USUARIO, SENHA);
             
             conectar = true;
+          
         } catch (ClassNotFoundException Fonte) {
             JOptionPane.showMessageDialog(null, "Driver nao localizado");
         } catch (SQLException e) {
@@ -125,6 +141,8 @@ public class Conexao {
              e.printStackTrace();
         }
         if (conectar) {
+       //    TelaLogin login = new TelaLogin();
+        
                     System.out.println("conexao bem sucedida");         
             CriarTabelas criarTabelas = new CriarTabelas();
             CriarTabelas.criarBanco();

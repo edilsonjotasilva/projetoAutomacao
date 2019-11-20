@@ -456,7 +456,7 @@ public class TelaUsuarios1 extends javax.swing.JInternalFrame {
     }
 
     public void pesquisarUsuario() {
-        String sql = "SELECT * from usuarios WHERE  nomeUsu LIKE ? AND nomeUsu <> 'Super' ";
+        String sql = "SELECT * from usuarios WHERE  nomeUsu LIKE ? AND nomeUsu <> 'Super Usuario' ";
 
         try {
             //podemos colocar o Conexao.conexao aqui dentro do metodo ou dentro do construtor
